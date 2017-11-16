@@ -309,20 +309,14 @@ var TrashModel = function(_lable, _cell, remarks) {
             window.alert(kubun + '②：' + sDate);
             window.alert(kubun + '③：' + FrBPDay);
 
-            if (sDate == FrBPNext) {
-                window.alert(kubun + '③：' + FrBPDay);
-
-                this.mostRecent = day_list[i];
-
-            }
-
+            //if (sDate == FrBPNext) {
+            //    window.alert(kubun + '③：' + FrBPDay);
+            //    this.mostRecent = day_list[i];
+            //}
             //◇
             //window.alert(kubun + '：' + this.mostRecent);
 
             this.mostRecent = day_list[i];
-
-
-
         } else {
 
             this.mostRecent = day_list[i];
