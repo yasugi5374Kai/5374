@@ -248,7 +248,7 @@ var TrashModel = function(_lable, _cell, remarks) {
             }
 
 			//◇
-            window.alert('d：' + d);
+            window.alert(kubun + '：' + d);
             day_list.push(d);
           }
         }
