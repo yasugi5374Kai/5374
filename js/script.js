@@ -281,8 +281,7 @@ var TrashModel = function(_lable, _cell, remarks) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
         this.mostRecent = day_list[i];
         //◇
-        window.alert(kubun + '：' + d);
-
+        window.alert(kubun + '：' + this.mostRecent);
 
         break;
       }
