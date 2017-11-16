@@ -300,7 +300,9 @@ var TrashModel = function(_lable, _cell, remarks) {
         //振り替え対応
         if (kubun == FrBPKbn) {
 
-            var K_day = '' + day_list[i].getFullYear() + day_list[i].getMonth() + day_list[i].getDate();
+            var K_day = '' + day_list[i].getFullYear() + (("0"+(day_list[i].getMonth() + 1)).slice(-2)) + 
+               (("0"+day_list[i].getDate()).slice(-2));
+
 
             //◇
             window.alert(kubun + '①：' + K_day);
