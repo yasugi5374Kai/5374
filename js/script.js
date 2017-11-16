@@ -305,9 +305,9 @@ var TrashModel = function(_lable, _cell, remarks) {
             sDate = day_list[i].getFullYear() + '/' + sMonth + '/' + day_list[i].getDate();
 
             //◇
-            window.alert(kubun + '①：' + day_list[i]);
-            window.alert(kubun + '②：' + sDate);
-            window.alert(kubun + '③：' + FrBPDay);
+            window.alert(kubun + '1：' + day_list[i]);
+            window.alert(kubun + '2：' + sDate);
+            window.alert(kubun + '3：' + FrBPDay);
 
             //if (sDate == FrBPNext) {
             //    window.alert(kubun + '③：' + FrBPDay);
