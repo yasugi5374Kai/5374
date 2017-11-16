@@ -1,6 +1,22 @@
 "use strict";
 
 /**
+  ◇振り替え対応  ☆☆☆ の処理も修正する
+*/
+
+// 振り替え対応区分名
+var FrBPKbn = 'ビン類、ペットボトル';
+
+//振替日
+var FrBPDay = new Date('2018/01/05');
+
+// 収集日がこの日だったら振替日にする
+var FrBPNext = new Date('2018/02/06');
+
+// 振替日での収集日表示の開始日
+var FrBPNext = new Date('2017/12/06');
+
+/**
   エリア(ごみ処理の地域）を管理するクラスです。
 */
 var AreaModel = function() {
@@ -274,15 +290,38 @@ var TrashModel = function(_lable, _cell, remarks) {
       if (at > bt) return 1;
       return 0;
     })
-    //直近の日付を更新
+    //直近の日付を更新 ☆☆☆
     var now = new Date();
+    // 日付
+    var sDate = "";
+    var sMonth = "";
+
 
     for (var i in day_list) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
-        this.mostRecent = day_list[i];
-        //◇
-        window.alert(kubun + '：' + this.mostRecent);
 
+        //振り替え対応
+        if kubun == FrBPKbn {
+            sMonth = day_list[i].getMonth() + 1;
+            sDate = day_list[i].getFullYear() + '/' + sMonth + '/' + day_list[i].getDate();
+
+            //◇
+            window.alert(kubun + '：' + sDate);
+
+
+            if 
+
+            //◇
+            //window.alert(kubun + '：' + this.mostRecent);
+
+            this.mostRecent = day_list[i];
+
+
+
+        } else {
+
+            this.mostRecent = day_list[i];
+        }
         break;
       }
     };
