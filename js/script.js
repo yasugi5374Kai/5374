@@ -8,13 +8,13 @@
 var FrBPKbn = 'ビン類、ペットボトル';
 
 //振替日
-var FrBPDay = new Date('2018/01/05');
+var FrBPDay = '20180105';
 
 // 収集日がこの日だったら振替日にする
-var FrBPNext = new Date('2018/02/06');
+var FrBPNext = '20180206';
 
 // 振替日での収集日表示の開始日
-var FrBPStart = new Date('2017/12/06');
+var FrBPStart = '20171206;
 
 /**
   エリア(ごみ処理の地域）を管理するクラスです。
@@ -300,31 +300,39 @@ var TrashModel = function(_lable, _cell, remarks) {
         //振り替え対応
         if (kubun == FrBPKbn) {
 
+            var K_day = '' + day_list[i].getFullYear() + day_list[i].getMonth() + day_list[i].getDate();
+
             //◇
-            window.alert(kubun + '①：' + day_list[i]);
-            window.alert(kubun + '②：' + now);
+            window.alert(kubun + '①：' + K_day);
 
             // もとめた収集日がFrBPNext
-            if (day_list[i].getFullYear() == FrBPNext.getFullYear() && day_list[i].getMonth() == FrBPNext.getMonth() && 
-                 day_list[i].getDate() == FrBPNext.getDate()) {
+            if (K_day == FrBPNext) {
+
+                window.alert(kubun + '②：' + day_list[i]);
 
                 window.alert(kubun + '③：' + FrBPNext);
 
+                var N_day = '' + now.getFullYear() + now.getMonth() + now.getDate();
+
+                window.alert(kubun + '④：' + N_day);
+
+
                 // 今日が振替日での収集日表示の開始日～振替日 の間だったら
-                if (now.getFullYear() >= FrBPStart.getFullYear() && now.getMonth() >= FrBPStart.getMonth() && 
-                     now.getDate() >= FrBPStart.getDate()) {
+                if (N_day >= FrBPStart) {
 
-                    window.alert(kubun + '④：' + FrBPStart);
-
-                    window.alert(kubun + '⑤：' + now);
+                    window.alert(kubun + '⑤：' + FrBPStart);
 
                     // 今日が振替日での収集日表示の開始日～振替日 の間だったら
-                    if (now.getFullYear() <= FrBPDay.getFullYear() && now.getMonth() <= FrBPDay.getMonth() && 
-                         now.getDate() <= FrBPDay.getDate()) {
+                    if (N_day <= FrBPDay) {
 
                         window.alert(kubun + '⑥：' + FrBPDay);
 
-                        this.mostRecent = FrBPDay;
+                        var arr(FrBPDay.substr(0, 4) + '/' + FrBPDay.substr(4, 2) + '/' + FrBPDay.substr(6, 2)).split('/');
+
+                        this.mostRecent = new Date(arr[0], arr[1] - 1, arr[2]);
+
+                        window.alert(kubun + '⑦：' + this.mostRecent);
+
                      } else {
                         this.mostRecent = day_list[i];
                      }
