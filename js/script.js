@@ -302,12 +302,13 @@ var TrashModel = function(_lable, _cell, remarks) {
 
             //◇
             window.alert(kubun + '①：' + day_list[i]);
+            window.alert(kubun + '②：' + now);
 
             // もとめた収集日がFrBPNext
             if (day_list[i].getFullYear() == FrBPNext.getFullYear() && day_list[i].getMonth() == FrBPNext.getMonth() && 
                  day_list[i].getDate() == FrBPNext.getDate()) {
 
-                window.alert(kubun + '②：' + FrBPNext);
+                window.alert(kubun + '③：' + FrBPNext);
 
 
                 // 今日が振替日での収集日表示の開始日～振替日 の間だったら
@@ -316,7 +317,7 @@ var TrashModel = function(_lable, _cell, remarks) {
                    (now.getFullYear() <= FrBPDay.getFullYear() && now.getMonth() <= FrBPDay.getMonth() && 
                      now.getDate() <= FrBPDay.getDate())) {
 
-                    window.alert(kubun + '③：' + FrBPDay);
+                    window.alert(kubun + '④：' + FrBPDay);
 
                     this.mostRecent = FrBPDay;
                 } else {
