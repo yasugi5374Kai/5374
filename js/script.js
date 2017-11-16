@@ -306,10 +306,10 @@ var TrashModel = function(_lable, _cell, remarks) {
             sDate = day_list[i].getFullYear() + '/' + sMonth + '/' + day_list[i].getDate();
 
             //◇
-            window.alert(kubun + '：' + sDate);
+            window.alert(kubun + '①：' + sDate);
 
 
-            if 
+            //if 
 
             //◇
             //window.alert(kubun + '：' + this.mostRecent);
