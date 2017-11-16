@@ -617,8 +617,7 @@ $(function() {
     var group = areaGroup[group_name];
     var areaModel = group[area_name];
     //◇日 var today = new Date();
-    var var = new Date(2017,11,29);
-
+    var today = new Date(2017,11,29);
 
     //直近の一番近い日付を計算します。
     areaModel.calcMostRect();
