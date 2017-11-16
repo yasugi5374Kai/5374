@@ -308,7 +308,10 @@ var TrashModel = function(_lable, _cell, remarks) {
             window.alert(kubun + '①：' + sDate);
             window.alert(kubun + '②：' + FrBPDay);
 
-            //if  (sDate() == FrBPDay
+            if (sDate == FrBPDay) {
+                window.alert(kubun + '③：' + FrBPDay);
+
+            }
 
             //◇
             //window.alert(kubun + '：' + this.mostRecent);
