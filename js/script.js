@@ -301,7 +301,7 @@ var TrashModel = function(_lable, _cell, remarks) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
 
         //振り替え対応
-        if kubun == FrBPKbn {
+        if (kubun == FrBPKbn) {
             sMonth = day_list[i].getMonth() + 1;
             sDate = day_list[i].getFullYear() + '/' + sMonth + '/' + day_list[i].getDate();
 
@@ -309,7 +309,7 @@ var TrashModel = function(_lable, _cell, remarks) {
             window.alert(kubun + '①：' + sDate);
 
 
-            //if 
+            //if  (sDate() == FrBPDay
 
             //◇
             //window.alert(kubun + '：' + this.mostRecent);
