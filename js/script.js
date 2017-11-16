@@ -14,7 +14,7 @@ var FrBPDay = new Date('2018/01/05');
 var FrBPNext = new Date('2018/02/06');
 
 // 振替日での収集日表示の開始日
-var FrBPNext = new Date('2017/12/06');
+var FrBPStart = new Date('2017/12/06');
 
 /**
   エリア(ごみ処理の地域）を管理するクラスです。
@@ -292,31 +292,35 @@ var TrashModel = function(_lable, _cell, remarks) {
     })
     //直近の日付を更新 ☆☆☆
     var now = new Date();
-    // 日付
-    var sDate = "";
-    var sMonth = "";
 
     for (var i in day_list) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
 
         //振り替え対応
         if (kubun == FrBPKbn) {
-            sMonth = day_list[i].getMonth() + 1;
-            sDate = day_list[i].getFullYear() + '/' + sMonth + '/' + day_list[i].getDate();
 
             //◇
             window.alert(kubun + '1：' + day_list[i]);
-            window.alert(kubun + '2：' + sDate);
-            window.alert(kubun + '3：' + FrBPDay);
+            window.alert(kubun + '2：' + FrBPDay);
 
-            //if (sDate == FrBPNext) {
-            //    window.alert(kubun + '③：' + FrBPDay);
-            //    this.mostRecent = day_list[i];
-            //}
-            //◇
-            //window.alert(kubun + '：' + this.mostRecent);
+            // もとめた収集日がFrBPNext
+            if (day_list[i].getFullYear() == FrBPNext.getFullYear() && day_list[i].getMonth() == FrBPNext.getMonth() && 
+                 day_list[i].getDate() == FrBPNext.getDate()) {
 
-            this.mostRecent = day_list[i];
+                // 今日が振替日での収集日表示の開始日～振替日 の間だったら
+                if ((now.getFullYear() >= FrBPStart.getFullYear() && now.getMonth() >= FrBPStart.getMonth() && 
+                     now.getDate() >= FrBPStart.getDate()) && 
+                   (now.getFullYear() <= FrBPDay.getFullYear() && now.getMonth() <= FrBPDay.getMonth() && 
+                     now.getDate() <= FrBPDay.getDate())) {
+
+                     this.mostRecent = FrBPDay;
+                } else {
+                this.mostRecent = day_list[i];
+                }
+            } else {
+
+                this.mostRecent = day_list[i];
+            }
         } else {
 
             this.mostRecent = day_list[i];
