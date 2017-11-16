@@ -330,7 +330,9 @@ var TrashModel = function(_lable, _cell, remarks) {
 
                         var arr(FrBPDay.substr(0, 4) + '/' + FrBPDay.substr(4, 2) + '/' + FrBPDay.substr(6, 2)).split('/');
 
-                        this.mostRecent = new Date(arr[0], arr[1] - 1, arr[2]);
+                        var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
+
+                        this.mostRecent = DDay;
 
                         // this.mostRecent = day_list[i];
 
