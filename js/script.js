@@ -305,11 +305,14 @@ var TrashModel = function(_lable, _cell, remarks) {
             sDate = day_list[i].getFullYear() + '/' + sMonth + '/' + day_list[i].getDate();
 
             //◇
-            window.alert(kubun + '①：' + sDate);
-            window.alert(kubun + '②：' + FrBPDay);
+            window.alert(kubun + '①：' + day_list[i]);
+            window.alert(kubun + '②：' + sDate);
+            window.alert(kubun + '③：' + FrBPDay);
 
-            if (sDate == FrBPDay) {
+            if (sDate == FrBPNext) {
                 window.alert(kubun + '③：' + FrBPDay);
+
+                this.mostRecent = day_list[i];
 
             }
 
