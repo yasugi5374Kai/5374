@@ -310,7 +310,6 @@ var TrashModel = function(_lable, _cell, remarks) {
 
                 window.alert(kubun + '③：' + FrBPNext);
 
-
                 // 今日が振替日での収集日表示の開始日～振替日 の間だったら
                 if (now.getFullYear() >= FrBPStart.getFullYear() && now.getMonth() >= FrBPStart.getMonth() && 
                      now.getDate() >= FrBPStart.getDate()) {
@@ -629,7 +628,7 @@ $(function() {
     var group = areaGroup[group_name];
     var areaModel = group[area_name];
     //◇日 var today = new Date();
-    var today = new new Date('2017/12/29');
+    var today = new Date('2017/12/29');
 
     //直近の一番近い日付を計算します。
     areaModel.calcMostRect();
