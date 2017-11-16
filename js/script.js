@@ -293,8 +293,8 @@ var TrashModel = function(_lable, _cell, remarks) {
     //直近の日付を更新 ☆☆☆
     var now = new Date();
     // 日付
-    // var sDate = "";
-    // var sMonth = "";
+    var sDate = "";
+    var sMonth = "";
 
     for (var i in day_list) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
