@@ -247,8 +247,8 @@ var TrashModel = function(_lable, _cell, remarks) {
               }
             }
 
-			//◇
-            window.alert(kubun + '：' + d);
+            //◇
+            //window.alert(kubun + '：' + d);
             day_list.push(d);
           }
         }
@@ -280,6 +280,10 @@ var TrashModel = function(_lable, _cell, remarks) {
     for (var i in day_list) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
         this.mostRecent = day_list[i];
+        //◇
+        window.alert(kubun + '：' + d);
+
+
         break;
       }
     };
@@ -483,7 +487,7 @@ $(function() {
     var $select_group = $('#select_group');
     var selected_group = $select_group.val();
     $select_area.hide();
-    var options_html = '<option value="-1" selected="selected">橋北・橋南を選択してください</option>';
+    var options_html = '<option value="-1" selected="selected">地区名を選択してください</option>';
     for (var i in groupOrder) {
       var group = groupOrder[i];
       options_html += '<option value="' + group + '">' + group + '</option>';
@@ -515,7 +519,7 @@ $(function() {
     var $select_group = $('#select_group');
     var select_html = "";
     var selected_name = getSelectedAreaName();
-    select_html += '<option value="-1">地域を選択してください</option>';
+    select_html += '<option value="-1">自治会名を選択してください</option>';
     var group = areaGroup[$select_group.val()];
     for (var area_name in group) {
       var selected = (selected_name == area_name) ? 'selected="selected"': '';
