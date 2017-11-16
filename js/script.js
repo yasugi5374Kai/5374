@@ -294,15 +294,17 @@ var TrashModel = function(_lable, _cell, remarks) {
     //◇日 var now = new Date();
     var now = new Date('2017/12/29');
 
+    // now を８桁変換
+    var N_day = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
+
     for (var i in day_list) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
 
         //振り替え対応
         if (kubun == FrBPKbn) {
-
-            var K_day = '' + day_list[i].getFullYear() + (("0"+(day_list[i].getMonth() + 1)).slice(-2)) + 
-               (("0"+day_list[i].getDate()).slice(-2));
-
+            //day_list[i] を８桁変換
+            var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
+               (('0' + day_list[i].getDate()).slice(-2));
 
             //◇
             window.alert(kubun + '①：' + K_day);
@@ -313,8 +315,6 @@ var TrashModel = function(_lable, _cell, remarks) {
                 window.alert(kubun + '②：' + day_list[i]);
 
                 window.alert(kubun + '③：' + FrBPNext);
-
-                var N_day = '' + now.getFullYear() + now.getMonth() + now.getDate();
 
                 window.alert(kubun + '④：' + N_day);
 
