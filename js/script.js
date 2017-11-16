@@ -312,14 +312,21 @@ var TrashModel = function(_lable, _cell, remarks) {
 
 
                 // 今日が振替日での収集日表示の開始日～振替日 の間だったら
-                if ((now.getFullYear() >= FrBPStart.getFullYear() && now.getMonth() >= FrBPStart.getMonth() && 
-                     now.getDate() >= FrBPStart.getDate()) && 
-                   (now.getFullYear() <= FrBPDay.getFullYear() && now.getMonth() <= FrBPDay.getMonth() && 
-                     now.getDate() <= FrBPDay.getDate())) {
+                if (now.getFullYear() >= FrBPStart.getFullYear() && now.getMonth() >= FrBPStart.getMonth() && 
+                     now.getDate() >= FrBPStart.getDate()) {
 
-                    window.alert(kubun + '④：' + FrBPDay);
+                    window.alert(kubun + '④：' + FrBPStart);
 
-                    this.mostRecent = FrBPDay;
+                    // 今日が振替日での収集日表示の開始日～振替日 の間だったら
+                    if (now.getFullYear() <= FrBPDay.getFullYear() && now.getMonth() <= FrBPDay.getMonth() && 
+                         now.getDate() <= FrBPDay.getDate()) {
+
+                        window.alert(kubun + '⑤：' + FrBPDay);
+
+                        this.mostRecent = FrBPDay;
+                     } else {
+                        this.mostRecent = day_list[i];
+                     }
                 } else {
                 this.mostRecent = day_list[i];
                 }
