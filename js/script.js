@@ -235,11 +235,7 @@ var TrashModel = function(_lable, _cell, remarks) {
                 var ky = date.getFullYear();
             }
 
-            if (kubun == 'もやせる') {
-                var s = new Date(ky + '/12/30');
-            } else {
-                var s = new Date(ky + '/12/29');
-            }
+            var s = new Date(ky + '/12/30');
 
             if (areaObj.isBlankDay(d,s)) {
               if (WeekShift) {
