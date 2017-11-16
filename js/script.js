@@ -316,7 +316,6 @@ var TrashModel = function(_lable, _cell, remarks) {
 
                 window.alert(kubun + '④：' + N_day);
 
-
                 // 今日が振替日での収集日表示の開始日～振替日 の間だったら
                 if (N_day >= FrBPStart) {
 
@@ -327,9 +326,11 @@ var TrashModel = function(_lable, _cell, remarks) {
 
                         window.alert(kubun + '⑥：' + FrBPDay);
 
-                        var arr(FrBPDay.substr(0, 4) + '/' + FrBPDay.substr(4, 2) + '/' + FrBPDay.substr(6, 2)).split('/');
+                        //var arr(FrBPDay.substr(0, 4) + '/' + FrBPDay.substr(4, 2) + '/' + FrBPDay.substr(6, 2)).split('/');
 
-                        this.mostRecent = new Date(arr[0], arr[1] - 1, arr[2]);
+                        //this.mostRecent = new Date(arr[0], arr[1] - 1, arr[2]);
+
+                        this.mostRecent = day_list[i];
 
                         window.alert(kubun + '⑦：' + this.mostRecent);
 
