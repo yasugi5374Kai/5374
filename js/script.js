@@ -24,13 +24,13 @@ var AreaModel = function() {
     //◇     return false;
     //◇ }
 
-    //◇ 休止終了日は開始日の次の年
+    //◇ 休止終了日は開始日の次の年の１月３日
     var endYear = startDate.getFullYear() + 1;
     var endDate = new Date(endYear, 0, 3);
 
-    window.alert('endDate：' + endDate);
+    //◇window.alert('endDate：' + endDate);
 
-    window.alert('endDate時間：' + endDate.getTime());
+    //◇window.alert('endDate時間：' + endDate.getTime());
 
     if (startDate.getTime() <= currentDate.getTime() &&
       currentDate.getTime() <= endDate.getTime()) {
@@ -209,8 +209,7 @@ var TrashModel = function(_lable, _cell, remarks) {
             );
             //年末年始のずらしの対応
             //休止期間なら、今後の日程を１週間ずらす
-            // ◇もやせるは１２月３０日～１月３日まで休み！
-            // ◇ほかは１２月２９日～１月３日まで休み！固定！
+            // ◇１２月３０日～１月３日まで休み！固定！
             // １月１日～３日 は休止開始年を昨年にする
             if (date.getMonth() == 0 && date.getDate() < 4)  {
 
@@ -248,6 +247,8 @@ var TrashModel = function(_lable, _cell, remarks) {
               }
             }
 
+			//◇
+            window.alert('d：' + d);
             day_list.push(d);
           }
         }
