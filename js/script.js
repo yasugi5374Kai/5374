@@ -316,11 +316,13 @@ var TrashModel = function(_lable, _cell, remarks) {
 
                     window.alert(kubun + '④：' + FrBPStart);
 
+                    window.alert(kubun + '⑤：' + now);
+
                     // 今日が振替日での収集日表示の開始日～振替日 の間だったら
                     if (now.getFullYear() <= FrBPDay.getFullYear() && now.getMonth() <= FrBPDay.getMonth() && 
                          now.getDate() <= FrBPDay.getDate()) {
 
-                        window.alert(kubun + '⑤：' + FrBPDay);
+                        window.alert(kubun + '⑥：' + FrBPDay);
 
                         this.mostRecent = FrBPDay;
                      } else {
