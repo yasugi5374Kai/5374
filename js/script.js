@@ -377,8 +377,7 @@ var TrashModel = function(_lable, _cell, remarks) {
     this.dayList = day_list;
 
     // ◇
-    var Fbrow = new FrBkRowModel(kubun,FrBPBHyoji);
-    FrBkModel.push(Fbrow);
+    FrBkModel.push(kubun,FrBPBHyoji);
 
   }
   /**
@@ -461,12 +460,7 @@ var RemarkModel = function(data) {
  * 振替日で表示している機関の備考に関する備考を管理するクラスです。
  * 区分名と備考文のモデルです。FrBikoがないときはなにもしない
  */
-var FrBkModel = new Array();
-
-var FrBkRowModel = function() {
-  this.FrKubun = data[0];
-  this.FrBiko = data[1];
-}
+var FrBkModel = new Array(_Frkubun,_FrBiko);
 
 /* var windowHeight; */
 
