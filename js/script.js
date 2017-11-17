@@ -20,6 +20,10 @@ var FrBPStart = '20171206';
 var FrBPBiko = "２日の収集は５日に振り替えます。";
 var FrBPBHyoji = "";
 
+// ◇ 備考
+var FrBiko = new Array();
+
+
 /**
   エリア(ごみ処理の地域）を管理するクラスです。
 */
@@ -99,6 +103,7 @@ var TrashModel = function(_lable, _cell, remarks) {
   this.mostRecent;
   this.dayList;
   this.mflag = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
   var monthSplitFlag=_cell.search(/:/)>=0
   if (monthSplitFlag) {
     var flag = _cell.split(":");
@@ -122,7 +127,6 @@ var TrashModel = function(_lable, _cell, remarks) {
 
   //◇日 var today = new Date();
   var today = new Date('2017/12/06');
-
 
   for (var j in this.dayCell) {
     if (this.dayCell[j].length == 1) {
@@ -178,7 +182,7 @@ var TrashModel = function(_lable, _cell, remarks) {
    */
   this.getRemark = function getRemark() {
     var ret = "";
-    window.alert('◇備考前：' + FrBPBHyoji);
+    window.alert('◇備考ＤＡＹ：' + day);
 
     this.dayCell.forEach(function(day){
       if (day.substr(0,1) == "*") {
@@ -208,6 +212,7 @@ var TrashModel = function(_lable, _cell, remarks) {
     var day_mix = this.dayCell;
     var result_text = "";
     var day_list = new Array();
+
     //◇
     var kubun = this.label;
     FrBPBHyoji = "";
@@ -378,6 +383,10 @@ var TrashModel = function(_lable, _cell, remarks) {
     };
 
     this.dayList = day_list;
+
+    // ◇ 備考
+    FrBiko.push(FrBPBHyoji);
+
   }
   /**
    計算したゴミの日一覧をリスト形式として取得します。
