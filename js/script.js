@@ -21,7 +21,7 @@ var FrBPBiko = "２日の収集は５日に振り替えます。";
 var FrBPBHyoji = "";
 
 // ◇ 備考
-var FrBiko = new Array();
+//var FrBiko = new Array();
 
 
 /**
@@ -385,7 +385,7 @@ var TrashModel = function(_lable, _cell, remarks) {
     this.dayList = day_list;
 
     // ◇ 備考
-    FrBiko.push(FrBPBHyoji);
+    //FrBiko.push(FrBPBHyoji);
 
   }
   /**
