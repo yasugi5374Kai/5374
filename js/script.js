@@ -192,7 +192,7 @@ var TrashModel = function(_lable, _cell, remarks) {
          ret += FrBPBHyoji + "<br/>";
     }
 
-    window.alert(kubun + '◇備考：' + ret);
+    window.alert('◇備考：' + ret);
 
     return ret;
   }
