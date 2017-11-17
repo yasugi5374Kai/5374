@@ -158,19 +158,13 @@ var TrashModel = function(_lable, _cell, remarks) {
 
   this.getDateLabel = function() {
 
+    window.alert('び：' + FrBPBHyoji);
+
     if (this.mostRecent === undefined) {
 	return this.getRemark() + "不明";
     }
       var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
-    
-    window.alert(kubun + 'び：');
-
-    //if (FrBPBHyoji != "") {
-
-    //    return this.getRemark() + FrBPBHyoji + "<br/>" + this.dayLabel + " " + result_text;
-    // } else {
-	    return this.getRemark() + this.dayLabel + " " + result_text;
-    //}
+    return this.getRemark() + this.dayLabel + " " + result_text;
   }
 
   function getDayIndex(str) {
