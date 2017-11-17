@@ -16,6 +16,10 @@ var FrBPNext = '20180206';
 // 振替日での収集日表示の開始日
 var FrBPStart = '20171206';
 
+// 振替日を表示しているときの備考
+var FrBPBiko = "２日の収集は５日に振り替えます。";
+var FrBPBHyoji = "";
+
 /**
   エリア(ごみ処理の地域）を管理するクラスです。
 */
@@ -181,6 +185,12 @@ var TrashModel = function(_lable, _cell, remarks) {
         });
       };
     });
+    // ◇
+    // return ret;
+
+    if (FrBPBHyoji != "") {
+         ret += FrBPBHyoji + "<br/>";
+    }
     return ret;
   }
   /**
@@ -193,6 +203,7 @@ var TrashModel = function(_lable, _cell, remarks) {
     var day_list = new Array();
     //◇
     var kubun = this.label;
+    FrBPBHyoji = "";
 
     // 定期回収の場合　label
     if (this.regularFlg == 1) {
@@ -333,6 +344,7 @@ var TrashModel = function(_lable, _cell, remarks) {
                         var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
 
                         this.mostRecent = DDay;
+                        FrBPBHyoji = FrBPBiko;
 
                         // this.mostRecent = day_list[i];
 
