@@ -20,6 +20,7 @@ var FrBPStart = '20171206';
 var FrBPBiko = "２日の収集は５日に振り替えます。";
 var FrBPBHyoji = "";
 
+var FrBiko = new Array();
 
 /**
   エリア(ごみ処理の地域）を管理するクラスです。
@@ -163,7 +164,7 @@ var TrashModel = function(_lable, _cell, remarks) {
     if (this.mostRecent === undefined) {
 	return this.getRemark() + "不明";
     }
-      var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
+    var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
     return this.getRemark() + this.dayLabel + " " + result_text;
   }
 
@@ -200,6 +201,9 @@ var TrashModel = function(_lable, _cell, remarks) {
     var day_mix = this.dayCell;
     var result_text = "";
     var day_list = new Array();
+
+    var row = new TargetRowModel(data[i]);
+
 
     //◇
     var kubun = this.label;
@@ -371,6 +375,11 @@ var TrashModel = function(_lable, _cell, remarks) {
     };
 
     this.dayList = day_list;
+
+    // ◇
+    var Fbrow = new FrBkRowModel(kubun,FrBPBHyoji);
+    FrBkModel.push(Fbrow);
+
   }
   /**
    計算したゴミの日一覧をリスト形式として取得します。
@@ -446,6 +455,17 @@ var TargetRowModel = function(data) {
 var RemarkModel = function(data) {
   this.id = data[0];
   this.text = data[1];
+}
+
+/**
+ * 振替日で表示している機関の備考に関する備考を管理するクラスです。
+ * 区分名と備考文のモデルです。FrBikoがないときはなにもしない
+ */
+var FrBkModel = new Array();
+
+var FrBkRowModel = function(data) {
+  this.FrKubun = data[0];
+  this.FrBiko = data[1];
 }
 
 /* var windowHeight; */
