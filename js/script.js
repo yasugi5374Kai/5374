@@ -164,7 +164,7 @@ var TrashModel = function(_lable, _cell, remarks) {
 
   this.getDateLabel = function() {
 
-    window.alert('び：' + FrBPBHyoji);
+    //window.alert('び：' + FrBPBHyoji);
 
     if (this.mostRecent === undefined) {
 	return this.getRemark() + "不明";
@@ -212,7 +212,7 @@ var TrashModel = function(_lable, _cell, remarks) {
 
     //◇
     var kubun = this.label;
-    FrBPBHyoji = "";
+    //FrBPBHyoji = "";
 
     // 定期回収の場合　label
     if (this.regularFlg == 1) {
@@ -353,9 +353,9 @@ var TrashModel = function(_lable, _cell, remarks) {
                         var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
 
                         this.mostRecent = DDay;
-                        FrBPBHyoji = FrBPBiko;
+                        //FrBPBHyoji = FrBPBiko;
 
-                        window.alert(kubun + '⑦：' + FrBPBHyoji);
+                        //window.alert(kubun + '⑦：' + FrBPBHyoji);
 
                         // this.mostRecent = day_list[i];
 
