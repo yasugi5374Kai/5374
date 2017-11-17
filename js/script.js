@@ -117,7 +117,7 @@ var TrashModel = function(_lable, _cell, remarks) {
   var result_text = "";
 
   //◇日 var today = new Date();
-  var today = new Date('2017/12/05');
+  var today = new Date('2017/12/06');
 
 
   for (var j in this.dayCell) {
@@ -198,7 +198,7 @@ var TrashModel = function(_lable, _cell, remarks) {
     if (this.regularFlg == 1) {
 
       //◇日 var today = new Date();
-      var today = new Date('2017/12/05');
+      var today = new Date('2017/12/06');
 
 
       // 12月 +3月　を表現
@@ -292,7 +292,7 @@ var TrashModel = function(_lable, _cell, remarks) {
     })
     //直近の日付を更新 ☆☆☆
     //◇日 var now = new Date();
-    var now = new Date('2017/12/05');
+    var now = new Date('2017/12/06');
 
     // now を８桁変換
     var N_day = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
@@ -643,7 +643,7 @@ $(function() {
     var group = areaGroup[group_name];
     var areaModel = group[area_name];
     //◇日 var today = new Date();
-    var today = new Date('2017/12/05');
+    var today = new Date('2017/12/06');
 
     //直近の一番近い日付を計算します。
     areaModel.calcMostRect();
