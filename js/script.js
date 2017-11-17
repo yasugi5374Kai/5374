@@ -20,9 +20,6 @@ var FrBPStart = '20171206';
 var FrBPBiko = "２日の収集は５日に振り替えます。";
 var FrBPBHyoji = "";
 
-// ◇ 備考
-//var FrBiko = new Array();
-
 
 /**
   エリア(ごみ処理の地域）を管理するクラスです。
@@ -161,12 +158,17 @@ var TrashModel = function(_lable, _cell, remarks) {
 
   this.getDateLabel = function() {
 
-
     if (this.mostRecent === undefined) {
 	return this.getRemark() + "不明";
     }
       var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
-    return this.getRemark() + this.dayLabel + " " + result_text;
+    
+    if (FrBPBHyoji != "") {
+
+        return this.getRemark() + FrBPBHyoji + "<br/>" + this.dayLabel + " " + result_text;
+    } else {
+	    return this.getRemark() + this.dayLabel + " " + result_text;
+    }
   }
 
   function getDayIndex(str) {
@@ -182,7 +184,6 @@ var TrashModel = function(_lable, _cell, remarks) {
    */
   this.getRemark = function getRemark() {
     var ret = "";
-    //window.alert('◇備考ＤＡＹ：' + day);
 
     this.dayCell.forEach(function(day){
       if (day.substr(0,1) == "*") {
@@ -193,15 +194,6 @@ var TrashModel = function(_lable, _cell, remarks) {
         });
       };
     });
-    // ◇
-    // return ret;
-
-    //if (FrBPBHyoji != "") {
-    //     ret += FrBPBHyoji + "<br/>";
-    //}
-
-    //window.alert('◇備考後：' + ret);
-
     return ret;
   }
   /**
@@ -383,10 +375,6 @@ var TrashModel = function(_lable, _cell, remarks) {
     };
 
     this.dayList = day_list;
-
-    // ◇ 備考
-    //FrBiko.push(FrBPBHyoji);
-
   }
   /**
    計算したゴミの日一覧をリスト形式として取得します。
