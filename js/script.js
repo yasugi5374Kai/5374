@@ -463,7 +463,7 @@ var RemarkModel = function(data) {
  */
 var FrBkModel = new Array();
 
-var FrBkRowModel = function(data) {
+var FrBkRowModel = function() {
   this.FrKubun = data[0];
   this.FrBiko = data[1];
 }
