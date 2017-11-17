@@ -156,6 +156,8 @@ var TrashModel = function(_lable, _cell, remarks) {
   var day_enum = ["日", "月", "火", "水", "木", "金", "土"];
 
   this.getDateLabel = function() {
+
+
     if (this.mostRecent === undefined) {
 	return this.getRemark() + "不明";
     }
@@ -176,6 +178,8 @@ var TrashModel = function(_lable, _cell, remarks) {
    */
   this.getRemark = function getRemark() {
     var ret = "";
+    window.alert('◇備考前：' + FrBPBHyoji);
+
     this.dayCell.forEach(function(day){
       if (day.substr(0,1) == "*") {
         remarks.forEach(function(remark){
@@ -192,7 +196,7 @@ var TrashModel = function(_lable, _cell, remarks) {
          ret += FrBPBHyoji + "<br/>";
     }
 
-    window.alert('◇備考：' + ret);
+    window.alert('◇備考後：' + ret);
 
     return ret;
   }
