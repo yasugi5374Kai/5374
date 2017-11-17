@@ -182,7 +182,7 @@ var TrashModel = function(_lable, _cell, remarks) {
    */
   this.getRemark = function getRemark() {
     var ret = "";
-    window.alert('◇備考ＤＡＹ：' + day);
+    //window.alert('◇備考ＤＡＹ：' + day);
 
     this.dayCell.forEach(function(day){
       if (day.substr(0,1) == "*") {
@@ -196,11 +196,11 @@ var TrashModel = function(_lable, _cell, remarks) {
     // ◇
     // return ret;
 
-    if (FrBPBHyoji != "") {
-         ret += FrBPBHyoji + "<br/>";
-    }
+    //if (FrBPBHyoji != "") {
+    //     ret += FrBPBHyoji + "<br/>";
+    //}
 
-    window.alert('◇備考後：' + ret);
+    //window.alert('◇備考後：' + ret);
 
     return ret;
   }
