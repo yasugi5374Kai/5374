@@ -349,9 +349,11 @@ var TrashModel = function(_lable, _cell, remarks) {
                         this.mostRecent = DDay;
                         FrBPBHyoji = FrBPBiko;
 
+                        window.alert(kubun + '⑦：' + FrBPBHyoji);
+
                         // this.mostRecent = day_list[i];
 
-                        window.alert(kubun + '⑦：' + this.mostRecent);
+                        window.alert(kubun + '⑧：' + this.mostRecent);
 
                      } else {
                         this.mostRecent = day_list[i];
