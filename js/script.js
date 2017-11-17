@@ -191,6 +191,9 @@ var TrashModel = function(_lable, _cell, remarks) {
     if (FrBPBHyoji != "") {
          ret += FrBPBHyoji + "<br/>";
     }
+
+    window.alert(kubun + '◇備考：' + ret);
+
     return ret;
   }
   /**
