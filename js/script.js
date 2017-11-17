@@ -163,14 +163,14 @@ var TrashModel = function(_lable, _cell, remarks) {
     }
       var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
     
-    window.alert(kubun + 'び：' + FrBPBHyoji);
+    window.alert(kubun + 'び：');
 
-    if (FrBPBHyoji != "") {
+    //if (FrBPBHyoji != "") {
 
-        return this.getRemark() + FrBPBHyoji + "<br/>" + this.dayLabel + " " + result_text;
-    } else {
+    //    return this.getRemark() + FrBPBHyoji + "<br/>" + this.dayLabel + " " + result_text;
+    // } else {
 	    return this.getRemark() + this.dayLabel + " " + result_text;
-    }
+    //}
   }
 
   function getDayIndex(str) {
