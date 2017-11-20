@@ -48,6 +48,10 @@ var AreaModel = function() {
     var endYear = startDate.getFullYear() + 1;
     var endDate = new Date(endYear, 0, 3);
 
+    window.alert('開始：' + startDate);
+    window.alert('終了：' + endDate);
+
+
     if (startDate.getTime() <= currentDate.getTime() &&
       currentDate.getTime() <= endDate.getTime()) {
       return true;
@@ -518,7 +522,7 @@ $(function() {
       //  }
       //});
 
-      // ◇ センターは松江市固定
+      // ◇ センターは未使用
       area.setCenter();
       createSelectBox();
 
