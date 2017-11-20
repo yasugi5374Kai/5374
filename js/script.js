@@ -300,11 +300,14 @@ var TrashModel = function(_lable, _cell, remarks) {
     for (var i in day_list) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
 
+        this.mostRecent = day_list[i];
+
+        //振り替え対応  this.mostRecentを上書する
+        if (kubun == FrBPKbn) {
+
           // ◇ day_list[i] を８桁変換
           var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
                (('0' + day_list[i].getDate()).slice(-2));
-
-          this.mostRecent = day_list[i];
 
           // もとめた収集日がFrBPNext
           if (K_day == FrBPNext) {
@@ -314,13 +317,10 @@ var TrashModel = function(_lable, _cell, remarks) {
                   var arr = (FrBPDay.substr(0, 4) + '/' + FrBPDay.substr(4, 2) + '/' + FrBPDay.substr(6, 2)).split('/');
                   var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
                   this.mostRecent = DDay;
-              } else {
-                  this.mostRecent = day_list[i];
               }
-          } else {
-              this.mostRecent = day_list[i];
           }
-          break;
+        }
+        break;
       }
     };
 
