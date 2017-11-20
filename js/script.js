@@ -297,7 +297,6 @@ var TrashModel = function(_lable, _cell, remarks) {
     //◇日 var now = new Date();
     var now = new Date('2017/12/06');
 
-
     // ◇ now を８桁変換
     var N_day = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
 
@@ -316,6 +315,7 @@ var TrashModel = function(_lable, _cell, remarks) {
           // もとめた収集日がFrBPNext
           if (K_day == FrBPNext) {
 
+              // 振替日を表示する間
               if (N_day >= FrBPStart && N_day <= FrBPDay) {
 
                   var arr = (FrBPDay.substr(0, 4) + '/' + FrBPDay.substr(4, 2) + '/' + FrBPDay.substr(6, 2)).split('/');
@@ -337,7 +337,7 @@ var TrashModel = function(_lable, _cell, remarks) {
     var day_text = "<ul>";
     for (var i in this.dayList) {
       var d = this.dayList[i];
-      day_text += "<li>" + d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + "</li>";
+      day_text += "<li>" + d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + "◇" + "</li>";
     };
     day_text += "</ul>";
     return day_text;
