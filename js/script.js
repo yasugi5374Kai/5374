@@ -672,7 +672,7 @@ $(function() {
           target_tag += "</ul>";
 
           // ◇
-          window.alert(trash + '②' + target.name);
+          window.alert(trash.label + '②' + target.name);
 
           var dateLabel = trash.getDateLabel();
           //あと何日かを計算する処理です。
