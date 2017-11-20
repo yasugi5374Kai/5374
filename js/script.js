@@ -10,7 +10,7 @@ var FrBPKbn = 'ビン類、ペットボトル';
 //振替日
 var FrBPDay = '20180105';
 
-// 算出した収集日がこの日だったら振替日を表示する条件
+// 算出した収集日がこの日だったら振替日まで振替日を表示する
 var FrBPNext = '20180206';
 
 // 振替日での収集日表示の開始日
@@ -157,9 +157,6 @@ var TrashModel = function(_lable, _cell, remarks) {
     }
       var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
     
-    // ◇
-    window.alert(this.label + '①' + FrBPBHyoji);
-
     if (this.label == FrBPKbn && FrBPBHyoji != "" ) {
 
         return this.getRemark() + FrBPBHyoji + "<br/>" + this.dayLabel + " " + result_text;
@@ -677,11 +674,6 @@ $(function() {
           }
 
           target_tag += "</ul>";
-
-          // ◇
-          //window.alert(trash.label + '②' + target.name);
-          // 区分名
-          CurKubun = trash.label;
 
           var dateLabel = trash.getDateLabel();
           //あと何日かを計算する処理です。
