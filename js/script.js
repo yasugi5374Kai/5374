@@ -159,7 +159,13 @@ var TrashModel = function(_lable, _cell, remarks) {
     // ◇
     window.alert(this.dayLabel + '①' + FrBPBHyoji);
 
-    return this.getRemark() + this.dayLabel + " " + result_text;
+    if (this.dayLabel == FrBPKbn && FrBPBHyoji != "" ) {
+
+        return this.getRemark() + FrBPBHyoji + "<br/>" + this.dayLabel + " " + result_text;
+    } else {
+
+        return this.getRemark() + this.dayLabel + " " + result_text;
+    }
   }
 
   function getDayIndex(str) {
