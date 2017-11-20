@@ -157,15 +157,12 @@ var TrashModel = function(_lable, _cell, remarks) {
     if (this.mostRecent === undefined) {
 	return this.getRemark() + "不明";
     }
-      var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
+    var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
 
-      var textRecent = '' + this.mostRecent.getFullYear() +  (('0' + (this.mostRecent.getMonth() + 1)).slice(-2))  + (('0' + this.mostRecent.getDate()).slice(-2));
-
-      window.alert(this.label + '①' + textRecent + '○' + FrBPDay);
+    //◇ 
+    var textRecent = '' + this.mostRecent.getFullYear() +  (('0' + (this.mostRecent.getMonth() + 1)).slice(-2))  + (('0' + this.mostRecent.getDate()).slice(-2));
 
     if (this.label == FrBPKbn && FrBPBHyoji != "" && textRecent == FrBPDay) {
-
-        //◇
 
         return this.getRemark() + FrBPBHyoji + "<br/>" + this.dayLabel + " " + result_text;
     } else {
