@@ -1,6 +1,33 @@
 "use strict";
 
 /**
+  ◇振り替え対応  ☆☆☆ の処理も修正する
+*/
+
+// 振り替え対応区分名
+var FrBPKbn = 'ビン類、ペットボトル';
+
+//振替日
+var FrBPDay = '20180105';
+
+// 収集日がこの日だったら振替日にする
+var FrBPNext = '20180206';
+
+// 振替日での収集日表示の開始日
+var FrBPStart = '20171206';
+
+// 振替日を表示しているときの備考
+var FrBPBiko = "２日の収集は５日に振り替えます。";
+var FrBPBHyoji = "";
+
+/**
+ * 振替日で表示している機関の備考に関する備考を管理するクラスです。
+ * 区分名と備考文のモデルです。FrBikoがないときはなにもしない
+ */
+//var FrBkModel = new Array(_Frkubun,_FrBiko);
+
+
+/**
   エリア(ごみ処理の地域）を管理するクラスです。
 */
 var AreaModel = function() {
@@ -205,8 +232,7 @@ var TrashModel = function(_lable, _cell, remarks) {
             );
             //年末年始のずらしの対応
             //休止期間なら、今後の日程を１週間ずらす
-            // ◇もやせるは１２月３０日～１月３日まで休み！
-            // ◇ほかは１２月２９日～１月３日まで休み！固定！
+            // ◇１２月３０日～１月３日まで休み！固定！
             // １月１日～３日 は休止開始年を昨年にする
             if (date.getMonth() == 0 && date.getDate() < 4)  {
 
@@ -216,12 +242,8 @@ var TrashModel = function(_lable, _cell, remarks) {
                 var ky = date.getFullYear();
             }
 
-            if (kubun == 'もやせる') {
-                var s = new Date(ky + '/12/30');
-            } else {
-                var s = new Date(ky + '/12/29');
-            }
-
+            var s = new Date(ky + '/12/30');
+ 
             if (areaObj.isBlankDay(d,s)) {
               if (WeekShift) {
                 isShift = true;
@@ -272,10 +294,33 @@ var TrashModel = function(_lable, _cell, remarks) {
     //直近の日付を更新
     var now = new Date();
 
+    // ◇ now を８桁変換
+    var N_day = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
+
     for (var i in day_list) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
-        this.mostRecent = day_list[i];
-        break;
+
+          // ◇ day_list[i] を８桁変換
+          var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
+               (('0' + day_list[i].getDate()).slice(-2));
+
+          this.mostRecent = day_list[i];
+
+          // もとめた収集日がFrBPNext
+          if (K_day == FrBPNext) {
+
+              if (N_day >= FrBPStart && N_day <= FrBPDay) {
+
+                  var arr = (FrBPDay.substr(0, 4) + '/' + FrBPDay.substr(4, 2) + '/' + FrBPDay.substr(6, 2)).split('/');
+                  var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
+                  this.mostRecent = DDay;
+              } else {
+                  this.mostRecent = day_list[i];
+              }
+          } else {
+              this.mostRecent = day_list[i];
+          }
+          break;
       }
     };
 
