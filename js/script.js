@@ -20,12 +20,7 @@ var FrBPStart = '20171206';
 var FrBPBiko = "２日の収集は５日に振り替えます。";
 var FrBPBHyoji = "";
 
-/**
- * 振替日で表示している機関の備考に関する備考を管理するクラスです。
- * 区分名と備考文のモデルです。FrBikoがないときはなにもしない
- */
-//var FrBkModel = new Array(_Frkubun,_FrBiko);
-
+var FrBiko = new Array();
 
 /**
   エリア(ごみ処理の地域）を管理するクラスです。
@@ -164,12 +159,12 @@ var TrashModel = function(_lable, _cell, remarks) {
 
   this.getDateLabel = function() {
 
-    //window.alert('び：' + FrBPBHyoji);
+    window.alert('び：' + FrBPBHyoji);
 
     if (this.mostRecent === undefined) {
 	return this.getRemark() + "不明";
     }
-     var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
+    var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
     return this.getRemark() + this.dayLabel + " " + result_text;
   }
 
@@ -212,7 +207,7 @@ var TrashModel = function(_lable, _cell, remarks) {
 
     //◇
     var kubun = this.label;
-    //FrBPBHyoji = "";
+    FrBPBHyoji = "";
 
     // 定期回収の場合　label
     if (this.regularFlg == 1) {
@@ -353,9 +348,9 @@ var TrashModel = function(_lable, _cell, remarks) {
                         var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
 
                         this.mostRecent = DDay;
-                        //FrBPBHyoji = FrBPBiko;
+                        FrBPBHyoji = FrBPBiko;
 
-                        //window.alert(kubun + '⑦：' + FrBPBHyoji);
+                        window.alert(kubun + '⑦：' + FrBPBHyoji);
 
                         // this.mostRecent = day_list[i];
 
@@ -382,7 +377,11 @@ var TrashModel = function(_lable, _cell, remarks) {
     this.dayList = day_list;
 
     // ◇
-    //FrBkModel.push(kubun,FrBPBHyoji);
+    var Fbrow = new FrBkRowModel();
+    FrBkRowModel.
+
+
+    FrBkModel.push(Fbrow);
 
   }
   /**
@@ -461,6 +460,16 @@ var RemarkModel = function(data) {
   this.text = data[1];
 }
 
+/**
+ * 振替日で表示している機関の備考に関する備考を管理するクラスです。
+ * 区分名と備考文のモデルです。FrBikoがないときはなにもしない
+ */
+var FrBkModel = new Array();
+
+var FrBkRowModel = function() {
+  this.FrKubun = data[0];
+  this.FrBiko = data[1];
+}
 
 /* var windowHeight; */
 
