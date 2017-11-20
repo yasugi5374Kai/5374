@@ -20,6 +20,8 @@ var FrBPStart = '20171206';
 var FrBPBiko = "１月２日の収集は５日に振り替えます。";
 var FrBPBHyoji = "";
 
+
+
 /**
   エリア(ごみ処理の地域）を管理するクラスです。
 */
@@ -47,10 +49,6 @@ var AreaModel = function() {
     //◇ 休止終了日は開始日の次の年
     var endYear = startDate.getFullYear() + 1;
     var endDate = new Date(endYear, 0, 3);
-
-    window.alert('開始：' + startDate);
-    window.alert('終了：' + endDate);
-
 
     if (startDate.getTime() <= currentDate.getTime() &&
       currentDate.getTime() <= endDate.getTime()) {
@@ -121,7 +119,7 @@ var TrashModel = function(_lable, _cell, remarks) {
   var result_text = "";
 
   //◇日 var today = new Date();
-  var today = new Date('2017/12/06');
+  var today = new Date('2017/12/05');
 
 
   for (var j in this.dayCell) {
@@ -209,7 +207,7 @@ var TrashModel = function(_lable, _cell, remarks) {
     if (this.regularFlg == 1) {
 
       //◇日 var today = new Date();
-      var today = new Date('2017/12/06');
+      var today = new Date('2017/12/05');
 
       // 12月 +3月　を表現
       for (var i = 0; i < MaxMonth; i++) {
@@ -300,7 +298,7 @@ var TrashModel = function(_lable, _cell, remarks) {
     })
     //直近の日付を更新
     //◇日 var now = new Date();
-    var now = new Date('2017/12/06');
+    var now = new Date('2017/12/05');
 
     // ◇ now を８桁変換
     var N_day = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
@@ -622,8 +620,10 @@ $(function() {
     var group = areaGroup[group_name];
     var areaModel = group[area_name];
     //◇日 var today = new Date();
-    var today = new Date('2017/12/06');
+    var today = new Date('2017/12/05');
 
+    //◇
+    window.alert('日付：' + today);
 
     //直近の一番近い日付を計算します。
     areaModel.calcMostRect();
