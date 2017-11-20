@@ -1,28 +1,6 @@
 "use strict";
 
 /**
-  ◇振り替え対応  ☆☆☆ の処理も修正する
-*/
-
-// 振り替え対応区分名
-var FrBPKbn = 'ビン類、ペットボトル';
-
-//振替日
-var FrBPDay = '20180105';
-
-// 収集日がこの日だったら振替日にする
-var FrBPNext = '20180206';
-
-// 振替日での収集日表示の開始日
-var FrBPStart = '20171206';
-
-// 振替日を表示しているときの備考
-var FrBPBiko = "２日の収集は５日に振り替えます。";
-var FrBPBHyoji = "";
-
-var FrBiko = new Array();
-
-/**
   エリア(ごみ処理の地域）を管理するクラスです。
 */
 var AreaModel = function() {
@@ -46,13 +24,9 @@ var AreaModel = function() {
     //◇     return false;
     //◇ }
 
-    //◇ 休止終了日は開始日の次の年の１月３日
+    //◇ 休止終了日は開始日の次の年
     var endYear = startDate.getFullYear() + 1;
     var endDate = new Date(endYear, 0, 3);
-
-    //◇window.alert('endDate：' + endDate);
-
-    //◇window.alert('endDate時間：' + endDate.getTime());
 
     if (startDate.getTime() <= currentDate.getTime() &&
       currentDate.getTime() <= endDate.getTime()) {
@@ -63,7 +37,7 @@ var AreaModel = function() {
   /**
     ゴミ処理センターを登録します。
     名前が一致するかどうかで判定を行っております。
-    ◇center.csvは読まないから安来市固定！
+    ◇center.csvは読まないから松江市固定！
   */
   //◇ 引数撤廃 this.setCenter = function(center_data) {
   this.setCenter = function() {
@@ -73,7 +47,7 @@ var AreaModel = function() {
     //◇  }
     //◇}
 
-   this.center = '安来市';
+   this.center = '松江市';
 
   }
   /**
@@ -101,7 +75,6 @@ var TrashModel = function(_lable, _cell, remarks) {
   this.mostRecent;
   this.dayList;
   this.mflag = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-
   var monthSplitFlag=_cell.search(/:/)>=0
   if (monthSplitFlag) {
     var flag = _cell.split(":");
@@ -123,8 +96,7 @@ var TrashModel = function(_lable, _cell, remarks) {
 
   var result_text = "";
 
-  //◇日 var today = new Date();
-  var today = new Date('2017/12/06');
+  var today = new Date();
 
   for (var j in this.dayCell) {
     if (this.dayCell[j].length == 1) {
@@ -158,13 +130,10 @@ var TrashModel = function(_lable, _cell, remarks) {
   var day_enum = ["日", "月", "火", "水", "木", "金", "土"];
 
   this.getDateLabel = function() {
-
-    window.alert('び：' + FrBPBHyoji);
-
     if (this.mostRecent === undefined) {
 	return this.getRemark() + "不明";
     }
-    var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
+      var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
     return this.getRemark() + this.dayLabel + " " + result_text;
   }
 
@@ -181,7 +150,6 @@ var TrashModel = function(_lable, _cell, remarks) {
    */
   this.getRemark = function getRemark() {
     var ret = "";
-
     this.dayCell.forEach(function(day){
       if (day.substr(0,1) == "*") {
         remarks.forEach(function(remark){
@@ -201,20 +169,13 @@ var TrashModel = function(_lable, _cell, remarks) {
     var day_mix = this.dayCell;
     var result_text = "";
     var day_list = new Array();
-
-    var row = new TargetRowModel(data[i]);
-
-
     //◇
     var kubun = this.label;
-    FrBPBHyoji = "";
 
     // 定期回収の場合　label
     if (this.regularFlg == 1) {
 
-      //◇日 var today = new Date();
-      var today = new Date('2017/12/06');
-
+      var today = new Date();
 
       // 12月 +3月　を表現
       for (var i = 0; i < MaxMonth; i++) {
@@ -244,7 +205,8 @@ var TrashModel = function(_lable, _cell, remarks) {
             );
             //年末年始のずらしの対応
             //休止期間なら、今後の日程を１週間ずらす
-            // ◇１２月３０日～１月３日まで休み！固定！
+            // ◇もやせるは１２月３０日～１月３日まで休み！
+            // ◇ほかは１２月２９日～１月３日まで休み！固定！
             // １月１日～３日 は休止開始年を昨年にする
             if (date.getMonth() == 0 && date.getDate() < 4)  {
 
@@ -254,7 +216,11 @@ var TrashModel = function(_lable, _cell, remarks) {
                 var ky = date.getFullYear();
             }
 
-            var s = new Date(ky + '/12/30');
+            if (kubun == 'もやせる') {
+                var s = new Date(ky + '/12/30');
+            } else {
+                var s = new Date(ky + '/12/29');
+            }
 
             if (areaObj.isBlankDay(d,s)) {
               if (WeekShift) {
@@ -278,8 +244,6 @@ var TrashModel = function(_lable, _cell, remarks) {
               }
             }
 
-            //◇
-            //window.alert(kubun + '：' + d);
             day_list.push(d);
           }
         }
@@ -305,84 +269,17 @@ var TrashModel = function(_lable, _cell, remarks) {
       if (at > bt) return 1;
       return 0;
     })
-    //直近の日付を更新 ☆☆☆
-    //◇日 var now = new Date();
-    var now = new Date('2017/12/06');
-
-    // now を８桁変換
-    var N_day = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
+    //直近の日付を更新
+    var now = new Date();
 
     for (var i in day_list) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
-
-        //振り替え対応
-        if (kubun == FrBPKbn) {
-            //day_list[i] を８桁変換
-            var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
-               (('0' + day_list[i].getDate()).slice(-2));
-
-            //◇
-            window.alert(kubun + '①：' + K_day);
-
-            // もとめた収集日がFrBPNext
-            if (K_day == FrBPNext) {
-
-                window.alert(kubun + '②：' + day_list[i]);
-
-                window.alert(kubun + '③：' + FrBPNext);
-
-                window.alert(kubun + '④：' + N_day);
-
-                // 今日が振替日での収集日表示の開始日～振替日 の間だったら
-                if (N_day >= FrBPStart) {
-
-                    window.alert(kubun + '⑤：' + FrBPStart);
-
-                    // 今日が振替日での収集日表示の開始日～振替日 の間だったら
-                    if (N_day <= FrBPDay) {
-
-                        window.alert(kubun + '⑥：' + FrBPDay);
-
-                        var arr = (FrBPDay.substr(0, 4) + '/' + FrBPDay.substr(4, 2) + '/' + FrBPDay.substr(6, 2)).split('/');
-
-                        var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
-
-                        this.mostRecent = DDay;
-                        FrBPBHyoji = FrBPBiko;
-
-                        window.alert(kubun + '⑦：' + FrBPBHyoji);
-
-                        // this.mostRecent = day_list[i];
-
-                        window.alert(kubun + '⑧：' + this.mostRecent);
-
-                     } else {
-                        this.mostRecent = day_list[i];
-                     }
-                } else {
-                this.mostRecent = day_list[i];
-                }
-            } else {
-
-                this.mostRecent = day_list[i];
-            }
-        } else {
-
-            this.mostRecent = day_list[i];
-        }
+        this.mostRecent = day_list[i];
         break;
       }
     };
 
     this.dayList = day_list;
-
-    // ◇
-    var Fbrow = new FrBkRowModel();
-    FrBkRowModel.
-
-
-    FrBkModel.push(Fbrow);
-
   }
   /**
    計算したゴミの日一覧をリスト形式として取得します。
@@ -458,17 +355,6 @@ var TargetRowModel = function(data) {
 var RemarkModel = function(data) {
   this.id = data[0];
   this.text = data[1];
-}
-
-/**
- * 振替日で表示している機関の備考に関する備考を管理するクラスです。
- * 区分名と備考文のモデルです。FrBikoがないときはなにもしない
- */
-var FrBkModel = new Array();
-
-var FrBkRowModel = function() {
-  this.FrKubun = data[0];
-  this.FrBiko = data[1];
 }
 
 /* var windowHeight; */
@@ -592,7 +478,7 @@ $(function() {
     var $select_group = $('#select_group');
     var selected_group = $select_group.val();
     $select_area.hide();
-    var options_html = '<option value="-1" selected="selected">地区名を選択してください</option>';
+    var options_html = '<option value="-1" selected="selected">橋北・橋南を選択してください</option>';
     for (var i in groupOrder) {
       var group = groupOrder[i];
       options_html += '<option value="' + group + '">' + group + '</option>';
@@ -624,7 +510,7 @@ $(function() {
     var $select_group = $('#select_group');
     var select_html = "";
     var selected_name = getSelectedAreaName();
-    select_html += '<option value="-1">自治会名を選択してください</option>';
+    select_html += '<option value="-1">地域を選択してください</option>';
     var group = areaGroup[$select_group.val()];
     for (var area_name in group) {
       var selected = (selected_name == area_name) ? 'selected="selected"': '';
@@ -679,8 +565,7 @@ $(function() {
     //var ableSVG = false;  // SVG未使用の場合、descriptionの1項目目を使用
     var group = areaGroup[group_name];
     var areaModel = group[area_name];
-    //◇日 var today = new Date();
-    var today = new Date('2017/12/06');
+    var today = new Date();
 
     //直近の一番近い日付を計算します。
     areaModel.calcMostRect();
