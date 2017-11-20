@@ -157,9 +157,9 @@ var TrashModel = function(_lable, _cell, remarks) {
       var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
     
     // ◇
+        window.alert(this.dayLabel + '①' + FrBPBHyoji);
 
     if (this.dayLabel == FrBPKbn && FrBPBHyoji != "" ) {
-        window.alert(this.dayLabel + '①' + FrBPBHyoji);
 
         return this.getRemark() + FrBPBHyoji + "<br/>" + this.dayLabel + " " + result_text;
     } else {
