@@ -26,7 +26,6 @@ var FrBPBHyoji = "";
  */
 //var FrBkModel = new Array(_Frkubun,_FrBiko);
 
-
 /**
   エリア(ごみ処理の地域）を管理するクラスです。
 */
@@ -528,7 +527,7 @@ $(function() {
     var $select_group = $('#select_group');
     var selected_group = $select_group.val();
     $select_area.hide();
-    var options_html = '<option value="-1" selected="selected">橋北・橋南を選択してください</option>';
+    var options_html = '<option value="-1" selected="selected">地区名を選択してください</option>';
     for (var i in groupOrder) {
       var group = groupOrder[i];
       options_html += '<option value="' + group + '">' + group + '</option>';
@@ -560,7 +559,7 @@ $(function() {
     var $select_group = $('#select_group');
     var select_html = "";
     var selected_name = getSelectedAreaName();
-    select_html += '<option value="-1">地域を選択してください</option>';
+    select_html += '<option value="-1">自治会名を選択してください</option>';
     var group = areaGroup[$select_group.val()];
     for (var area_name in group) {
       var selected = (selected_name == area_name) ? 'selected="selected"': '';
