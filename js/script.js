@@ -158,11 +158,14 @@ var TrashModel = function(_lable, _cell, remarks) {
 	return this.getRemark() + "不明";
     }
       var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
+
     
-    if (this.label == FrBPKbn && FrBPBHyoji != "" ) {
+      var textRecent = '' + this.mostRecent.getFullYear() + (1 + this.mostRecent.getMonth()) + this.mostRecent.getDate();
+
+    if (this.label == FrBPKbn && FrBPBHyoji != "" && textRecent == FrBPDay) {
 
         //◇
-        window.alert('デイラベル：' + this.dayLabel);
+        window.alert(textRecent + '①' + this.dayLabel);
 
         return this.getRemark() + FrBPBHyoji + "<br/>" + this.dayLabel + " " + result_text;
     } else {
