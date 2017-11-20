@@ -3,6 +3,10 @@
 /**
   ◇振り替え対応  ☆☆☆ の処理も修正する
 */
+
+// 区分名
+var CurKubun = "";
+
 // 振り替え対応区分名
 var FrBPKbn = 'ビン類、ペットボトル';
 
@@ -157,9 +161,9 @@ var TrashModel = function(_lable, _cell, remarks) {
       var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
     
     // ◇
-        window.alert(this.dayLabel + '①' + FrBPBHyoji);
+    window.alert(this.label + '①' + FrBPBHyoji);
 
-    if (this.dayLabel == FrBPKbn && FrBPBHyoji != "" ) {
+    if (this.label == FrBPKbn && FrBPBHyoji != "" ) {
 
         return this.getRemark() + FrBPBHyoji + "<br/>" + this.dayLabel + " " + result_text;
     } else {
@@ -679,6 +683,8 @@ $(function() {
 
           // ◇
           //window.alert(trash.label + '②' + target.name);
+          // 区分名
+          CurKubun = trash.label;
 
           var dateLabel = trash.getDateLabel();
           //あと何日かを計算する処理です。
