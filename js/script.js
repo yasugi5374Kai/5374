@@ -3,7 +3,6 @@
 /**
   ◇振り替え対応  ☆☆☆ の処理も修正する
 */
-
 // 振り替え対応区分名
 var FrBPKbn = 'ビン類、ペットボトル';
 
@@ -19,12 +18,6 @@ var FrBPStart = '20171206';
 // 振替日を表示しているときの備考
 var FrBPBiko = "２日の収集は５日に振り替えます。";
 var FrBPBHyoji = "";
-
-/**
- * 振替日で表示している機関の備考に関する備考を管理するクラスです。
- * 区分名と備考文のモデルです。FrBikoがないときはなにもしない
- */
-//var FrBkModel = new Array(_Frkubun,_FrBiko);
 
 /**
   エリア(ごみ処理の地域）を管理するクラスです。
@@ -162,6 +155,10 @@ var TrashModel = function(_lable, _cell, remarks) {
 	return this.getRemark() + "不明";
     }
       var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
+    
+    // ◇
+    window.alert(this.dayLabel + '：' + FrBPBHyoji);
+
     return this.getRemark() + this.dayLabel + " " + result_text;
   }
 
@@ -321,6 +318,8 @@ var TrashModel = function(_lable, _cell, remarks) {
                   var arr = (FrBPDay.substr(0, 4) + '/' + FrBPDay.substr(4, 2) + '/' + FrBPDay.substr(6, 2)).split('/');
                   var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
                   this.mostRecent = DDay;
+
+                  FrBPBHyoji = FrBPBiko;
               }
           }
         }
