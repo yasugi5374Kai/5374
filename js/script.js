@@ -57,7 +57,7 @@ var AreaModel = function() {
   /**
     ゴミ処理センターを登録します。
     名前が一致するかどうかで判定を行っております。
-    ◇center.csvは読まないから松江市固定！
+    ◇center.csvは読まない！
   */
   //◇ 引数撤廃 this.setCenter = function(center_data) {
   this.setCenter = function() {
@@ -67,7 +67,7 @@ var AreaModel = function() {
     //◇  }
     //◇}
 
-   this.center = '松江市';
+   this.center = '安来市';
 
   }
   /**
