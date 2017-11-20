@@ -157,7 +157,7 @@ var TrashModel = function(_lable, _cell, remarks) {
       var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
     
     // ◇
-    window.alert(this.dayLabel + '：' + FrBPBHyoji);
+    window.alert(this.dayLabel + '①' + FrBPBHyoji);
 
     return this.getRemark() + this.dayLabel + " " + result_text;
   }
@@ -670,6 +670,9 @@ $(function() {
           }
 
           target_tag += "</ul>";
+
+          // ◇
+          window.alert(trash '②' + target.name);
 
           var dateLabel = trash.getDateLabel();
           //あと何日かを計算する処理です。
