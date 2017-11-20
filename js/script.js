@@ -634,7 +634,7 @@ $(function() {
       // ◇ accordion_height = accordion_height / 4.1;
       accordion_height = accordion_height / 5.6;
       if (accordion_height>140) {accordion_height = accordion_height / descriptions.length;};
-      if (accordion_height<141) {accordion_height=80;};
+      if (accordion_height<141) {accordion_height=100;};
       // ◇ if (accordion_height<130) {accordion_height=130;};
     }
     var styleHTML = "";
