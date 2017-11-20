@@ -161,6 +161,9 @@ var TrashModel = function(_lable, _cell, remarks) {
     
     if (this.label == FrBPKbn && FrBPBHyoji != "" ) {
 
+        //◇
+        window.alert('デイラベル：' + this.dayLabel);
+
         return this.getRemark() + FrBPBHyoji + "<br/>" + this.dayLabel + " " + result_text;
     } else {
 
