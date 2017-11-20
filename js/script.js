@@ -159,7 +159,7 @@ var TrashModel = function(_lable, _cell, remarks) {
     }
       var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
 
-      var textRecent = '' + this.mostRecent.getFullYear() + (1 + this.mostRecent.getMonth()) + this.mostRecent.getDate();
+      var textRecent = '' + this.mostRecent.getFullYear() +  (('0' + (this.mostRecent.getMonth() + 1)).slice(-2))  + (('0' + this.mostRecent.getDate()).slice(-2));
 
       window.alert(this.label + '①' + textRecent + '○' + FrBPDay);
 
