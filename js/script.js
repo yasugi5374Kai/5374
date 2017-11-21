@@ -119,7 +119,7 @@ var TrashModel = function(_lable, _cell, remarks) {
   var result_text = "";
 
   //◇日 var today = new Date();
-  var today = new Date('2018/01/05');
+  var today = new Date('2018/01/06');
 
 
   for (var j in this.dayCell) {
@@ -210,7 +210,7 @@ var TrashModel = function(_lable, _cell, remarks) {
     if (this.regularFlg == 1) {
 
       //◇日 var today = new Date();
-      var today = new Date('2018/01/05');
+      var today = new Date('2018/01/06');
 
       // 12月 +3月　を表現
       for (var i = 0; i < MaxMonth; i++) {
@@ -301,7 +301,7 @@ var TrashModel = function(_lable, _cell, remarks) {
     })
     //直近の日付を更新
     //◇日 var now = new Date();
-    var now = new Date('2018/01/05');
+    var now = new Date('2018/01/06');
 
     // ◇ now を８桁変換
     var N_day = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
@@ -623,7 +623,7 @@ $(function() {
     var group = areaGroup[group_name];
     var areaModel = group[area_name];
     //◇日 var today = new Date();
-    var today = new Date('2018/01/05');
+    var today = new Date('2018/01/06');
 
     //◇
     window.alert('日付：' + today);
