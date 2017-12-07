@@ -79,8 +79,6 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
   this.dayList;
   this.mflag = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-  // window.alert("トラッシュモデル");
-
   var monthSplitFlag=_cell.search(/:/)>=0
   if (monthSplitFlag) {
     var flag = _cell.split(":");
@@ -514,8 +512,6 @@ $(function() {
 
         areaModels.push(area);
 
-        window.alert("①とらん数：" + transferdata.length);
-
         //２列目以降の処理
         for (var r = 2; r < 2 + MaxDescription; r++) {
           if (area_days_label[r]) {
@@ -620,8 +616,12 @@ $(function() {
       data.shift();
       for (var i in data) {
         transferdata.push(new TransferdateModel(data[i]));
+
       }
     });
+
+    window.alert("とらデータ数：" + transferdata.length);
+
 
     // 区分設定データを読み込む
     csvToArray("data/description.csv", function(data) {
