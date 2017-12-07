@@ -302,6 +302,8 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
         for (var k in transferdata) {
 
+             window.alert("◇らべる：" + transferdata[k].label);
+
             if (this.label == transferdata[k].label) {
 
               window.alert("◇たいしょうらべる：" + transferdata[k].label);
