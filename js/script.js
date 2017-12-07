@@ -79,6 +79,9 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
   this.dayList;
   this.mflag = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
+  this.bikohyoji = "";
+
+
   var monthSplitFlag=_cell.search(/:/)>=0
   if (monthSplitFlag) {
     var flag = _cell.split(":");
@@ -132,6 +135,8 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
   var day_enum = ["日", "月", "火", "水", "木", "金", "土"];
 
+
+
   this.getDateLabel = function() {
     if (this.mostRecent === undefined) {
 	return this.getRemark() + "不明";
@@ -147,12 +152,11 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     //◇◇◇
     for (var i in transferdata) {
 
-        if (this.label == transferdata[i].label && bikohyoji != "" && textRecent == transferdata[k].calculationdate) {
+        if (this.label == this.transferdata[i].label && this.bikohyoji != "" && textRecent == this.transferdata[k].calculationdate) {
 
-            //window.alert(transferdata[i].label + "◇トラッシュモデル内振り替え：" + bikohyoji);
+            window.alert(transferdata[i].label + "◇トラッシュモデル内振り替え：" + this.bikohyoji);
 
-
-            return this.getRemark() + bikohyoji + "<br/>" + this.dayLabel + " " + result_text;
+            return this.getRemark() + this.bikohyoji + "<br/>" + this.dayLabel + " " + result_text;
         } else {
 
             return this.getRemark() + this.dayLabel + " " + result_text;
@@ -193,7 +197,6 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     var day_mix = this.dayCell;
     var result_text = "";
     var day_list = new Array();
-    var bikohyoji = "";
 
     // 定期回収の場合　label
     if (this.regularFlg == 1) {
@@ -302,8 +305,6 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
             if (this.label == transferdata[k].label) {
 
-              //window.alert("◇たいしょうらべる：" + transferdata[k].label);
-
               // ◇ day_list[i] を８桁変換
               var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
                    (('0' + day_list[i].getDate()).slice(-2));
@@ -320,7 +321,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
                       this.mostRecent = DDay;
 
-                      bikohyoji = transferdata[i].biko;
+                      this.bikohyoji = transferdata[i].biko;
                   }
               }
             }
@@ -673,9 +674,6 @@ $(function() {
        if (description.label != trash.label) {
           continue;
         }
-
-          window.alert("らべる：" + description.label);
-
           var target_tag = "";
           var furigana = "";
           var target_tag = "";
@@ -750,18 +748,12 @@ $(function() {
       }
     }
 
-    window.alert("④");
-
-
     $("#accordion-style").html('<!-- ' + styleHTML + ' -->');
 
     var accordion_elm = $("#accordion");
     accordion_elm.html(accordionHTML);
 
     $('html,body').animate({scrollTop: 0}, 'fast');
-
-    window.alert("⑤");
-
 
     //アコーディオンのラベル部分をクリックしたら
     $(".accordion-body").on("shown.bs.collapse", function() {
@@ -771,8 +763,6 @@ $(function() {
         scrollTop: accordion_offset
       }, 50);
     });
-
-    window.alert("⑥");
 
     //アコーディオンの非表示部分をクリックしたら
     $(".accordion-body").on("hidden.bs.collapse", function() {
