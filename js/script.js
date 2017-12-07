@@ -197,6 +197,10 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     var day_list = new Array();
     var bikohyoji = "";
 
+
+    window.alert("◇算出ろじっく" );
+
+
     // 定期回収の場合　label
     if (this.regularFlg == 1) {
 
@@ -605,16 +609,12 @@ $(function() {
     });
 
     // 振替日データを読み込む
-    window.alert("①よむ");
-
     csvToArray("data/transferdata.csv", function(data) {
       data.shift();
       for (var i in data) {
         transferdata.push(new TransferdateModel(data[i]));
       }
     });
-
-    window.alert("②よみおわり");
 
     // 区分設定データを読み込む
     csvToArray("data/description.csv", function(data) {
