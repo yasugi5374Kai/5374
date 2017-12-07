@@ -149,7 +149,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
         if (this.label == transferdata[i].label && bikohyoji != "" && textRecent == transferdata[k].calculationdate) {
 
-            window.alert(transferdata[i].label + "◇トラッシュモデル内振り替え：" + bikohyoji);
+            //window.alert(transferdata[i].label + "◇トラッシュモデル内振り替え：" + bikohyoji);
 
 
             return this.getRemark() + bikohyoji + "<br/>" + this.dayLabel + " " + result_text;
@@ -302,7 +302,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
             if (this.label == transferdata[k].label) {
 
-              window.alert("◇たいしょうらべる：" + transferdata[k].label);
+              //window.alert("◇たいしょうらべる：" + transferdata[k].label);
 
               // ◇ day_list[i] を８桁変換
               var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
@@ -608,9 +608,6 @@ $(function() {
       }
     });
 
-    window.alert("とらデータ数：" + transferdata.length);
-
-
     // 区分設定データを読み込む
     csvToArray("data/description.csv", function(data) {
       data.shift();
@@ -651,12 +648,9 @@ $(function() {
 
     //直近の一番近い日付を計算します。
     areaModel.calcMostRect();
-    window.alert("さんしゅつおわり");
 
     //トラッシュの近い順にソートします。
     areaModel.sortTrash();
-
-    window.alert("そーとおわり");
 
     var accordion_height = $(window).height() / descriptions.length;
     if(descriptions.length>4){
@@ -667,15 +661,10 @@ $(function() {
       // ◇ if (accordion_height<130) {accordion_height=130;};
     }
 
-    window.alert("①おわり");
-
     var styleHTML = "";
     // ◇ var accordionHTML = "";
     var accordionHTML = '   <div class="aname"> <div class="areaname"><p>' + area_name + "</p></div> </div>";
     //アコーディオンの分類から対応の計算を行います。
-
-    window.alert("②おわり");
-
     for (var i in areaModel.trash) {
       var trash = areaModel.trash[i];
 
@@ -685,8 +674,7 @@ $(function() {
           continue;
         }
 
-          window.alert("③");
-
+          window.alert("らべる：" + description.label);
 
           var target_tag = "";
           var furigana = "";
