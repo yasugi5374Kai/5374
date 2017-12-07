@@ -79,7 +79,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
   this.dayList;
   this.mflag = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-   window.alert("トラッシュモデル");
+  // window.alert("トラッシュモデル");
 
   var monthSplitFlag=_cell.search(/:/)>=0
   if (monthSplitFlag) {
