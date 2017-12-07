@@ -1,28 +1,6 @@
 "use strict";
 
 /**
-  ◇振り替え対応  ☆☆☆ の処理も修正する
-*/
-
-// 振り替え対応区分名
-var FrBPKbn = 'ビン類、ペットボトル';
-
-//振替日
-var FrBPDay = '20180105';
-
-// 算出した収集日がこの日だったら振替日まで振替日を表示する
-var FrBPNext = '20180206';
-
-// 振替日での収集日表示の開始日
-var FrBPStart = '20171206';
-
-// 振替日を表示しているときの備考
-var FrBPBiko = "１月２日の収集は５日に振り替えます。";
-var FrBPBHyoji = "";
-
-
-
-/**
   エリア(ごみ処理の地域）を管理するクラスです。
 */
 var AreaModel = function() {
@@ -91,12 +69,18 @@ var AreaModel = function() {
 /**
   各ゴミのカテゴリを管理するクラスです。
 */
-var TrashModel = function(_lable, _cell, remarks) {
+var TrashModel = function(_lable, _cell, remarks, transferdata) {
   this.remarks = remarks;
+
+  this.transferdata = transferdata;
+
   this.dayLabel;
   this.mostRecent;
   this.dayList;
   this.mflag = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+   window.alert("トラッシュモデル");
+
   var monthSplitFlag=_cell.search(/:/)>=0
   if (monthSplitFlag) {
     var flag = _cell.split(":");
@@ -117,10 +101,7 @@ var TrashModel = function(_lable, _cell, remarks) {
   this.regularFlg = 1;      // 定期回収フラグ（デフォルトはオン:1）
 
   var result_text = "";
-
-  //◇日 var today = new Date();
-  var today = new Date('2017/12/06');
-
+  var today = new Date();
 
   for (var j in this.dayCell) {
     if (this.dayCell[j].length == 1) {
@@ -157,18 +138,29 @@ var TrashModel = function(_lable, _cell, remarks) {
     if (this.mostRecent === undefined) {
 	return this.getRemark() + "不明";
     }
+
+    var transfer = "";
+
     var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
 
     //◇ 振替日表示期間の備考設定
     var textRecent = '' + this.mostRecent.getFullYear() +  (('0' + (this.mostRecent.getMonth() + 1)).slice(-2))  + (('0' + this.mostRecent.getDate()).slice(-2));
 
-    if (this.label == FrBPKbn && FrBPBHyoji != "" && textRecent == FrBPDay) {
+    //◇◇◇
+    for (var i in transferdata) {
 
-        return this.getRemark() + FrBPBHyoji + "<br/>" + this.dayLabel + " " + result_text;
-    } else {
+        if (this.label == transferdata[i].label && bikohyoji != "" && textRecent == transferdata[k].calculationdate) {
 
-        return this.getRemark() + this.dayLabel + " " + result_text;
+            window.alert(transferdata[i].label + "◇トラッシュモデル内振り替え：" + bikohyoji);
+
+
+            return this.getRemark() + bikohyoji + "<br/>" + this.dayLabel + " " + result_text;
+        } else {
+
+            return this.getRemark() + this.dayLabel + " " + result_text;
+        }
     }
+
   }
 
   function getDayIndex(str) {
@@ -203,14 +195,12 @@ var TrashModel = function(_lable, _cell, remarks) {
     var day_mix = this.dayCell;
     var result_text = "";
     var day_list = new Array();
-    //◇
-    var kubun = this.label;
+    var bikohyoji = "";
 
     // 定期回収の場合　label
     if (this.regularFlg == 1) {
 
-      //◇日 var today = new Date();
-      var today = new Date('2017/12/06');
+      var today = new Date();
 
       // 12月 +3月　を表現
       for (var i = 0; i < MaxMonth; i++) {
@@ -300,41 +290,49 @@ var TrashModel = function(_lable, _cell, remarks) {
       return 0;
     })
     //直近の日付を更新
-    //◇日 var now = new Date();
-    var now = new Date('2017/12/06');
+    var now = new Date();
 
     // ◇ now を８桁変換
-    var N_day = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
+    var Nday = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
 
     for (var i in day_list) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
 
         this.mostRecent = day_list[i];
 
-        //振り替え対応  this.mostRecentを上書する
-        if (kubun == FrBPKbn) {
+        for (var k in transferdata) {
 
-          // ◇ day_list[i] を８桁変換
-          var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
-               (('0' + day_list[i].getDate()).slice(-2));
+            if (this.label == transferdata[k].label) {
 
-          // もとめた収集日がFrBPNext
-          if (K_day == FrBPNext) {
+              window.alert("◇たいしょうらべる：" + transferdata[k].label);
 
-              // 振替日を表示する間
-              if (N_day >= FrBPStart && N_day <= FrBPDay) {
+              // ◇ day_list[i] を８桁変換
+              var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
+                   (('0' + day_list[i].getDate()).slice(-2));
 
-                  var arr = (FrBPDay.substr(0, 4) + '/' + FrBPDay.substr(4, 2) + '/' + FrBPDay.substr(6, 2)).split('/');
-                  var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
-                  this.mostRecent = DDay;
+              // もとめた収集日がFrBPNext
+              if (K_day == transferdata[k].calculationdate) {
 
-                  FrBPBHyoji = FrBPBiko;
+                  // 振替日を表示する間
+                  if (Nday >= transferdata[k].startdate && Nday <= transferdata[k].startdate) {
+
+                      var arr = (transferdate.substr(0, 4) + '/' + transferdate.substr(4, 2) + '/' + transferdate.substr(6, 2)).split('/');
+
+                      var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
+
+                      this.mostRecent = DDay;
+
+                      bikohyoji = transferdata[i].biko;
+                  }
               }
-          }
+            }
         }
+
         break;
       }
     };
+
+    window.alert("◇算出おわり");
 
     this.dayList = day_list;
   }
@@ -414,6 +412,19 @@ var RemarkModel = function(data) {
   this.text = data[1];
 }
 
+/**
+* 振替日を管理するクラスです。
+* transferdata.csvのモデルです。
+*/
+var TransferdateModel = function(data) {
+  this.label = data[0];
+  this.transferdate = data[1];
+  this.calculationdate = data[2];
+  this.startdate = data[3];
+  this.biko = data[4];
+
+}
+
 /* var windowHeight; */
 
 $(function() {
@@ -425,6 +436,8 @@ $(function() {
   var areaGroup = new Object();
   var groupOrder = new Array();
   var remarks = new Array();
+  var transferdata = new Array();
+
 /*   var descriptions = new Array(); */
 
 
@@ -466,6 +479,8 @@ $(function() {
     });
   }
 
+
+
   function updateAreaList() {
     csvToArray("data/area_days.csv", function(tmp) {
       var area_days_label = tmp.shift();
@@ -491,7 +506,7 @@ $(function() {
         //２列目以降の処理
         for (var r = 2; r < 2 + MaxDescription; r++) {
           if (area_days_label[r]) {
-            var trash = new TrashModel(area_days_label[r], row[r], remarks);
+            var trash = new TrashModel(area_days_label[r], row[r], remarks, transferdata);
             area.trash.push(trash);
           }
         }
@@ -586,6 +601,20 @@ $(function() {
         remarks.push(new RemarkModel(data[i]));
       }
     });
+
+    // 振替日データを読み込む
+    window.alert("①よむ");
+
+    csvToArray("data/transferdata.csv", function(data) {
+      data.shift();
+      for (var i in data) {
+        transferdata.push(new TransferdateModel(data[i]));
+      }
+    });
+
+    window.alert("②よみおわり");
+
+    // 区分設定データを読み込む
     csvToArray("data/description.csv", function(data) {
       data.shift();
       for (var i in data) {
@@ -609,7 +638,6 @@ $(function() {
         $("#accordion2").show();
 
       });
-
     });
 
   }
@@ -622,11 +650,7 @@ $(function() {
     //var ableSVG = false;  // SVG未使用の場合、descriptionの1項目目を使用
     var group = areaGroup[group_name];
     var areaModel = group[area_name];
-    //◇日 var today = new Date();
-    var today = new Date('2017/12/06');
-
-    //◇
-    window.alert('日付：' + today);
+    var today = new Date();
 
     //直近の一番近い日付を計算します。
     areaModel.calcMostRect();
