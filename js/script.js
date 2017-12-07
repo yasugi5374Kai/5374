@@ -299,6 +299,10 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     // ◇ now を８桁変換
     var Nday = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
 
+
+    window.alert("とらん数：" + transferdata.length);
+
+
     for (var i in day_list) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
 
@@ -509,6 +513,9 @@ $(function() {
         area.centerName = row[1];
 
         areaModels.push(area);
+
+        window.alert("①とらん数：" + transferdata.length);
+
         //２列目以降の処理
         for (var r = 2; r < 2 + MaxDescription; r++) {
           if (area_days_label[r]) {
