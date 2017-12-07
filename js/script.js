@@ -195,10 +195,6 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     var day_list = new Array();
     var bikohyoji = "";
 
-
-    window.alert("◇算出ろじっく" );
-
-
     // 定期回収の場合　label
     if (this.regularFlg == 1) {
 
@@ -655,8 +651,13 @@ $(function() {
 
     //直近の一番近い日付を計算します。
     areaModel.calcMostRect();
+    window.alert("さんしゅつおわり");
+
     //トラッシュの近い順にソートします。
     areaModel.sortTrash();
+
+    window.alert("そーとおわり");
+
     var accordion_height = $(window).height() / descriptions.length;
     if(descriptions.length>4){
       // ◇ accordion_height = accordion_height / 4.1;
@@ -665,10 +666,16 @@ $(function() {
       if (accordion_height<141) {accordion_height=100;};
       // ◇ if (accordion_height<130) {accordion_height=130;};
     }
+
+    window.alert("①おわり");
+
     var styleHTML = "";
     // ◇ var accordionHTML = "";
     var accordionHTML = '   <div class="aname"> <div class="areaname"><p>' + area_name + "</p></div> </div>";
     //アコーディオンの分類から対応の計算を行います。
+
+    window.alert("②おわり");
+
     for (var i in areaModel.trash) {
       var trash = areaModel.trash[i];
 
@@ -677,6 +684,9 @@ $(function() {
        if (description.label != trash.label) {
           continue;
         }
+
+          window.alert("③");
+
 
           var target_tag = "";
           var furigana = "";
@@ -752,12 +762,18 @@ $(function() {
       }
     }
 
+    window.alert("④");
+
+
     $("#accordion-style").html('<!-- ' + styleHTML + ' -->');
 
     var accordion_elm = $("#accordion");
     accordion_elm.html(accordionHTML);
 
     $('html,body').animate({scrollTop: 0}, 'fast');
+
+    window.alert("⑤");
+
 
     //アコーディオンのラベル部分をクリックしたら
     $(".accordion-body").on("shown.bs.collapse", function() {
@@ -767,6 +783,9 @@ $(function() {
         scrollTop: accordion_offset
       }, 50);
     });
+
+    window.alert("⑥");
+
     //アコーディオンの非表示部分をクリックしたら
     $(".accordion-body").on("hidden.bs.collapse", function() {
       if ($(".in").length == 0) {
