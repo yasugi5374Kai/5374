@@ -309,6 +309,10 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
               var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
                    (('0' + day_list[i].getDate()).slice(-2));
 
+
+              window.alert(transferdata[k].calculationdate + "：ふりかえ：" + K_day);
+
+
               // もとめた収集日がFrBPNext
               if (K_day == transferdata[k].calculationdate) {
 
