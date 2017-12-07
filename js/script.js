@@ -332,7 +332,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
       }
     };
 
-    window.alert("◇算出おわり");
+    //window.alert("◇算出おわり");
 
     this.dayList = day_list;
   }
