@@ -316,16 +316,19 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
               // もとめた収集日がFrBPNext
               if (K_day == transferdata[k].calculationdate) {
 
-                  // 振替日を表示する間
-                  if (Nday >= transferdata[k].startdate && Nday <= transferdata[k].startdate) {
+                  window.alert(transferdata[k].calculationdate + "：つぎ：" + this.label + "：" + K_day);
 
-                      var arr = (transferdate.substr(0, 4) + '/' + transferdate.substr(4, 2) + '/' + transferdate.substr(6, 2)).split('/');
+
+                  // 振替日を表示する間
+                  if (Nday >= transferdata[k].startdate && Nday <= transferdata[k].transferdate) {
+
+                      var arr = (transferdata[k].transferdate.substr(0, 4) + '/' + transferdata[k].transferdate.substr(4, 2) + '/' + transferdata[k].transferdate.substr(6, 2)).split('/');
 
                       var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
 
                       this.mostRecent = DDay;
 
-                      this.bikohyoji = transferdata[i].biko;
+                      this.bikohyoji = transferdata[k].biko;
                   }
               }
             }
