@@ -300,16 +300,25 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
               var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
                    (('0' + day_list[i].getDate()).slice(-2));
 
+              window.alert(day_list[i].getTime() + "：とら①：" + this.transferdata[k].calculationdate.getTime());
+
               // もとめた収集日が
-              if (K_day == this.transferdata[k].calculationdate) {
+              //if (K_day == this.transferdata[k].calculationdate) {
+              if (day_list[i].getTime() == this.transferdata[k].calculationdate.getTime()) {
 
                   // 振替日を表示する間
-                  if (Nday >= this.transferdata[k].startdate && Nday <= this.transferdata[k].transferdate) {
+                  window.alert(now.getTime() + "：とら②：" + this.transferdata[k].startdate.getTime() + "：" + this.transferdata[k].transferdate.getTime());
 
-                      var arr = (transferdata[k].transferdate.substr(0, 4) + '/' + this.transferdata[k].transferdate.substr(4, 2) + '/' + this.transferdata[k].transferdate.substr(6, 2)).split('/');
-                      var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
+                  //if (Nday >= this.transferdata[k].startdate && Nday <= this.transferdata[k].transferdate) {
+                  if (now.getTime() >= this.transferdata[k].startdate.getTime() && now.getTime() <= this.transferdata[k].transferdate.getTime()) {
 
-                      this.mostRecent = DDay;
+
+                      //var arr = (transferdata[k].transferdate.substr(0, 4) + '/' + this.transferdata[k].transferdate.substr(4, 2) + '/' + this.transferdata[k].transferdate.substr(6, 2)).split('/');
+                      //var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
+
+                      //this.mostRecent = DDay;
+                      this.mostRecent = transferdata[k].transferdate;
+
                       this.bikohyoji = this.transferdata[k].biko;
                   }
               }
