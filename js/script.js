@@ -719,9 +719,9 @@ $(function() {
           target_tag += "</ul>";
 
 
-          window.alert("②デートラベル" + description.label);
+          window.alert("②デートラベル前" + description.label);
           var dateLabel = trash.getDateLabel();
-
+          window.alert("③デートラベルＯＫ" + description.label);
 
           //あと何日かを計算する処理です。
           var leftDayText = "";
