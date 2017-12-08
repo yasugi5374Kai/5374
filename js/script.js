@@ -150,13 +150,13 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     window.alert(this.transferdata.length + "①トランス：" + this.label + "：" + transferdata.length);
 
     //◇◇◇
-    for (var i in this.transferdata) {
+    for (var k in this.transferdata) {
 
-        window.alert(this.transferdata[i].label + "②トランス：" + textRecent + "：" + this.transferdata[k].calculationdate );
+        window.alert(this.transferdata[k].label + "②トランス：" + textRecent + "：" + this.transferdata[k].calculationdate );
 
-        if (this.label == this.transferdata[i].label && this.bikohyoji != "" && textRecent == this.transferdata[k].calculationdate) {
+        if (this.label == this.transferdata[k].label && this.bikohyoji != "" && textRecent == this.transferdata[k].calculationdate) {
 
-            window.alert(this.transferdata[i].label + "③トラッシュモデル内振り替え：" + this.bikohyoji);
+            window.alert(this.transferdata[k].label + "③トラッシュモデル内振り替え：" + this.bikohyoji);
 
             return this.getRemark() + this.bikohyoji + "<br/>" + this.dayLabel + " " + result_text;
         } else {
