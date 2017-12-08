@@ -37,10 +37,8 @@ var AreaModel = function() {
   /**
     ゴミ処理センターを登録します。
     名前が一致するかどうかで判定を行っております。
-    ◇center.csvは読まない！
   */
-  //◇ 引数撤廃 this.setCenter = function(center_data) {
-  this.setCenter = function() {
+  this.setCenter = function(center_data) {
      for (var i in center_data) {
       if (this.centerName == center_data[i].name) {
         this.center = center_data[i];
@@ -500,7 +498,6 @@ $(function() {
         }
       }
 
-      // ◇center.csv は読まない！
       csvToArray("data/center.csv", function(tmp) {
         //ゴミ処理センターのデータを解析します。
         //表示上は現れませんが、
