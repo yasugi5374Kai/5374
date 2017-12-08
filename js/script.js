@@ -668,6 +668,8 @@ $(function() {
     //トラッシュの近い順にソートします。
     areaModel.sortTrash();
 
+    window.alert("①アップデートデータ");
+
     var accordion_height = $(window).height() / descriptions.length;
     if(descriptions.length>4){
       // ◇ accordion_height = accordion_height / 4.1;
@@ -676,6 +678,8 @@ $(function() {
       if (accordion_height<141) {accordion_height=100;};
       // ◇ if (accordion_height<130) {accordion_height=130;};
     }
+
+    window.alert("②アップデートデータ");
 
     var styleHTML = "";
     // ◇ var accordionHTML = "";
@@ -721,6 +725,9 @@ $(function() {
           var dateLabel = trash.getDateLabel();
           //あと何日かを計算する処理です。
           var leftDayText = "";
+
+          window.alert("③アップデートデータ");
+
 	  if (trash.mostRecent === undefined) {
 	    leftDayText == "不明";
 	  } else {
