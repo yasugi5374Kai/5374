@@ -726,8 +726,6 @@ $(function() {
           //あと何日かを計算する処理です。
           var leftDayText = "";
 
-          window.alert("③アップデートデータ");
-
 	  if (trash.mostRecent === undefined) {
 	    leftDayText == "不明";
 	  } else {
@@ -768,7 +766,11 @@ $(function() {
             "</div>" +
             "</div>";
       }
+
     }
+
+    window.alert("③アップデートデータ");
+
 
     $("#accordion-style").html('<!-- ' + styleHTML + ' -->');
 
@@ -776,6 +778,8 @@ $(function() {
     accordion_elm.html(accordionHTML);
 
     $('html,body').animate({scrollTop: 0}, 'fast');
+
+    window.alert("④アップデートデータ");
 
     //アコーディオンのラベル部分をクリックしたら
     $(".accordion-body").on("shown.bs.collapse", function() {
@@ -792,7 +796,12 @@ $(function() {
         $("html, body").scrollTop(0);
       }
     });
+
+    window.alert("⑤アップデートデータ");
+
   }
+
+
 
   function onChangeSelect(group_name, area_name) {
     if (group_name == -1) {
