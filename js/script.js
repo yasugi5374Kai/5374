@@ -676,7 +676,6 @@ $(function() {
       // ◇ if (accordion_height<130) {accordion_height=130;};
     }
 
-    window.alert("②アップデートデータ");
 
     var styleHTML = "";
     // ◇ var accordionHTML = "";
@@ -719,7 +718,11 @@ $(function() {
 
           target_tag += "</ul>";
 
+
+          window.alert("②デートラベル" + description.label);
           var dateLabel = trash.getDateLabel();
+
+
           //あと何日かを計算する処理です。
           var leftDayText = "";
 
