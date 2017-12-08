@@ -415,23 +415,12 @@ var RemarkModel = function(data) {
 */
 var TransferdateModel = function(data) {
   this.label = data[0];
-  this.transferdate = getTrDay(data[1]);
-  this.calculationdate = getTrDay(data[2]);
-  this.startdate = getTrDay(data[3]);
+  this.transferdate = new Date(data[1]);
+  this.calculationdate = new Date(data[2]);
+  this.startdate = new Date(data[3]);
   this.biko = data[4];
 
 }
-
-/**
-日付変換
-*/
-//◇ 追加
-function getTrDay(data) {
-    var tmp = data.split("/");
-    return new Date(tmp[0], tmp[1] - 1, tmp[2]);
-}
-
-
 
 /* var windowHeight; */
 
