@@ -283,6 +283,10 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     var now = new Date();
     //◇日 var now = new Date('2017/12/31');
 
+
+    window.alert("◇いま：" + now.getTime());
+
+
     // ◇ now を８桁変換
     //var Nday = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
     this.bikohyoji = "";
