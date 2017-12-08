@@ -1,6 +1,27 @@
 "use strict";
 
 /**
+  ◇振り替え対応  ☆☆☆ の処理も修正する
+*/
+
+// 振り替え対応区分名
+var FrBPKbn = 'ビン類、ペットボトル';
+
+//振替日
+var FrBPDay = '20180105';
+
+// 算出した収集日がこの日だったら振替日まで振替日を表示する
+var FrBPNext = '20180206';
+
+// 振替日での収集日表示の開始日
+var FrBPStart = '20171206';
+
+// 振替日を表示しているときの備考
+var FrBPBiko = "１月２日の収集は５日に振り替えます。";
+var FrBPBHyoji = "";
+
+
+/**
   エリア(ごみ処理の地域）を管理するクラスです。
 */
 var AreaModel = function() {
@@ -69,19 +90,12 @@ var AreaModel = function() {
 /**
   各ゴミのカテゴリを管理するクラスです。
 */
-var TrashModel = function(_lable, _cell, remarks, transferdata) {
+var TrashModel = function(_lable, _cell, remarks) {
   this.remarks = remarks;
-
-  this.transferdata = transferdata;
-
   this.dayLabel;
   this.mostRecent;
   this.dayList;
   this.mflag = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-
-  this.bikohyoji = "";
-
-
   var monthSplitFlag=_cell.search(/:/)>=0
   if (monthSplitFlag) {
     var flag = _cell.split(":");
@@ -135,32 +149,21 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
   var day_enum = ["日", "月", "火", "水", "木", "金", "土"];
 
-
-
   this.getDateLabel = function() {
     if (this.mostRecent === undefined) {
 	return this.getRemark() + "不明";
     }
-
     var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
 
     //◇ 振替日表示期間の備考設定
     var textRecent = '' + this.mostRecent.getFullYear() +  (('0' + (this.mostRecent.getMonth() + 1)).slice(-2))  + (('0' + this.mostRecent.getDate()).slice(-2));
 
-    //◇◇◇
-    for (var k in this.transferdata) {
+    if (this.label == FrBPKbn && FrBPBHyoji != "" && textRecent == FrBPDay) {
 
-        window.alert(this.transferdata[k].label + "①トランス：" + textRecent + "：" + this.transferdata[k].calculationdate + "：" + this.bikohyoji );
+        return this.getRemark() + FrBPBHyoji + "<br/>" + this.dayLabel + " " + result_text;
+    } else {
 
-        if (this.label == this.transferdata[k].label && this.bikohyoji != "" && textRecent == this.transferdata[k].calculationdate) {
-
-            window.alert(this.transferdata[k].label + "②トラッシュモデル内振り替え：" + this.bikohyoji);
-
-            return this.getRemark() + this.bikohyoji + "<br/>" + this.dayLabel + " " + result_text;
-        } else {
-
-            return this.getRemark() + this.dayLabel + " " + result_text;
-        }
+        return this.getRemark() + this.dayLabel + " " + result_text;
     }
   }
 
@@ -196,6 +199,8 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     var day_mix = this.dayCell;
     var result_text = "";
     var day_list = new Array();
+    //◇
+    var kubun = this.label;
 
     // 定期回収の場合　label
     if (this.regularFlg == 1) {
@@ -300,42 +305,27 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
         this.mostRecent = day_list[i];
 
-        for (var k in this.transferdata) {
+        //振り替え対応  this.mostRecentを上書する
+        if (kubun == FrBPKbn) {
 
-            if (this.label == this.transferdata[k].label) {
+          // ◇ day_list[i] を８桁変換
+          var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
+               (('0' + day_list[i].getDate()).slice(-2));
 
-              // ◇◇◇
+          // もとめた収集日がFrBPNext
+          if (K_day == FrBPNext) {
 
-              // ◇ day_list[i] を８桁変換
-              var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
-                   (('0' + day_list[i].getDate()).slice(-2));
+              // 振替日を表示する間
+              if (Nday >= FrBPStart && Nday <= FrBPDay) {
 
-              //window.alert(this.transferdata[k].calculationdate + "①" + this.label + "：" + K_day);
+                  var arr = (FrBPDay.substr(0, 4) + '/' + FrBPDay.substr(4, 2) + '/' + FrBPDay.substr(6, 2)).split('/');
+                  var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
+                  this.mostRecent = DDay;
 
-
-              // もとめた収集日がFrBPNext
-              if (K_day == this.transferdata[k].calculationdate) {
-
-                  //window.alert(this.transferdata[k].calculationdate + "②" + this.label + "：" + Nday);
-
-
-                  // 振替日を表示する間
-                  if (Nday >= this.transferdata[k].startdate && Nday <= this.transferdata[k].transferdate) {
-
-                      window.alert(Nday + "◇びこう" + this.label + "：" + this.transferdata[k].startdate + "：" + this.transferdata[k].transferdate + "：" + this.transferdata[k].biko);
-
-                      var arr = (transferdata[k].transferdate.substr(0, 4) + '/' + this.transferdata[k].transferdate.substr(4, 2) + '/' + this.transferdata[k].transferdate.substr(6, 2)).split('/');
-
-                      var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
-
-                      this.mostRecent = DDay;
-
-                      this.bikohyoji = this.transferdata[k].biko;
-                  }
+                  FrBPBHyoji = FrBPBiko;
               }
-            }
+          }
         }
-
         break;
       }
     };
@@ -418,19 +408,6 @@ var RemarkModel = function(data) {
   this.text = data[1];
 }
 
-/**
-* 振替日を管理するクラスです。
-* transferdata.csvのモデルです。
-*/
-var TransferdateModel = function(data) {
-  this.label = data[0];
-  this.transferdate = data[1];
-  this.calculationdate = data[2];
-  this.startdate = data[3];
-  this.biko = data[4];
-
-}
-
 /* var windowHeight; */
 
 $(function() {
@@ -442,8 +419,6 @@ $(function() {
   var areaGroup = new Object();
   var groupOrder = new Array();
   var remarks = new Array();
-  var transferdata = new Array();
-
 /*   var descriptions = new Array(); */
 
 
@@ -485,8 +460,6 @@ $(function() {
     });
   }
 
-
-
   function updateAreaList() {
     csvToArray("data/area_days.csv", function(tmp) {
       var area_days_label = tmp.shift();
@@ -509,11 +482,10 @@ $(function() {
         area.centerName = row[1];
 
         areaModels.push(area);
-
         //２列目以降の処理
         for (var r = 2; r < 2 + MaxDescription; r++) {
           if (area_days_label[r]) {
-            var trash = new TrashModel(area_days_label[r], row[r], remarks, transferdata);
+            var trash = new TrashModel(area_days_label[r], row[r], remarks);
             area.trash.push(trash);
           }
         }
@@ -608,17 +580,6 @@ $(function() {
         remarks.push(new RemarkModel(data[i]));
       }
     });
-
-    // 振替日データを読み込む
-    csvToArray("data/transferdata.csv", function(data) {
-      data.shift();
-      for (var i in data) {
-        transferdata.push(new TransferdateModel(data[i]));
-
-      }
-    });
-
-    // 区分設定データを読み込む
     csvToArray("data/description.csv", function(data) {
       data.shift();
       for (var i in data) {
@@ -643,7 +604,6 @@ $(function() {
 
       });
     });
-
   }
 
   function updateData(group_name, area_name) {
@@ -658,10 +618,8 @@ $(function() {
 
     //直近の一番近い日付を計算します。
     areaModel.calcMostRect();
-
     //トラッシュの近い順にソートします。
     areaModel.sortTrash();
-
     var accordion_height = $(window).height() / descriptions.length;
     if(descriptions.length>4){
       // ◇ accordion_height = accordion_height / 4.1;
@@ -670,7 +628,6 @@ $(function() {
       if (accordion_height<141) {accordion_height=100;};
       // ◇ if (accordion_height<130) {accordion_height=130;};
     }
-
     var styleHTML = "";
     // ◇ var accordionHTML = "";
     var accordionHTML = '   <div class="aname"> <div class="areaname"><p>' + area_name + "</p></div> </div>";
@@ -683,6 +640,7 @@ $(function() {
        if (description.label != trash.label) {
           continue;
         }
+
           var target_tag = "";
           var furigana = "";
           var target_tag = "";
@@ -711,11 +669,10 @@ $(function() {
           }
 
           target_tag += "</ul>";
-          var dateLabel = trash.getDateLabel();
 
+          var dateLabel = trash.getDateLabel();
           //あと何日かを計算する処理です。
           var leftDayText = "";
-
 	  if (trash.mostRecent === undefined) {
 	    leftDayText == "不明";
 	  } else {
@@ -773,7 +730,6 @@ $(function() {
         scrollTop: accordion_offset
       }, 50);
     });
-
     //アコーディオンの非表示部分をクリックしたら
     $(".accordion-body").on("hidden.bs.collapse", function() {
       if ($(".in").length == 0) {
@@ -805,6 +761,8 @@ $(function() {
       updateData(group_name, area_name);
     }
   }
+
+
 
   function getAreaIndex(area_name) {
     for (var i in areaModels) {
