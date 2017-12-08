@@ -343,6 +343,9 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
       }
     };
 
+    window.alert("リストおわり");
+
+
     this.dayList = day_list;
   }
   /**
