@@ -324,7 +324,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
                   // 振替日を表示する間
                   if (Nday >= transferdata[k].startdate && Nday <= transferdata[k].transferdate) {
 
-                      window.alert("：つぎ：" + this.label + "：" + K_day);
+                      window.alert(Nday + "：ひょうじ：" + this.label + "：" + K_day);
 
 
                       var arr = (transferdata[k].transferdate.substr(0, 4) + '/' + transferdata[k].transferdate.substr(4, 2) + '/' + transferdata[k].transferdate.substr(6, 2)).split('/');
