@@ -146,20 +146,12 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
     window.alert("びこう：" + this.bikohyoji);
 
-    //◇◇◇
-    for (var k in this.transferdata) {
+    if (this.bikohyoji != "") {
 
-       // window.alert(this.transferdata[k].label + "①トランス：" + textRecent + "：" + this.transferdata[k].calculationdate + "：" + this.bikohyoji );
+        return this.getRemark() + this.bikohyoji + "<br/>" + this.dayLabel + " " + result_text;
+    } else {
 
-        if (this.label == this.transferdata[k].label && this.bikohyoji != "" && textRecent == this.transferdata[k].calculationdate) {
-
-            window.alert(this.transferdata[k].label + "②トラッシュモデル内振り替え：" + this.bikohyoji);
-
-            return this.getRemark() + this.bikohyoji + "<br/>" + this.dayLabel + " " + result_text;
-        } else {
-
-            return this.getRemark() + this.dayLabel + " " + result_text;
-        }
+        return this.getRemark() + this.dayLabel + " " + result_text;
     }
   }
 
