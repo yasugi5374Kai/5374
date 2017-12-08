@@ -150,7 +150,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     //◇◇◇
     for (var k in this.transferdata) {
 
-        window.alert(this.transferdata[k].label + "①トランス：" + textRecent + "：" + this.transferdata[k].calculationdate );
+        window.alert(this.transferdata[k].label + "①トランス：" + textRecent + "：" + this.transferdata[k].calculationdate + "：" + this.bikohyoji );
 
         if (this.label == this.transferdata[k].label && this.bikohyoji != "" && textRecent == this.transferdata[k].calculationdate) {
 
