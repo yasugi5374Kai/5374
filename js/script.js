@@ -150,11 +150,11 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     var textRecent = '' + this.mostRecent.getFullYear() +  (('0' + (this.mostRecent.getMonth() + 1)).slice(-2))  + (('0' + this.mostRecent.getDate()).slice(-2));
 
     //◇◇◇
-    for (var i in transferdata) {
+    for (var i in this.transferdata) {
 
         if (this.label == this.transferdata[i].label && this.bikohyoji != "" && textRecent == this.transferdata[k].calculationdate) {
 
-            window.alert(transferdata[i].label + "◇トラッシュモデル内振り替え：" + this.bikohyoji);
+            window.alert(this.transferdata[i].label + "◇トラッシュモデル内振り替え：" + this.bikohyoji);
 
             return this.getRemark() + this.bikohyoji + "<br/>" + this.dayLabel + " " + result_text;
         } else {
@@ -301,9 +301,9 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
         this.mostRecent = day_list[i];
 
-        for (var k in transferdata) {
+        for (var k in this.transferdata) {
 
-            if (this.label == transferdata[k].label) {
+            if (this.label == this.transferdata[k].label) {
 
               // ◇◇◇
 
@@ -311,29 +311,27 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
               var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
                    (('0' + day_list[i].getDate()).slice(-2));
 
-
-              window.alert(transferdata[k].calculationdate + "①" + this.label + "：" + K_day);
+              window.alert(this.transferdata[k].calculationdate + "①" + this.label + "：" + K_day);
 
 
               // もとめた収集日がFrBPNext
-              if (K_day == transferdata[k].calculationdate) {
+              if (K_day == this.transferdata[k].calculationdate) {
 
-                  window.alert(transferdata[k].calculationdate + "②" + this.label + "：" + Nday);
+                  window.alert(this.transferdata[k].calculationdate + "②" + this.label + "：" + Nday);
 
 
                   // 振替日を表示する間
-                  if (Nday >= transferdata[k].startdate && Nday <= transferdata[k].transferdate) {
+                  if (Nday >= this.transferdata[k].startdate && Nday <= this.transferdata[k].transferdate) {
 
-                      window.alert(Nday + "③" + this.label + "：" + transferdata[k].startdate + "：" + transferdata[k].transferdate);
+                      window.alert(Nday + "③" + this.label + "：" + this.transferdata[k].startdate + "：" + this.transferdata[k].transferdate);
 
-
-                      var arr = (transferdata[k].transferdate.substr(0, 4) + '/' + transferdata[k].transferdate.substr(4, 2) + '/' + transferdata[k].transferdate.substr(6, 2)).split('/');
+                      var arr = (transferdata[k].transferdate.substr(0, 4) + '/' + this.transferdata[k].transferdate.substr(4, 2) + '/' + this.transferdata[k].transferdate.substr(6, 2)).split('/');
 
                       var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
 
                       this.mostRecent = DDay;
 
-                      this.bikohyoji = transferdata[k].biko;
+                      this.bikohyoji = this.transferdata[k].biko;
                   }
               }
             }
@@ -665,8 +663,6 @@ $(function() {
     //トラッシュの近い順にソートします。
     areaModel.sortTrash();
 
-    window.alert("①アップデートデータ");
-
     var accordion_height = $(window).height() / descriptions.length;
     if(descriptions.length>4){
       // ◇ accordion_height = accordion_height / 4.1;
@@ -675,7 +671,6 @@ $(function() {
       if (accordion_height<141) {accordion_height=100;};
       // ◇ if (accordion_height<130) {accordion_height=130;};
     }
-
 
     var styleHTML = "";
     // ◇ var accordionHTML = "";
@@ -717,7 +712,6 @@ $(function() {
           }
 
           target_tag += "</ul>";
-
 
           window.alert("②デートラベル前" + description.label);
           var dateLabel = trash.getDateLabel();
@@ -766,11 +760,7 @@ $(function() {
             "</div>" +
             "</div>";
       }
-
     }
-
-    window.alert("③アップデートデータ");
-
 
     $("#accordion-style").html('<!-- ' + styleHTML + ' -->');
 
@@ -778,8 +768,6 @@ $(function() {
     accordion_elm.html(accordionHTML);
 
     $('html,body').animate({scrollTop: 0}, 'fast');
-
-    window.alert("④アップデートデータ");
 
     //アコーディオンのラベル部分をクリックしたら
     $(".accordion-body").on("shown.bs.collapse", function() {
@@ -796,12 +784,7 @@ $(function() {
         $("html, body").scrollTop(0);
       }
     });
-
-    window.alert("⑤アップデートデータ");
-
   }
-
-
 
   function onChangeSelect(group_name, area_name) {
     if (group_name == -1) {
@@ -826,8 +809,6 @@ $(function() {
       updateData(group_name, area_name);
     }
   }
-
-
 
   function getAreaIndex(area_name) {
     for (var i in areaModels) {
