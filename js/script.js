@@ -41,13 +41,13 @@ var AreaModel = function() {
   */
   //◇ 引数撤廃 this.setCenter = function(center_data) {
   this.setCenter = function() {
-    //◇ for (var i in center_data) {
-    //◇  if (this.centerName == center_data[i].name) {
-    //◇    this.center = center_data[i];
-    //◇  }
-    //◇}
+     for (var i in center_data) {
+      if (this.centerName == center_data[i].name) {
+        this.center = center_data[i];
+      }
+    }
 
-   this.center = '安来市';
+   //this.center = '安来市';
 
   }
   /**
@@ -101,8 +101,8 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
   this.regularFlg = 1;      // 定期回収フラグ（デフォルトはオン:1）
 
   var result_text = "";
-  //◇日 var today = new Date();
-  var today = new Date('2017/12/31');
+  var today = new Date();
+  //◇日 var today = new Date('2017/12/31');
 
   for (var j in this.dayCell) {
     if (this.dayCell[j].length == 1) {
@@ -145,7 +145,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     //◇ 振替日表示期間の備考設定
     var textRecent = '' + this.mostRecent.getFullYear() +  (('0' + (this.mostRecent.getMonth() + 1)).slice(-2))  + (('0' + this.mostRecent.getDate()).slice(-2));
 
-    window.alert("びこう：" + this.bikohyoji);
+    //window.alert("びこう：" + this.bikohyoji);
 
     if (this.bikohyoji != "") {
 
@@ -192,8 +192,8 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     // 定期回収の場合　label
     if (this.regularFlg == 1) {
 
-      //◇日var today = new Date();
-      var today = new Date('2017/12/31');
+      var today = new Date();
+      //◇日 var today = new Date('2017/12/31');
 
       // 12月 +3月　を表現
       for (var i = 0; i < MaxMonth; i++) {
@@ -283,8 +283,8 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
       return 0;
     })
     //直近の日付を更新
-    //var now = new Date();
-    var now = new Date('2017/12/31');
+    var now = new Date();
+    //◇日 var now = new Date('2017/12/31');
 
     // ◇ now を８桁変換
     var Nday = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
@@ -299,38 +299,25 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
             if (this.label == this.transferdata[k].label) {
 
-              // ◇◇◇
-
               // ◇ day_list[i] を８桁変換
               var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
                    (('0' + day_list[i].getDate()).slice(-2));
 
-              //window.alert(this.transferdata[k].calculationdate + "①" + this.label + "：" + K_day);
-
-
               // もとめた収集日が
               if (K_day == this.transferdata[k].calculationdate) {
-
-                  //window.alert(this.transferdata[k].calculationdate + "②" + this.label + "：" + Nday);
-
 
                   // 振替日を表示する間
                   if (Nday >= this.transferdata[k].startdate && Nday <= this.transferdata[k].transferdate) {
 
-                     // window.alert(Nday + "◇びこう" + this.label + "：" + this.transferdata[k].startdate + "：" + this.transferdata[k].transferdate + "：" + this.transferdata[k].biko);
-
                       var arr = (transferdata[k].transferdate.substr(0, 4) + '/' + this.transferdata[k].transferdate.substr(4, 2) + '/' + this.transferdata[k].transferdate.substr(6, 2)).split('/');
-
                       var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
 
                       this.mostRecent = DDay;
-
                       this.bikohyoji = this.transferdata[k].biko;
                   }
               }
             }
         }
-
         break;
       }
     };
@@ -353,17 +340,16 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 /**
 センターのデータを管理します。
 */
-//◇ updateData で休止期間固定にする
-//◇ var CenterModel = function(row) {
-//◇   function getDay(center, index) {
-//◇     var tmp = center[index].split("/");
-//◇     return new Date(tmp[0], tmp[1] - 1, tmp[2]);
-//◇   }
+var CenterModel = function(row) {
+  function getDay(center, index) {
+    var tmp = center[index].split("/");
+    return new Date(tmp[0], tmp[1] - 1, tmp[2]);
+  }
 
-//◇   this.name = row[0];
-//◇   this.startDate = getDay(row, 1);
-//◇   this.endDate = getDay(row, 2);
-//◇ }
+  this.name = row[0];
+  this.startDate = getDay(row, 1);
+  this.endDate = getDay(row, 2);
+}
 
 /**
 休止開始終了日を管理します。
@@ -515,32 +501,33 @@ $(function() {
       }
 
       // ◇center.csv は読まない！
-      //csvToArray("data/center.csv", function(tmp) {
+      csvToArray("data/center.csv", function(tmp) {
         //ゴミ処理センターのデータを解析します。
         //表示上は現れませんが、
         //金沢などの各処理センターの休止期間分は一週間ずらすという法則性のため
         //例えば第一金曜日のときは、一周ずらしその月だけ第二金曜日にする
-      //  tmp.shift();
-      //  for (var i in tmp) {
-      //    var row = tmp[i];
 
-      //    var center = new CenterModel(row);
-      //    center_data.push(center);
-      //  }
+        tmp.shift();
+        for (var i in tmp) {
+          var row = tmp[i];
+
+          var center = new CenterModel(row);
+          center_data.push(center);
+        }
         //ゴミ処理センターを対応する各地域に割り当てます。
-      //  for (var i in areaModels) {
-      //    var area = areaModels[i];
-      //    area.setCenter(center_data);
-      //  };
-      //  createSelectBox();
+        for (var i in areaModels) {
+          var area = areaModels[i];
+          area.setCenter(center_data);
+        };
+        createSelectBox();
 
         //デバッグ用
       //  if (typeof dump == "function") {
       //    dump(areaModels);
       //  }
-      //});
+      });
 
-      // ◇ センターは未使用
+      // ◇ センター
       area.setCenter();
       createSelectBox();
 
@@ -649,8 +636,8 @@ $(function() {
     //var ableSVG = false;  // SVG未使用の場合、descriptionの1項目目を使用
     var group = areaGroup[group_name];
     var areaModel = group[area_name];
-    //◇日 var today = new Date();
-    var today = new Date('2017/12/31');
+    var today = new Date();
+    //◇日 var today = new Date('2017/12/31');
 
     //直近の一番近い日付を計算します。
     areaModel.calcMostRect();
