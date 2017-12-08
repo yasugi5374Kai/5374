@@ -305,6 +305,8 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
             if (this.label == transferdata[k].label) {
 
+              // ◇◇◇
+
               // ◇ day_list[i] を８桁変換
               var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
                    (('0' + day_list[i].getDate()).slice(-2));
@@ -316,11 +318,14 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
               // もとめた収集日がFrBPNext
               if (K_day == transferdata[k].calculationdate) {
 
-                  window.alert(transferdata[k].calculationdate + "：つぎ：" + this.label + "：" + K_day);
+                  window.alert(transferdata[k].calculationdate + "：つぎ：" + this.label + "：" + Nday);
 
 
                   // 振替日を表示する間
                   if (Nday >= transferdata[k].startdate && Nday <= transferdata[k].transferdate) {
+
+                      window.alert("：つぎ：" + this.label + "：" + K_day);
+
 
                       var arr = (transferdata[k].transferdate.substr(0, 4) + '/' + transferdata[k].transferdate.substr(4, 2) + '/' + transferdata[k].transferdate.substr(6, 2)).split('/');
 
