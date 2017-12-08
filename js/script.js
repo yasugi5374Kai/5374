@@ -414,13 +414,24 @@ var RemarkModel = function(data) {
 * transferdata.csvのモデルです。
 */
 var TransferdateModel = function(data) {
-  this.label = data[0];
-  this.transferdate = data[1];
-  this.calculationdate = data[2];
-  this.startdate = data[3];
-  this.biko = data[4];
+  this.label = getTrDay(data[0]);
+  this.transferdate = getTrDay(data[1]);
+  this.calculationdate = getTrDay(data[2]);
+  this.startdate = getTrDay(data[3]);
+  this.biko = getTrDay(data[4]);
 
 }
+
+/**
+日付変換
+*/
+//◇ 追加
+function getTrDay(data) {
+    var tmp = data.split("/");
+    return new Date(tmp[0], tmp[1] - 1, tmp[2]);
+}
+
+
 
 /* var windowHeight; */
 
