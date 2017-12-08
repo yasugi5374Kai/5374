@@ -147,14 +147,16 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     //◇ 振替日表示期間の備考設定
     var textRecent = '' + this.mostRecent.getFullYear() +  (('0' + (this.mostRecent.getMonth() + 1)).slice(-2))  + (('0' + this.mostRecent.getDate()).slice(-2));
 
-    window.alert("◇トランス：" + this.label);
+    window.alert("①トランス：" + this.label);
 
     //◇◇◇
     for (var i in this.transferdata) {
 
+        window.alert(this.transferdata[i].label + "②トランス：" + textRecent + "：" + this.transferdata[k].calculationdate );
+
         if (this.label == this.transferdata[i].label && this.bikohyoji != "" && textRecent == this.transferdata[k].calculationdate) {
 
-            window.alert(this.transferdata[i].label + "◇トラッシュモデル内振り替え：" + this.bikohyoji);
+            window.alert(this.transferdata[i].label + "③トラッシュモデル内振り替え：" + this.bikohyoji);
 
             return this.getRemark() + this.bikohyoji + "<br/>" + this.dayLabel + " " + result_text;
         } else {
