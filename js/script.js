@@ -312,19 +312,19 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
                    (('0' + day_list[i].getDate()).slice(-2));
 
 
-              window.alert(transferdata[k].calculationdate + "：" + this.label + "：" + K_day);
+              window.alert(transferdata[k].calculationdate + "①" + this.label + "：" + K_day);
 
 
               // もとめた収集日がFrBPNext
               if (K_day == transferdata[k].calculationdate) {
 
-                  window.alert(transferdata[k].calculationdate + "：つぎ：" + this.label + "：" + Nday);
+                  window.alert(transferdata[k].calculationdate + "②" + this.label + "：" + Nday);
 
 
                   // 振替日を表示する間
                   if (Nday >= transferdata[k].startdate && Nday <= transferdata[k].transferdate) {
 
-                      window.alert(Nday + "：ひょうじ：" + this.label + "：" + K_day);
+                      window.alert(Nday + "③" + this.label + "：" + transferdata[k].startdate + "：" + transferdata[k].transferdate);
 
 
                       var arr = (transferdata[k].transferdate.substr(0, 4) + '/' + transferdata[k].transferdate.substr(4, 2) + '/' + transferdata[k].transferdate.substr(6, 2)).split('/');
