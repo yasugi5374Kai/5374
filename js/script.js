@@ -284,7 +284,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     //◇日 var now = new Date('2017/12/31');
 
     // ◇ now を８桁変換
-    var Nday = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
+    //var Nday = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
     this.bikohyoji = "";
 
     for (var i in day_list) {
@@ -297,8 +297,8 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
             if (this.label == this.transferdata[k].label) {
 
               // ◇ day_list[i] を８桁変換
-              var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
-                   (('0' + day_list[i].getDate()).slice(-2));
+              //var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
+              //     (('0' + day_list[i].getDate()).slice(-2));
 
               window.alert(day_list[i].getTime() + "：とら①：" + this.transferdata[k].calculationdate.getTime());
 
