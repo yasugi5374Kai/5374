@@ -147,7 +147,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     //◇ 振替日表示期間の備考設定
     var textRecent = '' + this.mostRecent.getFullYear() +  (('0' + (this.mostRecent.getMonth() + 1)).slice(-2))  + (('0' + this.mostRecent.getDate()).slice(-2));
 
-    window.alert("①トランス：" + this.label);
+    window.alert(this.transferdata.length + "①トランス：" + this.label + "：" + transferdata.length);
 
     //◇◇◇
     for (var i in this.transferdata) {
