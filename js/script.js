@@ -322,7 +322,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
                   // 振替日を表示する間
                   if (Nday >= this.transferdata[k].startdate && Nday <= this.transferdata[k].transferdate) {
 
-                      //window.alert(Nday + "③" + this.label + "：" + this.transferdata[k].startdate + "：" + this.transferdata[k].transferdate);
+                      window.alert(Nday + "◇びこう" + this.label + "：" + this.transferdata[k].startdate + "：" + this.transferdata[k].transferdate + "：" + this.transferdata[k].biko);
 
                       var arr = (transferdata[k].transferdate.substr(0, 4) + '/' + this.transferdata[k].transferdate.substr(4, 2) + '/' + this.transferdata[k].transferdate.substr(6, 2)).split('/');
 
