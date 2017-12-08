@@ -142,12 +142,12 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 	return this.getRemark() + "不明";
     }
 
-    var transfer = "";
-
     var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
 
     //◇ 振替日表示期間の備考設定
     var textRecent = '' + this.mostRecent.getFullYear() +  (('0' + (this.mostRecent.getMonth() + 1)).slice(-2))  + (('0' + this.mostRecent.getDate()).slice(-2));
+
+    window.alert("◇トランス：" + this.label);
 
     //◇◇◇
     for (var i in this.transferdata) {
@@ -162,7 +162,6 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
             return this.getRemark() + this.dayLabel + " " + result_text;
         }
     }
-
   }
 
   function getDayIndex(str) {
@@ -311,19 +310,19 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
               var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
                    (('0' + day_list[i].getDate()).slice(-2));
 
-              window.alert(this.transferdata[k].calculationdate + "①" + this.label + "：" + K_day);
+              //window.alert(this.transferdata[k].calculationdate + "①" + this.label + "：" + K_day);
 
 
               // もとめた収集日がFrBPNext
               if (K_day == this.transferdata[k].calculationdate) {
 
-                  window.alert(this.transferdata[k].calculationdate + "②" + this.label + "：" + Nday);
+                  //window.alert(this.transferdata[k].calculationdate + "②" + this.label + "：" + Nday);
 
 
                   // 振替日を表示する間
                   if (Nday >= this.transferdata[k].startdate && Nday <= this.transferdata[k].transferdate) {
 
-                      window.alert(Nday + "③" + this.label + "：" + this.transferdata[k].startdate + "：" + this.transferdata[k].transferdate);
+                      //window.alert(Nday + "③" + this.label + "：" + this.transferdata[k].startdate + "：" + this.transferdata[k].transferdate);
 
                       var arr = (transferdata[k].transferdate.substr(0, 4) + '/' + this.transferdata[k].transferdate.substr(4, 2) + '/' + this.transferdata[k].transferdate.substr(6, 2)).split('/');
 
@@ -713,9 +712,9 @@ $(function() {
 
           target_tag += "</ul>";
 
-          window.alert("②デートラベル前" + description.label);
+          //window.alert("②デートラベル前" + description.label);
           var dateLabel = trash.getDateLabel();
-          window.alert("③デートラベルＯＫ" + description.label);
+          //window.alert("③デートラベルＯＫ" + description.label);
 
           //あと何日かを計算する処理です。
           var leftDayText = "";
