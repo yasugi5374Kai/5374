@@ -19,21 +19,16 @@ var AreaModel = function() {
   /**
     休止期間（主に年末年始）かどうかを判定します。
   */
-  this.isBlankDay = function(currentDate,startDate) {
-    //◇ if (!this.center) {
-    //◇     return false;
-    //◇ }
+  this.isBlankDay = function(currentDate) {
+    var period = [this.center.startDate, this.center.endDate];
 
-    //◇ 休止終了日は開始日の次の年
-    var endYear = startDate.getFullYear() + 1;
-    var endDate = new Date(endYear, 0, 3);
-
-    if (startDate.getTime() <= currentDate.getTime() &&
-      currentDate.getTime() <= endDate.getTime()) {
+    if (period[0].getTime() <= currentDate.getTime() &&
+      currentDate.getTime() <= period[1].getTime()) {
       return true;
     }
     return false;
   }
+
   /**
     ゴミ処理センターを登録します。
     名前が一致するかどうかで判定を行っております。
