@@ -258,16 +258,16 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
         for (var k in this.transferdata) {
 
-
-
             if (this.label == this.transferdata[k].label) {
 
-               window.alert(day_list[i].getTime() + "：とら①：" + this.transferdata[k].calculationdate.getTime());
+              if (day_list[i].getTime() == this.transferdata[k].calculationdate.getTime()) {
+
+                  window.alert(this.transferdata[k].label + "：" + day_list[i].getTime() + "：①：" + this.transferdata[k].calculationdate.getTime());
 
 
+
+              }
             }
-
-
         }
 
         break;
