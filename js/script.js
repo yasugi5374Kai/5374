@@ -476,6 +476,9 @@ $(function() {
 
 
   function updateAreaList() {
+
+    window.alert("◎①");
+
     csvToArray("data/area_days.csv", function(tmp) {
       var area_days_label = tmp.shift();
       for (var i in tmp) {
@@ -507,6 +510,8 @@ $(function() {
         }
       }
 
+      window.alert("◎②");
+
       csvToArray("data/center.csv", function(tmp) {
         //ゴミ処理センターのデータを解析します。
         //表示上は現れませんが、
@@ -532,6 +537,8 @@ $(function() {
       //    dump(areaModels);
       //  }
       });
+
+      window.alert("◎③");
 
       // ◇ センター
       //area.setCenter();
@@ -645,8 +652,14 @@ $(function() {
     var today = new Date();
     //◇日 var today = new Date('2017/12/31');
 
+    window.alert("◇①");
+
+
     //直近の一番近い日付を計算します。
     areaModel.calcMostRect();
+
+    window.alert("◇②");
+
 
     //トラッシュの近い順にソートします。
     areaModel.sortTrash();
