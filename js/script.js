@@ -266,20 +266,14 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
         for (var k in this.transferdata) {
 
-            if (this.label == this.transferdata[k].label) {
+            //振替日の対応
+            if (this.label == this.transferdata[k].label && 
+                day_list[i].getTime() == this.transferdata[k].calculationdate.getTime() && 
+                now.getTime() >= this.transferdata[k].startdate.getTime() &&
+                now.getTime() <= this.transferdata[k].transferdate.getTime()) {
 
-              if (day_list[i].getTime() == this.transferdata[k].calculationdate.getTime()) {
-
-                  window.alert(this.transferdata[k].label + "：" + day_list[i].getTime() + "：①：" + this.transferdata[k].calculationdate.getTime());
-
-                  if (now.getTime() >= this.transferdata[k].startdate.getTime() && now.getTime() <= this.transferdata[k].transferdate.getTime()) {
-
-                      window.alert(this.transferdata[k].label + "②" + transferdata[k].transferdate + "：" + this.transferdata[k].biko);
-
-                      this.mostRecent = transferdata[k].transferdate;
-                      this.bikohyoji = this.transferdata[k].biko;
-                  }
-              }
+                  this.mostRecent = transferdata[k].transferdate;
+                  this.bikohyoji = this.transferdata[k].biko;
             }
         }
         break;
