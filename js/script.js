@@ -186,8 +186,12 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     var result_text = "";
     var day_list = new Array();
 
+    window.alert("①");
+
     // 定期回収の場合　label
     if (this.regularFlg == 1) {
+
+      window.alert("②");
 
       var today = new Date();
       //◇日 var today = new Date('2017/12/31');
@@ -203,12 +207,19 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
         if (this.mflag[month - 1] == 0) {
             continue;
         }
+
+        window.alert("③");
+
         for (var j in day_mix) {
           //休止期間だったら、今後一週間ずらす。
           var isShift = false;
+          window.alert("④");
 
           //week=0が第1週目です。
           for (var week = 0; week < 5; week++) {
+
+            window.alert("⑤");
+
             //4月1日を起点として第n曜日などを計算する。
             var date = new Date(curYear, month - 1, 1);
             var d = new Date(date);
