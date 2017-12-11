@@ -256,6 +256,28 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
         this.mostRecent = day_list[i];
 
+        for (var k in this.transferdata) {
+
+            if (this.label == this.transferdata[k].label) {
+
+              window.alert(day_list[i].getTime() + "：とら①：" + this.transferdata[k].calculationdate.getTime());
+
+              // もとめた収集日が
+              if (day_list[i].getTime() == this.transferdata[k].calculationdate.getTime()) {
+
+                  // 振替日を表示する間
+                  window.alert("今日："now.getTime() + "：開始：" + this.transferdata[k].startdate.getTime() + "：振替日：" + this.transferdata[k].transferdate.getTime());
+
+                  //if (Nday >= this.transferdata[k].startdate && Nday <= this.transferdata[k].transferdate) {
+                  if (now.getTime() >= this.transferdata[k].startdate.getTime() && now.getTime() <= this.transferdata[k].transferdate.getTime()) {
+
+                      this.mostRecent = transferdata[k].transferdate;
+                      this.bikohyoji = this.transferdata[k].biko;
+                  }
+              }
+            }
+        }
+
 
         break;
       }
