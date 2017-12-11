@@ -339,6 +339,8 @@ $(function() {
   var areaGroup = new Object();
   var groupOrder = new Array();
   var remarks = new Array();
+  var transferdata = new Array();
+
 /*   var descriptions = new Array(); */
 
 
