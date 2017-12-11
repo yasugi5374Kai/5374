@@ -129,6 +129,10 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 	return this.getRemark() + "不明";
     }
       var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
+
+    window.alert("びこう：" + this.bikohyoji);
+
+
     return this.getRemark() + this.dayLabel + " " + result_text;
   }
 
@@ -271,12 +275,9 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
                       this.mostRecent = transferdata[k].transferdate;
                       this.bikohyoji = this.transferdata[k].biko;
                   }
-
-
               }
             }
         }
-
         break;
       }
     };
