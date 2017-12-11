@@ -258,7 +258,15 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
         for (var k in this.transferdata) {
 
-            window.alert(day_list[i].getTime() + "：とら①：" + this.transferdata[k].calculationdate.getTime());
+
+
+            if (this.label == this.transferdata[k].label) {
+
+               window.alert(day_list[i].getTime() + "：とら①：" + this.transferdata[k].calculationdate.getTime());
+
+
+            }
+
 
         }
 
