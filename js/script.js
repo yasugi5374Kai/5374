@@ -283,8 +283,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     var now = new Date();
     //◇日 var now = new Date('2017/12/31');
 
-    // ◇ now を８桁変換
-    //var Nday = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
+    // ◇ 
     this.bikohyoji = "";
 
     for (var i in day_list) {
@@ -296,29 +295,18 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
             if (this.label == this.transferdata[k].label) {
 
-              // ◇ day_list[i] を８桁変換
-              //var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
-              //     (('0' + day_list[i].getDate()).slice(-2));
-
               window.alert(day_list[i].getTime() + "：とら①：" + this.transferdata[k].calculationdate.getTime());
 
               // もとめた収集日が
-              //if (K_day == this.transferdata[k].calculationdate) {
               if (day_list[i].getTime() == this.transferdata[k].calculationdate.getTime()) {
 
                   // 振替日を表示する間
-                  window.alert(now.getTime() + "：とら②：" + this.transferdata[k].startdate.getTime() + "：" + this.transferdata[k].transferdate.getTime());
+                  window.alert("今日："now.getTime() + "：開始：" + this.transferdata[k].startdate.getTime() + "：振替日：" + this.transferdata[k].transferdate.getTime());
 
                   //if (Nday >= this.transferdata[k].startdate && Nday <= this.transferdata[k].transferdate) {
                   if (now.getTime() >= this.transferdata[k].startdate.getTime() && now.getTime() <= this.transferdata[k].transferdate.getTime()) {
 
-
-                      //var arr = (transferdata[k].transferdate.substr(0, 4) + '/' + this.transferdata[k].transferdate.substr(4, 2) + '/' + this.transferdata[k].transferdate.substr(6, 2)).split('/');
-                      //var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
-
-                      //this.mostRecent = DDay;
                       this.mostRecent = transferdata[k].transferdate;
-
                       this.bikohyoji = this.transferdata[k].biko;
                   }
               }
