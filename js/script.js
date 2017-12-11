@@ -232,7 +232,9 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
             var s = new Date(ky + '/12/30');
  
-            if (areaObj.isBlankDay(d,s)) {
+            //if (areaObj.isBlankDay(d,s)) {
+
+            if (areaObj.isBlankDay(d)) {
               if (WeekShift) {
                 isShift = true;
               } else {
