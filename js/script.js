@@ -311,6 +311,19 @@ var RemarkModel = function(data) {
   this.text = data[1];
 }
 
+/**
+* 振替日を管理するクラスです。
+* transferdata.csvのモデルです。
+*/
+var TransferdateModel = function(data) {
+  this.label = data[0];
+  this.transferdate = new Date(data[1]);
+  this.calculationdate = new Date(data[2]);
+  this.startdate = new Date(data[3]);
+  this.biko = data[4];
+
+}
+
 /* var windowHeight; */
 
 $(function() {
@@ -477,6 +490,16 @@ $(function() {
         remarks.push(new RemarkModel(data[i]));
       }
     });
+
+    // 振替日データを読み込む
+    csvToArray("data/transferdata.csv", function(data) {
+      data.shift();
+      for (var i in data) {
+        transferdata.push(new TransferdateModel(data[i]));
+
+      }
+    });
+
     csvToArray("data/description.csv", function(data) {
       data.shift();
       for (var i in data) {
