@@ -128,12 +128,16 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     if (this.mostRecent === undefined) {
 	return this.getRemark() + "不明";
     }
-      var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
 
-    window.alert("びこう：" + this.bikohyoji);
+    var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
 
+    if (this.bikohyoji != "") {
 
-    return this.getRemark() + this.dayLabel + " " + result_text;
+        return this.getRemark() + this.bikohyoji + "<br/>" + this.dayLabel + " " + result_text;
+    } else {
+
+        return this.getRemark() + this.dayLabel + " " + result_text;
+    }
   }
 
   function getDayIndex(str) {
