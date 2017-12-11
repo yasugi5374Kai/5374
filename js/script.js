@@ -8,6 +8,7 @@ var AreaModel = function() {
   this.centerName;
   this.center;
   this.trash = new Array();
+
   /**
   各ゴミのカテゴリに対して、最も直近の日付を計算します。
 */
@@ -61,8 +62,11 @@ var AreaModel = function() {
 /**
   各ゴミのカテゴリを管理するクラスです。
 */
-var TrashModel = function(_lable, _cell, remarks) {
+var TrashModel = function(_lable, _cell, remarks, transferdata) {
   this.remarks = remarks;
+
+  this.transferdata = transferdata;
+
   this.dayLabel;
   this.mostRecent;
   this.dayList;
@@ -401,7 +405,7 @@ $(function() {
         //２列目以降の処理
         for (var r = 2; r < 2 + MaxDescription; r++) {
           if (area_days_label[r]) {
-            var trash = new TrashModel(area_days_label[r], row[r], remarks);
+            var trash = new TrashModel(area_days_label[r], row[r], remarks, transferdata);
             area.trash.push(trash);
           }
         }
