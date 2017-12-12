@@ -452,7 +452,6 @@ $(function() {
         }
       }
 
-      window.alert("①");
 
       csvToArray("data/center.csv", function(tmp) {
         //ゴミ処理センターのデータを解析します。
@@ -465,11 +464,13 @@ $(function() {
         //
         for (var i in tmp) {
 
-          window.alert("②○");
+          window.alert("①○");
 
           center_flg = 0;
           var row = tmp[i];
           var centerRow = new CenterRowModel(row);
+
+          window.alert("②");
 
           window.alert("③" + center_list.length);
 
