@@ -25,29 +25,25 @@ var AreaModel = function() {
 
     var BFlg = 0;
 
-    window.alert("①");
-
-    window.alert("②" + this.center);
-
+    window.alert(this.center.length + "①" + this.center);
 
     if (!this.center) {
 
-        window.alert("③");
+        window.alert("②");
 
         return false;
     }
 
-    //var period = [this.center.startDate, this.center.endDate];
+    window.alert("③" + this.center.startDate.length);
 
-   // var centerdate = center[index].split("/");
+    for (var i in this.center) {
 
-    window.alert("④" + this.center.startDate.length);
+        var centerdate = this.center[i].split("-");
+
+        window.alert("⑤" + centerdate[0] + "：" + centerdate[1]);
 
 
-    for (var i in this.center.startDate) {
-
-    //var period = [this.center.startDate, this.center.endDate];
-
+       // var period = [centerdate[0], centerdate[1]];
 
 
         if (this.center.startDate[i].getTime() <= currentDate.getTime() &&
