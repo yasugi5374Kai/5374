@@ -306,7 +306,7 @@ var CenterModel = function() {
 }
 
 var CenterRowModel = function(data) {
-  this.name = row[0];
+  this.name = data[0];
   this.startDate = data[1];
   this.endDate = data[2];
 }
@@ -462,7 +462,7 @@ $(function() {
         //
         for (var i in tmp) {
 
-          window.alert("①●");
+          window.alert("①○");
 
           center_flg = 0;
           var row = tmp[i];
