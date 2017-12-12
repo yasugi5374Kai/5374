@@ -34,7 +34,7 @@ var AreaModel = function() {
         return false;
     }
 
-    window.alert("③" + this.center.startDate.length);
+   // window.alert("③" + this.center.startDate.length);
 
     for (var i in this.center) {
 
