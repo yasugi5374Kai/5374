@@ -41,9 +41,15 @@ var AreaModel = function() {
 
         if (period[0].getTime() <= currentDate.getTime() &&
           currentDate.getTime() <= period[1].getTime()) {
+
+          window.alert("④");
+
           return true;
         }
     }
+
+          window.alert("⑤");
+
     return false;
   }
   /**
@@ -229,7 +235,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
             //年末年始のずらしの対応
             //休止期間なら、今後の日程を１週間ずらす
 
-            window.alert("⑩");
+            window.alert("かいし");
 
             if (areaObj.isBlankDay(d)) {
               if (WeekShift) {
@@ -239,7 +245,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
               }
             }
 
-            window.alert("③");
+            window.alert("⑩");
 
 
             if (isShift) {
