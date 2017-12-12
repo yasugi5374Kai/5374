@@ -352,8 +352,8 @@ var CenterModel = function() {
 
 var CenterRowModel = function(data) {
   this.name = data[0];
-  this.startDate = data[1];
-  this.endDate = data[2];
+  this.startDate = new Date(data[1]);
+  this.endDate = new Date(data[2]);
 }
 
 
