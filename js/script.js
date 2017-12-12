@@ -25,9 +25,14 @@ var AreaModel = function() {
 
     var BFlg = 0;
 
+    window.alert("①");
+
+    window.alert("②" + this.center);
+
+
     if (!this.center) {
 
-        window.alert("①");
+        window.alert("③");
 
         return false;
     }
@@ -36,7 +41,7 @@ var AreaModel = function() {
 
    // var centerdate = center[index].split("/");
 
-    window.alert("②" + this.center.startDate.length);
+    window.alert("④" + this.center.startDate.length);
 
 
     for (var i in this.center.startDate) {
@@ -48,12 +53,12 @@ var AreaModel = function() {
         if (this.center.startDate[i].getTime() <= currentDate.getTime() &&
           currentDate.getTime() <= this.center.endDate[i].getTime()) {
 
-          window.alert("③" + this.center.startDate[i]);
+          window.alert("⑤" + this.center.startDate[i]);
 
           return true;
         }
 
-          window.alert("④" + this.center.startDate[i]);
+          window.alert("⑥" + this.center.startDate[i]);
 
     }
 
@@ -242,7 +247,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
             //年末年始のずらしの対応
             //休止期間なら、今後の日程を１週間ずらす
 
-            window.alert("①");
+            window.alert("⑩");
 
             if (areaObj.isBlankDay(d)) {
               if (WeekShift) {
