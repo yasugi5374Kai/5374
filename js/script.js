@@ -465,7 +465,7 @@ $(function() {
         //
         for (var i in tmp) {
 
-          window.alert("②");
+          window.alert("②○");
 
           center_flg = 0;
           var row = tmp[i];
