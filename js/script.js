@@ -476,18 +476,22 @@ $(function() {
 
         tmp.shift();
 
-        window.alert("よむ");
-
-
         //
         for (var i in tmp) {
+
+          window.alert("よむ①");
 
           center_flg = 0;
           var row = tmp[i];
 
           var centerRow = new CenterRowModel(row);
 
+          window.alert("よむ②");
+
           for (var j in center_data) {
+
+              window.alert("よむ③");
+
 
               if (center_data[j].name == centerRow.name) {
 
