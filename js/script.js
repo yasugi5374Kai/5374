@@ -462,18 +462,17 @@ $(function() {
         //
         for (var i in tmp) {
 
-          window.alert("①○");
 
           center_flg = 0;
           var row = tmp[i];
-          window.alert("②");
 
           var centerRow = new CenterRowModel(row);
 
-          window.alert("③" + center_list.length);
+          window.alert("①◇" + center_list.length);
 
           for (var j in center_list) {
-              window.alert("④" + j.name + "◇" + centerRow.name);
+
+              window.alert("②" + j.name + "◇" + centerRow.name);
 
               if (j.name == centerRow.name) {
 
@@ -486,13 +485,21 @@ $(function() {
 
           if (center_flg == 0) {
 
+              window.alert("③○" + center_flg);
+
               var center_tmp = new CenterModel();
 
               center_tmp.name = centerRow.name;
               center_tmp.startDate.push(centerRow.startDate);
               center_tmp.endDate.push(centerRow.endDate);
 
+              window.alert("④");
+
               center_list.push(center_tmp);
+
+              window.alert("⑤");
+
+
           }
         }
 
