@@ -476,6 +476,9 @@ $(function() {
 
         tmp.shift();
 
+        window.alert("よむ");
+
+
         //
         for (var i in tmp) {
 
