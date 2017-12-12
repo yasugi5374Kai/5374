@@ -25,7 +25,7 @@ var AreaModel = function() {
 
     var BFlg = 0;
 
-    window.alert(this.center.length + "①" + this.center);
+    //window.alert(this.center.length + "①" + this.center);
 
     if (!this.center) {
 
@@ -37,7 +37,7 @@ var AreaModel = function() {
 
         var period = this.center[i].split("-");
 
-        window.alert("②" + currentDate.getTime());
+        //window.alert("②" + currentDate.getTime());
 
         //◇とめ
         return false;
@@ -53,7 +53,7 @@ var AreaModel = function() {
         }
     }
 
-          window.alert("⑤");
+          //window.alert("⑤");
 
     return false;
   }
@@ -240,7 +240,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
             //年末年始のずらしの対応
             //休止期間なら、今後の日程を１週間ずらす
 
-            window.alert("かいし");
+            //window.alert("かいし");
 
             if (areaObj.isBlankDay(d)) {
               if (WeekShift) {
@@ -250,7 +250,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
               }
             }
 
-            window.alert("⑩");
+            //window.alert("⑩");
 
 
             if (isShift) {
