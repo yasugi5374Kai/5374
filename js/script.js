@@ -40,7 +40,7 @@ var AreaModel = function() {
         window.alert("②" + currentDate.getTime());
 
 
-        window.alert(period[0].getTime() + "③◇" + period[1].getTime());
+        window.alert(period[0] + "③" + period[1]);
 
         if (period[0].getTime() <= currentDate.getTime() &&
           currentDate.getTime() <= period[1].getTime()) {
