@@ -39,6 +39,8 @@ var AreaModel = function() {
 
         window.alert("②" + currentDate.getTime());
 
+        //◇とめ
+        return false;
 
         window.alert(period[0] + "③" + period[1]);
 
@@ -295,6 +297,8 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
     // ◇ 
     this.bikohyoji = "";
+
+
 
     for (var i in day_list) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
