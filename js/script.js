@@ -462,13 +462,13 @@ $(function() {
         //
         for (var i in tmp) {
 
-          window.alert("①◇");
+          window.alert("①●");
 
           center_flg = 0;
           var row = tmp[i];
-          var centerRow = new CenterRowModel(row);
-
           window.alert("②");
+
+          var centerRow = new CenterRowModel(row);
 
           window.alert("③" + center_list.length);
 
