@@ -415,13 +415,6 @@ $(function() {
 
   function updateAreaList() {
 
-    //◇なまえかえたい
-    var center_tmp = new CenterModel();
-    var center_list = new Array();
-    var center_flg;
-
-
-
     csvToArray("data/area_days.csv", function(tmp) {
       var area_days_label = tmp.shift();
       for (var i in tmp) {
@@ -459,12 +452,17 @@ $(function() {
         //金沢などの各処理センターの休止期間分は一週間ずらすという法則性のため
         //例えば第一金曜日のときは、一周ずらしその月だけ第二金曜日にする
 
+        //◇なまえかえたい
+        var center_tmp = new CenterModel();
+        var center_list = new Array();
+        var center_flg = 0;
+
         tmp.shift();
 
         //
         for (var i in tmp) {
 
-          window.alert("①○");
+          window.alert("①◇");
 
           center_flg = 0;
           var row = tmp[i];
