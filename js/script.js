@@ -25,11 +25,7 @@ var AreaModel = function() {
 
     var BFlg = 0;
 
-    //window.alert(this.center.length + "①" + this.center);
-
     if (!this.center) {
-
-        window.alert("②");
         return false;
     }
 
@@ -37,23 +33,12 @@ var AreaModel = function() {
 
         var period = this.center[i].split("-");
 
-        //window.alert("②" + currentDate.getTime());
-
-        //◇とめ
-        return false;
-
-        window.alert(period[0] + "③" + period[1]);
-
         if (period[0].getTime() <= currentDate.getTime() &&
           currentDate.getTime() <= period[1].getTime()) {
-
-          window.alert("④");
 
           return true;
         }
     }
-
-          //window.alert("⑤");
 
     return false;
   }
@@ -240,8 +225,6 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
             //年末年始のずらしの対応
             //休止期間なら、今後の日程を１週間ずらす
 
-            //window.alert("かいし");
-
             if (areaObj.isBlankDay(d)) {
               if (WeekShift) {
                 isShift = true;
@@ -249,9 +232,6 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
                 continue;
               }
             }
-
-            //window.alert("⑩");
-
 
             if (isShift) {
               d.setTime(d.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -305,12 +285,6 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
         this.mostRecent = day_list[i];
 
         for (var k in this.transferdata) {
-
-            //window.alert("とら①" + this.transferdata[k].label);
-
-
-            //window.alert("とら②" + this.transferdata[k].calculationdate.getTime());
-
 
             //振替日の対応
             if (this.label == this.transferdata[k].label && 
@@ -519,7 +493,6 @@ $(function() {
                   center_data[j].endDate.push(centerRow.endDate);
                   center_flg = 1;
 
-                //  window.alert("③" + center_data.length);
                   break;
               }
           }
@@ -531,13 +504,10 @@ $(function() {
               center_tmp.startDate.push(centerRow.startDate);
               center_tmp.endDate.push(centerRow.endDate);
 
-            //  window.alert("⑤");
-
               center_data.push(center_tmp);
           }
         }
 
-      //  window.alert("⑥" + center_data.length);
 
         //  center_data.push(center);
 
