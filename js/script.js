@@ -306,10 +306,10 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
         for (var k in this.transferdata) {
 
-            window.alert("とら①" + this.transferdata[k].label);
+            //window.alert("とら①" + this.transferdata[k].label);
 
 
-            window.alert("とら②" + this.transferdata[k].calculationdate.getTime());
+            //window.alert("とら②" + this.transferdata[k].calculationdate.getTime());
 
 
             //振替日の対応
