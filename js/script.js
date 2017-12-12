@@ -26,14 +26,37 @@ var AreaModel = function() {
     var BFlg = 0;
 
     if (!this.center) {
+
+        window.alert("①");
+
         return false;
     }
-    var period = [this.center.startDate, this.center.endDate];
 
-    if (period[0].getTime() <= currentDate.getTime() &&
-      currentDate.getTime() <= period[1].getTime()) {
-      return true;
+    //var period = [this.center.startDate, this.center.endDate];
+
+   // var centerdate = center[index].split("/");
+
+    window.alert("②");
+
+
+    for (var i in this.center.startDate) {
+
+    //var period = [this.center.startDate, this.center.endDate];
+
+
+
+        if (this.center.startDate[i].getTime() <= currentDate.getTime() &&
+          currentDate.getTime() <= this.center.endDate[i].getTime()) {
+
+          window.alert("③" + this.center.startDate[i]);
+
+          return true;
+        }
+
+          window.alert("④" + this.center.startDate[i]);
+
     }
+
     return false;
   }
   /**
@@ -42,16 +65,12 @@ var AreaModel = function() {
   */
   this.setCenter = function(center_data) {
 
-    window.alert("◇①" + center_data.length);
-
     for (var i in center_data) {
       if (this.centerName == center_data[i].name) {
 
         for (var j in center_data[i].startDate) {
              
             this.center.push(center_data[i].startDate[j] + "-" + center_data[i].endDate[j]) ;
-
-            window.alert("◇②" + center_data[i].startDate.length);
 
         }
 
@@ -479,11 +498,7 @@ $(function() {
 
           var centerRow = new CenterRowModel(row);
 
-          window.alert("①○" + center_data.length);
-
           for (var j in center_data) {
-
-              window.alert("②" + center_data[j].name + "◇" + centerRow.name);
 
               if (center_data[j].name == centerRow.name) {
 
@@ -497,9 +512,6 @@ $(function() {
           }
 
           if (center_flg == 0) {
-
-              window.alert("④○" + center_flg);
-
               var center_tmp = new CenterModel();
 
               center_tmp.name = centerRow.name;
