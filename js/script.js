@@ -36,7 +36,7 @@ var AreaModel = function() {
 
    // var centerdate = center[index].split("/");
 
-    window.alert("②");
+    window.alert("②" + this.center.startDate.length);
 
 
     for (var i in this.center.startDate) {
