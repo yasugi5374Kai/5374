@@ -6,7 +6,8 @@
 var AreaModel = function() {
   this.label;
   this.centerName;
-  this.center;
+  //◇this.center;
+  this.center = new Array();
   this.trash = new Array();
 
   /**
@@ -40,9 +41,21 @@ var AreaModel = function() {
     名前が一致するかどうかで判定を行っております。
   */
   this.setCenter = function(center_data) {
+
+    window.alert("◇①" + center_data.length);
+
     for (var i in center_data) {
       if (this.centerName == center_data[i].name) {
-        this.center = center_data[i];
+
+        for (var j in center_data[i].startDate) {
+             
+            this.center.push(center_data[i].startDate[j] + "-" + center_data[i].endDate[j]) ;
+
+            window.alert("◇②" + center_data[i].startDate.length);
+
+        }
+
+       // this.center = center_data[i];
       }
     }
   }
@@ -453,7 +466,7 @@ $(function() {
 
         //◇なまえかえたい
         var center_tmp = new CenterModel();
-        var center_list = new Array();
+        //var center_list = new Array();
         var center_flg = 0;
 
         tmp.shift();
@@ -466,19 +479,19 @@ $(function() {
 
           var centerRow = new CenterRowModel(row);
 
-          window.alert("①○" + center_list.length);
+          window.alert("①○" + center_data.length);
 
-          for (var j in center_list) {
+          for (var j in center_data) {
 
-              window.alert("②" + center_list[j].name + "◇" + centerRow.name);
+              window.alert("②" + center_data[j].name + "◇" + centerRow.name);
 
-              if (center_list[j].name == centerRow.name) {
+              if (center_data[j].name == centerRow.name) {
 
-                  center_list[j].startDate.push(centerRow.centerRow);
-                  center_list[j].endDate.push(centerRow.endDate);
+                  center_data[j].startDate.push(centerRow.centerRow);
+                  center_data[j].endDate.push(centerRow.endDate);
                   center_flg = 1;
 
-                  window.alert("③" + center_list.length);
+                  window.alert("③" + center_data.length);
                   break;
               }
           }
@@ -495,13 +508,11 @@ $(function() {
 
               window.alert("⑤");
 
-              center_list.push(center_tmp);
-
-              window.alert("⑥");
+              center_data.push(center_tmp);
           }
         }
 
-        window.alert("⑦" + center_list.length);
+        window.alert("⑥" + center_data.length);
 
         //  center_data.push(center);
 
