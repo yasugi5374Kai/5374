@@ -25,7 +25,7 @@ var AreaModel = function() {
 
     var BFlg = 0;
 
-    window.alert(this.center.length + "①" + this.center);
+    window.alert(this.center.length + "①◇" + this.center);
 
     if (!this.center) {
 
