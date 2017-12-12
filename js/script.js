@@ -468,11 +468,11 @@ $(function() {
 
           var centerRow = new CenterRowModel(row);
 
-          window.alert("①◇" + center_list.length);
+          window.alert("①" + center_list.length);
 
           for (var j in center_list) {
 
-              window.alert("②" + j.name + "◇" + centerRow.name);
+              window.alert("②◇" + center_list[j].name + "◇" + centerRow.name);
 
               if (j.name == centerRow.name) {
 
