@@ -445,7 +445,6 @@ $(function() {
         }
       }
 
-
       csvToArray("data/center.csv", function(tmp) {
         //ゴミ処理センターのデータを解析します。
         //表示上は現れませんが、
@@ -462,30 +461,31 @@ $(function() {
         //
         for (var i in tmp) {
 
-
           center_flg = 0;
           var row = tmp[i];
 
           var centerRow = new CenterRowModel(row);
 
-          window.alert("①" + center_list.length);
+          window.alert("①○" + center_list.length);
 
           for (var j in center_list) {
 
-              window.alert("②◇" + center_list[j].name + "◇" + centerRow.name);
+              window.alert("②" + center_list[j].name + "◇" + centerRow.name);
 
-              if (j.name == centerRow.name) {
+              if (center_list[j].name == centerRow.name) {
 
-                  center_list[j].startDate = centerRow.centerRow;
-                  center_list[j].endDate = centerRow.endDate;
+                  center_list[j].startDate.push(centerRow.centerRow);
+                  center_list[j].endDate.push(centerRow.endDate);
                   center_flg = 1;
+
+                  window.alert("③" + center_list.length);
                   break;
               }
           }
 
           if (center_flg == 0) {
 
-              window.alert("③○" + center_flg);
+              window.alert("④○" + center_flg);
 
               var center_tmp = new CenterModel();
 
@@ -493,21 +493,17 @@ $(function() {
               center_tmp.startDate.push(centerRow.startDate);
               center_tmp.endDate.push(centerRow.endDate);
 
-              window.alert("④");
+              window.alert("⑤");
 
               center_list.push(center_tmp);
 
-              window.alert("⑤");
-
-
+              window.alert("⑥");
           }
         }
 
+        window.alert("⑦" + center_list.length);
 
         //  center_data.push(center);
-
-
-
 
         //ゴミ処理センターを対応する各地域に割り当てます。
         for (var i in areaModels) {
