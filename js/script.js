@@ -495,11 +495,6 @@ $(function() {
 
               if (center_data[j].name == centerRow.name) {
 
-                  window.alert("きゅうし①：" + centerRow.startDate);
-                  window.alert("きゅうし②：" + centerRow.startDate.getDate());
-
-
-
                   center_data[j].startDate.push(centerRow.startDate);
                   center_data[j].endDate.push(centerRow.endDate);
                   center_flg = 1;
@@ -514,6 +509,9 @@ $(function() {
               center_tmp.name = centerRow.name;
               center_tmp.startDate.push(centerRow.startDate);
               center_tmp.endDate.push(centerRow.endDate);
+
+              window.alert("きゅうし①：" + centerRow.startDate);
+              window.alert("きゅうし②：" + centerRow.startDate.getDate());
 
               center_data.push(center_tmp);
           }
