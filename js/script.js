@@ -241,6 +241,9 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
             );
             //年末年始のずらしの対応
             //休止期間なら、今後の日程を１週間ずらす
+
+            window.alert("①");
+
             if (areaObj.isBlankDay(d)) {
               if (WeekShift) {
                 isShift = true;
@@ -248,6 +251,10 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
                 continue;
               }
             }
+
+            window.alert("③");
+
+
             if (isShift) {
               d.setTime(d.getTime() + 7 * 24 * 60 * 60 * 1000);
             }
