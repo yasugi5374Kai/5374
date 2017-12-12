@@ -506,6 +506,9 @@ $(function() {
           if (center_flg == 0) {
               var center_tmp = new CenterModel();
 
+              window.alert("きゅうし◇：" + centerRow.name);
+
+
               center_tmp.name = centerRow.name;
               center_tmp.startDate.push(centerRow.startDate);
               center_tmp.endDate.push(centerRow.endDate);
