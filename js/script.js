@@ -31,7 +31,8 @@ var AreaModel = function() {
 
     for (var i in this.center) {
 
-        var period = this.center[i].split("-");
+
+
 
         if (period[0].getTime() <= currentDate.getTime() &&
           currentDate.getTime() <= period[1].getTime()) {
@@ -470,9 +471,7 @@ $(function() {
         //金沢などの各処理センターの休止期間分は一週間ずらすという法則性のため
         //例えば第一金曜日のときは、一周ずらしその月だけ第二金曜日にする
 
-        //◇なまえかえたい
         var center_tmp = new CenterModel();
-        //var center_list = new Array();
         var center_flg = 0;
 
         tmp.shift();
@@ -489,7 +488,12 @@ $(function() {
 
               if (center_data[j].name == centerRow.name) {
 
-                  center_data[j].startDate.push(centerRow.centerRow);
+                  window.alert("きゅうし①：" + centerRow.startDate);
+                  window.alert("きゅうし②：" + centerRow.startDate.getDate());
+
+
+
+                  center_data[j].startDate.push(centerRow.startDate);
                   center_data[j].endDate.push(centerRow.endDate);
                   center_flg = 1;
 
