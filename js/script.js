@@ -506,7 +506,7 @@ $(function() {
                   center_data[j].endDate.push(centerRow.endDate);
                   center_flg = 1;
 
-                  window.alert("③" + center_data.length);
+                //  window.alert("③" + center_data.length);
                   break;
               }
           }
@@ -518,13 +518,13 @@ $(function() {
               center_tmp.startDate.push(centerRow.startDate);
               center_tmp.endDate.push(centerRow.endDate);
 
-              window.alert("⑤");
+            //  window.alert("⑤");
 
               center_data.push(center_tmp);
           }
         }
 
-        window.alert("⑥" + center_data.length);
+      //  window.alert("⑥" + center_data.length);
 
         //  center_data.push(center);
 
