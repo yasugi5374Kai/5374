@@ -6,7 +6,7 @@
 var AreaModel = function() {
   this.label;
   this.centerName;
-  //◇this.center;
+  //◇◇◇this.center;
   this.center = new Array();
   this.trash = new Array();
 
@@ -23,20 +23,16 @@ var AreaModel = function() {
   */
   this.isBlankDay = function(currentDate) {
 
-    var BFlg = 0;
-
-    if (!this.center) {
+    if (!this.startDate) {
         return false;
     }
 
     for (var i in this.center) {
 
-
-
+        var period = [this.center[i].startDate, this.center.endDate[i]];
 
         if (period[0].getTime() <= currentDate.getTime() &&
           currentDate.getTime() <= period[1].getTime()) {
-
           return true;
         }
     }
@@ -53,8 +49,10 @@ var AreaModel = function() {
       if (this.centerName == center_data[i].name) {
 
         for (var j in center_data[i].startDate) {
-             
-            this.center.push(center_data[i].startDate[j] + "-" + center_data[i].endDate[j]) ;
+
+
+            this.center.push(center_data[i].startDate[j] + "-" + center_data[i].endDate[j]);
+
 
         }
 
@@ -319,16 +317,20 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 /**
 センターのデータを管理します。
 */
-var CenterModel = function() {
-  this.name;
-  this.startDate = new Array();
-  this.endDate = new Array();
+var CenterRowModel = function(row) {
+  function getDay(center, index) {
+    var tmp = center[index].split("/");
+    return new Date(tmp[0], tmp[1] - 1, tmp[2]);
+  }
+
+  this.name = row[0];
+  this.startDate = getDay(row, 1);
+  this.endDate = getDay(row, 2);
 }
 
-var CenterRowModel = function(data) {
-  this.name = data[0];
-  this.startDate = new Date(data[1]);
-  this.endDate = new Date(data[2]);
+var CenterModel = function() {
+  this.name;
+  this.center = new Array();
 }
 
 
@@ -479,24 +481,16 @@ $(function() {
         //
         for (var i in tmp) {
 
-          window.alert("よむ①");
-
-          center_flg = 0;
           var row = tmp[i];
-
           var centerRow = new CenterRowModel(row);
 
-          window.alert("よむ②");
+          for (var j in center_tmp) {
 
-          for (var j in center_data) {
+              if (center_tmp[j].name == centerRow.name) {
 
-              window.alert("よむ③");
+                  var center = (centerRow.startDate,centerRow.endDate);
 
-
-              if (center_data[j].name == centerRow.name) {
-
-                  center_data[j].startDate.push(centerRow.startDate);
-                  center_data[j].endDate.push(centerRow.endDate);
+                  center_tmp[j].center.push
                   center_flg = 1;
 
                   break;
@@ -506,15 +500,15 @@ $(function() {
           if (center_flg == 0) {
               var center_tmp = new CenterModel();
 
-              window.alert("きゅうし◇：" + centerRow.name);
+             // window.alert("きゅうし◇：" + centerRow.name);
 
 
               center_tmp.name = centerRow.name;
               center_tmp.startDate.push(centerRow.startDate);
               center_tmp.endDate.push(centerRow.endDate);
 
-              window.alert("きゅうし①：" + centerRow.startDate);
-              window.alert("きゅうし②：" + centerRow.startDate.getDate());
+            //  window.alert("きゅうし①：" + centerRow.startDate);
+            //  window.alert("きゅうし②：" + centerRow.startDate.getDate());
 
               center_data.push(center_tmp);
           }
