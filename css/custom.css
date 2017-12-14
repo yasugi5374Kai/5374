@@ -52,8 +52,7 @@ a:hover {
 	display: table-cell;
 	vertical-align: middle;
 	text-align: center;
-	/* ◇width: 100%; */
-	width: 1000%;
+	width: 100%;
 	/* font-size: 22px; ↑80% */
 	font-size: 24px;
 	font-weight: bold;
@@ -116,8 +115,7 @@ a:hover {
 	margin: 0;
 	text-align: left;
 	//font-size: 25px;
-	//◇font-size: 20px;
-	font-size: 200px;
+	font-size: 20px;
 	margin: 15px 0 15px 15px;
 }
 #accordion3 a.accordion-toggle-top:hover {
