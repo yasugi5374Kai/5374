@@ -721,7 +721,7 @@ $(function() {
     accordion_elm.html(accordionHTML);
 
     // ◇↓
-    window.alert("②");
+    window.alert("①");
 
     //◇ $('html,body').animate({scrollTop: 0}, 'fast');
 
