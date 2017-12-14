@@ -152,7 +152,8 @@ a:hover {
 }
 
 #iframemap {
-	margin: 0;
+	margin: 10;
+    position: fixed;
 }
 
 
