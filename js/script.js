@@ -675,9 +675,14 @@ $(function() {
     var accordion_elm = $("#accordion");
     accordion_elm.html(accordionHTML);
 
+    window.alert("①");
+
+
     //$('html,body').animate({scrollTop: 0}, 'fast');
 
     $('html,body').animate();
+
+    window.alert("②");
 
 
     //アコーディオンのラベル部分をクリックしたら
@@ -685,6 +690,7 @@ $(function() {
       var body = $('body');
       var accordion_offset = $($(this).parent().get(0)).offset().top;
 
+    window.alert("③");
 
       //◆ body.animate({
       //◆   scrollTop: accordion_offset
@@ -694,6 +700,7 @@ $(function() {
       body.animate({
       }, 50);
 
+    window.alert("④");
 
     });
     //アコーディオンの非表示部分をクリックしたら
