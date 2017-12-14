@@ -720,16 +720,20 @@ $(function() {
     var accordion_elm = $("#accordion");
     accordion_elm.html(accordionHTML);
 
-    //①    $('html,body').animate({scrollTop: 0}, 'fast');
-   window.alert("①");
-    $('html,body').animate({scrollTop: 100}, 'fast');
+   window.alert("②");
+    //$('html,body').animate({scrollTop: 0}, 'fast');
+
+   $('html,body').animate({scrollTop: 100}, 'fast');
+
 
     //アコーディオンのラベル部分をクリックしたら
+    //    scrollTop: accordion_offset
+
     $(".accordion-body").on("shown.bs.collapse", function() {
       var body = $('body');
       var accordion_offset = $($(this).parent().get(0)).offset().top;
       body.animate({
-        scrollTop: accordion_offset
+        scrollTop: 100
       }, 50);
     });
     //アコーディオンの非表示部分をクリックしたら
