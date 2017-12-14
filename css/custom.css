@@ -151,10 +151,8 @@ a:hover {
 	margin-left: 5px;
 }
 
-#accordion3 #iframemap {
-	width: 700;
-	height: 400;
-	frameBorder: 10;
+#iframemap {
+	margin: 0;
 }
 
 
