@@ -116,6 +116,7 @@ a:hover {
 	text-align: left;
 	//font-size: 25px;
 	font-size: 20px;
+
 	margin: 15px 0 15px 15px;
 }
 #accordion3 a.accordion-toggle-top:hover {
@@ -143,9 +144,7 @@ a:hover {
 	margin-top: 30px;
 }
 #accordion3 #caption h4 {
-	//font-size: 12px;
-	font-size: 120px;
-	
+	font-size: 12px;
 	font-weight: bold;
 }
 #accordion3 #help {
