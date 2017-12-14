@@ -721,6 +721,7 @@ $(function() {
     accordion_elm.html(accordionHTML);
 
     //①    $('html,body').animate({scrollTop: 0}, 'fast');
+   window.alert("①");
     $('html,body').animate({scrollTop: 100}, 'fast');
 
     //アコーディオンのラベル部分をクリックしたら
