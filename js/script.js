@@ -585,6 +585,9 @@ $(function() {
     }
     var styleHTML = "";
     // ◇ var accordionHTML = "";
+
+    window.alert("◇");
+
     var accordionHTML = '   <div class="aname"> <div class="areaname"><p>' + area_name + "</p></div> </div>";
     //アコーディオンの分類から対応の計算を行います。
     for (var i in areaModel.trash) {
@@ -677,10 +680,7 @@ $(function() {
 
     window.alert("①");
 
-
     //$('html,body').animate({scrollTop: 0}, 'fast');
-
-    $('html,body').animate();
 
     window.alert("②");
 
@@ -695,10 +695,6 @@ $(function() {
       //◆ body.animate({
       //◆   scrollTop: accordion_offset
       //◆ }, 50);
-
-
-      body.animate({
-      }, 50);
 
     window.alert("④");
 
