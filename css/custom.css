@@ -14,7 +14,7 @@ a:hover {
 .aname{
 	display: table;
 	height: 30px;
-	width: 100%;	
+	//◆width: 100%;	
 }
 
 .areaname{
@@ -52,7 +52,7 @@ a:hover {
 	display: table-cell;
 	vertical-align: middle;
 	text-align: center;
-	width: 100%;
+	//◆width: 100%;
 	/* font-size: 22px; ↑80% */
 	font-size: 24px;
 	font-weight: bold;
@@ -66,7 +66,7 @@ a:hover {
 	position: relative;
 	display: table;
 	padding: 0;
-	width: 100%;
+	//◆width: 100%;
 	/* ◇0614 height: 119px; */
 }
 /* 相対日付 (左肩) */
