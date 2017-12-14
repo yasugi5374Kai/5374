@@ -109,7 +109,6 @@ a:hover {
  * 5374.jpについて
  */
 #accordion3 a.accordion-toggle-top {
-    position: fixed;
 	color: #000000;
 	height: 22px;
 	display: block;
@@ -121,19 +120,15 @@ a:hover {
 	margin: 15px 0 15px 15px;
 }
 #accordion3 a.accordion-toggle-top:hover {
-    position: fixed;
 
 	color: #000000;
 }
 #accordion3 h2 {
-    position: fixed;
-
 	//font-size: 25px;
 	font-size: 20px;
 	margin-top: 40px;
 }
 #accordion3 h3 {
-    position: fixed;
 
 	font-weight: bold;
 	font-size: 16px;
