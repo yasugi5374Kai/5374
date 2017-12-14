@@ -720,27 +720,27 @@ $(function() {
     var accordion_elm = $("#accordion");
     accordion_elm.html(accordionHTML);
 
-   window.alert("①");
-    //$('html,body').animate({scrollTop: 0}, 'fast');
+    // ◇↓
+    window.alert("②");
+
+    $('html,body').animate({scrollTop: 0}, 'fast');
 
     //アコーディオンのラベル部分をクリックしたら
-    // ◇↓
-
-    //  $(".accordion-body").on("shown.bs.collapse", function() {
-    //  var body = $('body');
-    //  var accordion_offset = $($(this).parent().get(0)).offset().top;
-    //  body.animate({
-    //    scrollTop: accordion_offset
-    //  }, 50);
-    //});
+    $(".accordion-body").on("shown.bs.collapse", function() {
+      var body = $('body');
+      var accordion_offset = $($(this).parent().get(0)).offset().top;
+      body.animate({
+        scrollTop: accordion_offset
+      }, 50);
+    });
 
     //アコーディオンの非表示部分をクリックしたら
     //    $("html, body").scrollTop(0);
-    //$(".accordion-body").on("hidden.bs.collapse", function() {
-    //  if ($(".in").length == 0) {
-    //    $("html, body").scrollTop(0);
-    //  }
-    //});
+    $(".accordion-body").on("hidden.bs.collapse", function() {
+      if ($(".in").length == 0) {
+        $("html, body").scrollTop(0);
+      }
+    });
     // ◇↑
 
   }
