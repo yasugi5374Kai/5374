@@ -670,8 +670,8 @@ $(function() {
 
           target_tag += "</ul>";
 
-              target_tag += "<div>■</div>";
-          }
+          //◇
+          target_tag += "<div>■</div>";
 
 
           var dateLabel = trash.getDateLabel();
