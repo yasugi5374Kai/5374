@@ -153,6 +153,11 @@ a:hover {
 	margin-left: 5px;
 }
 
+#map_canvas {
+  height: 400px;
+  width:  400px;
+}
+
 #iframemap {
     position: fixed;
 
