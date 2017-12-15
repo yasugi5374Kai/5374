@@ -153,6 +153,40 @@ a:hover {
 	margin-left: 5px;
 }
 
+
+.box{
+  width:150px;
+  height:150px;
+  margin:10px;
+  border-radius: 10px;        /* CSS3草案 */
+  -webkit-border-radius: 10px;    /* Safari,Google Chrome用 */
+  -moz-border-radius: 10px;   /* Firefox用 */
+  float:left;
+  padding:20px;
+}
+
+#one{
+
+  background:#000;
+}
+
+#two{
+  /*visibility:hidden;*/
+  background:#9eccb3;
+}
+
+#three{
+  background:#f47d44;
+  /*display:none;*/
+}
+
+#four{
+  background:#000;
+  clear:right;
+}
+
+
+
 #map_canvas {
   height: 400px;
   width:  400px;
