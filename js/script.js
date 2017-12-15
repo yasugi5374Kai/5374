@@ -586,7 +586,7 @@ $(function() {
     var styleHTML = "";
     // ◇ var accordionHTML = "";
 
-    window.alert("◇");
+   // window.alert("◇");
 
     var accordionHTML = '   <div class="aname"> <div class="areaname"><p>' + area_name + "</p></div> </div>";
     //アコーディオンの分類から対応の計算を行います。
@@ -678,11 +678,11 @@ $(function() {
     var accordion_elm = $("#accordion");
     accordion_elm.html(accordionHTML);
 
-    window.alert("①");
+    //window.alert("①");
 
     //$('html,body').animate({scrollTop: 0}, 'fast');
 
-    window.alert("②");
+   // window.alert("②");
 
 
     //アコーディオンのラベル部分をクリックしたら
@@ -690,13 +690,13 @@ $(function() {
       var body = $('body');
       var accordion_offset = $($(this).parent().get(0)).offset().top;
 
-    window.alert("③");
+  //  window.alert("③");
 
       //◆ body.animate({
       //◆   scrollTop: accordion_offset
       //◆ }, 50);
 
-    window.alert("④");
+  //  window.alert("④");
 
     });
     //アコーディオンの非表示部分をクリックしたら
