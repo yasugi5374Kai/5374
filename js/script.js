@@ -732,6 +732,9 @@ $(function() {
     });
     //アコーディオンの非表示部分をクリックしたら
     $(".accordion-body").on("hidden.bs.collapse", function() {
+
+      window.alert("非表示");
+
       if ($(".in").length == 0) {
         $("html, body").scrollTop(0);
       }
