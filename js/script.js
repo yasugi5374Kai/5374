@@ -670,10 +670,6 @@ $(function() {
 
           target_tag += "</ul>";
 
-          //◇
-          target_tag += "<div>■</div>";
-
-
           var dateLabel = trash.getDateLabel();
           //あと何日かを計算する処理です。
           var leftDayText = "";
@@ -712,7 +708,7 @@ $(function() {
             "</div>" +
             '<div id="collapse' + i + '" class="accordion-body collapse">' +
             '<div class="accordion-inner">' +
-            description.description + "<br />" + target_tag +
+            description.description + "■<br />" + target_tag +
             '<div class="targetDays"></div></div>' +
             "</div>" +
             "</div>";
