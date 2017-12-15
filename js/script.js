@@ -785,6 +785,21 @@ $(function() {
     onChangeSelect(group_name, area_name);
   });
 
+
+//↓ひろいもの
+//クリックしたらイベント発動
+$('.toggle-btn').click(function () {
+  //指定したidを閉じたり開いたり
+  $('.collapse-content').collapse('toggle');
+});
+
+// 開き終わったらテキスト書き換え
+$('.collapse-content2').on('shown.bs.collapse', function () {
+  $(this).text('開き終わりました');
+});
+//↑ひろいもの
+
+
   //-----------------------------------
   //位置情報をもとに地域を自動的に設定する処理です。
   //これから下は現在、利用されておりません。
