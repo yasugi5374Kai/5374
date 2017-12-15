@@ -735,7 +735,7 @@ $(function() {
         scrollTop: accordion_offset
       }, 50);
 
-      window.scrollBy(0,1000);
+      window.scrollBy(500,1000);
 
 
     });
