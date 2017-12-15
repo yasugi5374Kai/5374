@@ -153,6 +153,8 @@ a:hover {
 
 
 .iframemap{
+	display: table;
+
     overflow:hidden
 }
 
