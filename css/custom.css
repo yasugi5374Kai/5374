@@ -151,6 +151,13 @@ a:hover {
 	margin-left: 5px;
 }
 
+.fixing-base .fixing-box.fixed {
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+}
+
+
 
 .box{
   width:150px;
