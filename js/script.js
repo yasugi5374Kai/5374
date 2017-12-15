@@ -799,6 +799,13 @@ $('.toggle-btn').click(function () {
 // 開き終わったらテキスト書き換え
 $('.collapse-content2').on('shown.bs.collapse', function () {
   $(this).text('開き終わりました');
+
+      $("#iframemap").html('<iframe width="700" height="400" src="http://yasugi.od-db.jp/dataset/risaikuru/resource/fa50007b-afe2-4fec-adf8-38fc461ac143/view/fb04940c-a88e-4a4f-9fac-73d9212cb497" frameBorder="10">');
+
+
+
+
+
 });
 //↑ひろいもの
 
