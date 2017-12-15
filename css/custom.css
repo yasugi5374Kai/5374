@@ -41,6 +41,7 @@ a:hover {
 }
 #accordion .accordion-group h6 {
 	//◎ position: absolute;
+	position: fixed;
 	bottom: 0px;
 	left: 10px;
 	margin: 0;
@@ -64,6 +65,7 @@ a:hover {
 	color: white;
 	/* ◇カラー追加 ↑ */
 	//◎ position: relative;
+	position: fixed;
 	display: table;
 	padding: 0;
 	//◆width: 100%;
@@ -74,6 +76,8 @@ a:hover {
 	font-size: 1.2em;
 	color: white;
 	//◎ position: absolute;
+	position: fixed;
+
 	padding-left: 10px;
 }
 /* 指定日・直近日付 */
