@@ -725,7 +725,7 @@ $(function() {
     //アコーディオンのラベル部分をクリックしたら
     $(".accordion-body").on("shown.bs.collapse", function() {
 
-      window.alert("①表示するとき");
+      window.alert("①300表示するとき");
 
 
 
@@ -740,7 +740,7 @@ $(function() {
 
       var iframe = $('iframe');
       iframe.animate({
-        scroll: 1000
+        scrollTop: 300
       }, 50);
 
 
