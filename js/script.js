@@ -725,7 +725,7 @@ $(function() {
     //アコーディオンのラベル部分をクリックしたら
     $(".accordion-body").on("shown.bs.collapse", function() {
 
-      window.alert("①300表示するとき");
+      window.alert("①500表示するとき");
 
 
 
@@ -735,7 +735,6 @@ $(function() {
         scrollTop: accordion_offset
       }, 50);
 
-      //window.scrollBy(500,1000);
 
 
       var iframe = $('iframe');
@@ -743,6 +742,7 @@ $(function() {
         scrollTop: 300
       }, 50);
 
+      window.scrollBy(0,-500);
 
     });
     //アコーディオンの非表示部分をクリックしたら
