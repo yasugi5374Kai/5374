@@ -735,7 +735,13 @@ $(function() {
         scrollTop: accordion_offset
       }, 50);
 
-      window.scrollBy(500,1000);
+      //window.scrollBy(500,1000);
+
+
+      var iframe = $('iframe');
+      body.animate({
+        scrollTop: 1000
+      }, 50);
 
 
     });
