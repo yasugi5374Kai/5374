@@ -413,8 +413,6 @@ var RemarkModel = function(data) {
 $(function() {
 /*   windowHeight = $(window).height(); */
 
-
-
   var center_data = new Array();
   var descriptions = new Array();
   var areaModels = new Array();
@@ -422,32 +420,6 @@ $(function() {
   var groupOrder = new Array();
   var remarks = new Array();
 /*   var descriptions = new Array(); */
-
-
-      // ◇固定する場所が存在することの確認
-      if( $('.fixing-base .fixing-box').length > 0 ){
-        var baseSelector = '.fixing-base'
-        var fixingSelector = baseSelector + ' .fixing-box'
-
-        $(window).on('load scroll resize', function(){
-          var baseTop = $(baseSelector).offset().top
-
-          //固定開始位置より後にスクロールされた場合
-          if( $(window).scrollTop() > baseTop ){
-            $(fixingSelector).addClass('fixed')
-            $(baseSelector).height($(fixingSelector).outerHeight())
-            $(fixingSelector).width($(baseSelector).width())
-
-          //固定開始位置以前にスクロールされた場合
-          } else {
-            $(fixingSelector).removeClass('fixed')
-            $(baseSelector).height('')
-            $(fixingSelector).width('')
-          }
-        })
-      }
-      //◇
-
 
 
   function getSelectedAreaName() {
@@ -752,9 +724,6 @@ $(function() {
 
     //アコーディオンのラベル部分をクリックしたら
     $(".accordion-body").on("shown.bs.collapse", function() {
-
-      window.alert("①表示");
-
       var body = $('body');
       var accordion_offset = $($(this).parent().get(0)).offset().top;
       body.animate({
@@ -763,19 +732,11 @@ $(function() {
     });
     //アコーディオンの非表示部分をクリックしたら
     $(".accordion-body").on("hidden.bs.collapse", function() {
-
-      window.alert("②非表示");
-
       if ($(".in").length == 0) {
         $("html, body").scrollTop(0);
       }
     });
   }
-
-
-
-
-
 
   function onChangeSelect(group_name, area_name) {
     if (group_name == -1) {
