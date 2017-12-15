@@ -670,8 +670,7 @@ $(function() {
 
           target_tag += "</ul>";
 
-          if (d_no == 1) {
-              target_tag += '<iframe width="700" height="400" src="http://yasugi.od-db.jp/dataset/risaikuru/resource/fa50007b-afe2-4fec-adf8-38fc461ac143/view/fb04940c-a88e-4a4f-9fac-73d9212cb497" frameBorder="10"></iframe>';
+              target_tag += "<div>■</div>";
           }
 
 
@@ -732,20 +731,22 @@ $(function() {
     //◇ $('html,body').animate({scrollTop: 0}, 'fast');
 
     //アコーディオンのラベル部分をクリックしたら
-  //  $(".accordion-body").on("shown.bs.collapse", function() {
-  //    var body = $('body');
-  //    var accordion_offset = $($(this).parent().get(0)).offset().top;
-  //    body.animate({
-  //      scrollTop: accordion_offset
-  //    }, 50);
-  //  });
+    //    scrollTop: accordion_offset
+
+    $(".accordion-body").on("shown.bs.collapse", function() {
+      var body = $('body');
+      var accordion_offset = $($(this).parent().get(0)).offset().top;
+      body.animate({
+        scrollTop: 1000
+      }, 50);
+    });
 
     //アコーディオンの非表示部分をクリックしたら
-  //  $(".accordion-body").on("hidden.bs.collapse", function() {
-  //    if ($(".in").length == 0) {
-  //      $("html, body").scrollTop(0);
-  //    }
-  //  });
+    $(".accordion-body").on("hidden.bs.collapse", function() {
+      if ($(".in").length == 0) {
+        $("html, body").scrollTop(0);
+      }
+    });
     // ◇↑
 
   }
