@@ -120,11 +120,9 @@ a:hover {
 	margin: 15px 0 15px 15px;
 }
 #accordion3 a.accordion-toggle-top:hover {
-
 	color: #000000;
 }
 #accordion3 h2 {
-
 	//font-size: 25px;
 	font-size: 20px;
 	margin-top: 40px;
@@ -185,20 +183,6 @@ a:hover {
   clear:right;
 }
 
-
-
-#map_canvas {
-  height: 400px;
-  width:  400px;
-}
-
-#iframemap {
-    position: fixed;
-
-	margin: 10;
-    position: fixed;
-    //position: sticky
-}
 
 
 /*!
