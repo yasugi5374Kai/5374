@@ -151,11 +151,8 @@ a:hover {
 	margin-left: 5px;
 }
 
-
 .iframemap{
-	display: table;
-
-    overflow:hidden
+    vertical-align:middle !important;
 }
 
 
