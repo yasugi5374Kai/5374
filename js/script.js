@@ -725,9 +725,6 @@ $(function() {
     //アコーディオンのラベル部分をクリックしたら
     $(".accordion-body").on("shown.bs.collapse", function() {
 
-      window.alert("①表示するとき");
-
-
 
       var body = $('body');
       var accordion_offset = $($(this).parent().get(0)).offset().top;
@@ -748,7 +745,6 @@ $(function() {
     //アコーディオンの非表示部分をクリックしたら
     $(".accordion-body").on("hidden.bs.collapse", function() {
 
-      window.alert("②非表示にするとき");
 
       if ($(".in").length == 0) {
         $("html, body").scrollTop(0);
