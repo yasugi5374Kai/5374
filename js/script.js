@@ -1,6 +1,5 @@
 "use strict";
 
-
 // 固定の休止期間 開始日12月30日
 var cblankStartMM = 12;
 var cblankStartDD = 30;
@@ -15,7 +14,8 @@ var cblankEndDD = 3;
 var AreaModel = function() {
   this.label;
   this.centerName;
-  this.center;
+  //◇◇◇this.center;
+  this.center = new Array();
   this.trash = new Array();
 
   /**
@@ -30,14 +30,17 @@ var AreaModel = function() {
     休止期間（主に年末年始）かどうかを判定します。
   */
   this.isBlankDay = function(currentDate,startDate) {
-    if (!this.center) {
-        return false;
-    }
-    var period = [this.center.startDate, this.center.endDate];
+    //◇◇◇if (!this.center) {
+    if (this.center.length > 0) {
 
-    if (period[0].getTime() <= currentDate.getTime() &&
-      currentDate.getTime() <= period[1].getTime()) {
-      return true;
+        for (var i in this.center) {
+
+            if (this.center[i].startDate.getTime() <= currentDate.getTime() &&
+              currentDate.getTime() <=this.center[i].endDate.getTime()) {
+
+              return true;
+            }
+        }
     }
 
     //◇ 固定　休止終了日は開始日の次の年
@@ -287,10 +290,8 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     //直近の日付を更新
     var now = new Date();
 
-
     // ◇ 
     this.bikohyoji = "";
-
 
     for (var i in day_list) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
@@ -333,7 +334,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 /**
 センターのデータを管理します。
 */
-var CenterModel = function(row) {
+var CenterRowModel = function(row) {
   function getDay(center, index) {
     var tmp = center[index].split("/");
     return new Date(tmp[0], tmp[1] - 1, tmp[2]);
@@ -343,6 +344,12 @@ var CenterModel = function(row) {
   this.startDate = getDay(row, 1);
   this.endDate = getDay(row, 2);
 }
+
+var CenterModel = function() {
+  this.name;
+  this.period = new Array();
+}
+
 /**
 * ゴミのカテゴリを管理するクラスです。
 * description.csvのモデルです。
@@ -389,6 +396,9 @@ var TransferdateModel = function(data) {
   this.biko = data[4];
 
 }
+
+
+
 
 /* var windowHeight; */
 
@@ -475,16 +485,52 @@ $(function() {
         }
       }
 
+      window.alert("①休止期間");
+
       csvToArray("data/center.csv", function(tmp) {
         //ゴミ処理センターのデータを解析します。
         //表示上は現れませんが、
         //金沢などの各処理センターの休止期間分は一週間ずらすという法則性のため
         //例えば第一金曜日のときは、一周ずらしその月だけ第二金曜日にする
+
+        var center_tmp = new CenterModel();
+        var center = new CenterModel();
+
         tmp.shift();
         for (var i in tmp) {
           var row = tmp[i];
+          var centerRow = new CenterRowModel(row);
 
-          var center = new CenterModel(row);
+          window.alert("②：" + i);
+
+
+          if (i == 0) {
+
+              center_tmp.name = centerRow.name;
+
+              window.alert("③：" + i + "：" + center_tmp.name);
+
+
+              center_tmp.period.push([centerRow.startDate,centerRow.startDate]);
+              window.alert("③休止期間");
+
+
+              center.push(center_tmp);
+
+              window.alert("⑤プッシュ成功");
+
+          }
+
+          for (var j in center) {
+
+              if (center[j].name == centerRow.name) {
+
+                  
+
+              }
+          }
+
+
           center_data.push(center);
         }
         //ゴミ処理センターを対応する各地域に割り当てます。
@@ -616,9 +662,6 @@ $(function() {
     }
     var styleHTML = "";
     // ◇ var accordionHTML = "";
-
-    window.alert("①");
-
     var accordionHTML = '   <div class="aname"> <div class="areaname"><p>' + area_name + "</p></div> </div>";
     //アコーディオンの分類から対応の計算を行います。
     for (var i in areaModel.trash) {
