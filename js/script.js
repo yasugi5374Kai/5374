@@ -487,6 +487,8 @@ $(function() {
 
       window.alert("①休止期間");
 
+
+
       csvToArray("data/center.csv", function(tmp) {
         //ゴミ処理センターのデータを解析します。
         //表示上は現れませんが、
@@ -496,6 +498,9 @@ $(function() {
         var center_tmp = new CenterModel();
         var center = new Array();
         var nameFlg = 0;
+
+        window.alert("◇まわらない");
+
 
         tmp.shift();
         for (var i in tmp) {
@@ -539,7 +544,7 @@ $(function() {
           }
           window.alert("⑦追加おわり");
 
-          center_data.push(center);
+         // center_data.push(center);
         }
         //ゴミ処理センターを対応する各地域に割り当てます。
         for (var i in areaModels) {
