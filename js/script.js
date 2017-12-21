@@ -485,7 +485,7 @@ $(function() {
         }
       }
 
-      window.alert("①◇休止期間");
+      window.alert("①休止期間");
 
       csvToArray("data/center.csv", function(tmp) {
         //ゴミ処理センターのデータを解析します。
@@ -508,7 +508,7 @@ $(function() {
               center_tmp.period.push(centerRow.startDate + ":" + centerRow.startDate);
               center.push(center_tmp);
 
-              window.alert("②プッシュ成功");
+              window.alert("②プッシュ成功：" + centerRow.name);
 
           } else {
 
