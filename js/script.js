@@ -55,13 +55,17 @@ var AreaModel = function() {
     return false;
   }
   /**
-    ゴミ処理センターを登録します。
+    ゴミ処理センターを登録します。☆
     名前が一致するかどうかで判定を行っております。
   */
   this.setCenter = function(center_data) {
     for (var i in center_data) {
       if (this.centerName == center_data[i].name) {
-        this.center = center_data[i];
+        //this.center = center_data[i];
+
+        for (j in center_data[i].period) {
+            this.center.push(center_data[i].period[j]);
+        }
       }
     }
   }
