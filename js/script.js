@@ -516,14 +516,10 @@ $(function() {
 
               window.alert("◇センター数：" + center.length);
 
-              //for (var j in center) {
-              for (var j = 0; j < center.length; j++) {
-
-                  window.alert("③センター数：" + j + "：" + center[j].name +  "：" + centerRow.name);
+              for (var j in center) {
+              //for (var j = 0; j < center.length; j++) {
 
                   if (center[j].name == centerRow.name) {
-                      window.alert("④追加前：" + center[j].name);
-
                       center[j].period.push(centerRow.startDate + ":" + centerRow.startDate);
 
                       window.alert("⑤追加後：" + centerRow.name);
@@ -537,17 +533,13 @@ $(function() {
                   center_tmp.name = centerRow.name;
                   center_tmp.period.push(centerRow.startDate + ":" + centerRow.startDate);
                   center.push(center_tmp);
-
-                  window.alert("⑥ふつうに追加後：" + centerRow.name);
               }
           }
 
-         // center_data.push(center);
         }
 
         window.alert("⑦追加おわり：" + center.length + "：" + center[0].name + "◇" + center[1].name);
-        window.alert("⑧おちなかった");
-
+        
         //ゴミ処理センターを対応する各地域に割り当てます。
         for (var i in areaModels) {
           var area = areaModels[i];
@@ -628,11 +620,6 @@ $(function() {
 
       }
     });
-
-
-
-
-
 
     csvToArray("data/description.csv", function(data) {
       data.shift();
