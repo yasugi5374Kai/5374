@@ -1,5 +1,14 @@
 "use strict";
 
+
+// 固定の休止期間 開始日12月30日
+var cblankStartMM = 12;
+var cblankStartDD = 30;
+
+// 固定の休止期間 終了日1月3日
+var cblankEndMM = 1;
+var cblankEndDD = 3;
+
 /**
   エリア(ごみ処理の地域）を管理するクラスです。
 */
@@ -20,7 +29,7 @@ var AreaModel = function() {
   /**
     休止期間（主に年末年始）かどうかを判定します。
   */
-  this.isBlankDay = function(currentDate) {
+  this.isBlankDay = function(currentDate,startDate) {
     if (!this.center) {
         return false;
     }
@@ -30,6 +39,16 @@ var AreaModel = function() {
       currentDate.getTime() <= period[1].getTime()) {
       return true;
     }
+
+    //◇ 固定　休止終了日は開始日の次の年
+    var endYear = startDate.getFullYear() + 1;
+    var endDate = new Date(endYear, (cblankEndMM - 1), cblankEndDD);
+
+    if (startDate.getTime() <= currentDate.getTime() &&
+      currentDate.getTime() <= endDate.getTime()) {
+      return true;
+    }
+
     return false;
   }
   /**
@@ -206,7 +225,20 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
             );
             //年末年始のずらしの対応
             //休止期間なら、今後の日程を１週間ずらす
-            if (areaObj.isBlankDay(d)) {
+
+            // 固定の休止期間
+            // １月１日～終了日 は休止開始年を昨年にする
+            if (date.getMonth() == (cblankEndMM - 1) && date.getDate() <= cblankEndDD)  {
+
+                var ky = (date.getFullYear()) - 1;
+            } else {
+
+                var ky = date.getFullYear();
+            }
+
+            var s = new Date(ky + '/' + cblankStartMM + '/' + cblankStartDD);
+
+            if (areaObj.isBlankDay(d,s)) {
               if (WeekShift) {
                 isShift = true;
               } else {
@@ -586,7 +618,7 @@ $(function() {
     var styleHTML = "";
     // ◇ var accordionHTML = "";
 
-   // window.alert("◇");
+    window.alert("①");
 
     var accordionHTML = '   <div class="aname"> <div class="areaname"><p>' + area_name + "</p></div> </div>";
     //アコーディオンの分類から対応の計算を行います。
@@ -671,6 +703,9 @@ $(function() {
             "</div>" +
             "</div>";
       }
+
+      window.alert("②おわり");
+
     }
 
     $("#accordion-style").html('<!-- ' + styleHTML + ' -->');
@@ -678,12 +713,7 @@ $(function() {
     var accordion_elm = $("#accordion");
     accordion_elm.html(accordionHTML);
 
-    //window.alert("①");
-
     //$('html,body').animate({scrollTop: 0}, 'fast');
-
-   // window.alert("②");
-
 
     //アコーディオンのラベル部分をクリックしたら
     $(".accordion-body").on("shown.bs.collapse", function() {
