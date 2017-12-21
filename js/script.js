@@ -542,10 +542,14 @@ $(function() {
                   window.alert("⑥ふつうに追加後：" + centerRow.name);
               }
           }
-          window.alert("⑦追加おわり：" + center.length);
 
          // center_data.push(center);
         }
+
+
+
+        window.alert("⑦追加おわり：" + center.length + "：" + center[0].name + "◇" + center[1].name);
+
         //ゴミ処理センターを対応する各地域に割り当てます。
         for (var i in areaModels) {
           var area = areaModels[i];
