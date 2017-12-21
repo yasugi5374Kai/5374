@@ -516,7 +516,7 @@ $(function() {
 
               for (var j in center) {
 
-                  window.alert("③センター数：" + j);
+                  window.alert("③センター数：" + j + "：" + center[j].name +  "：" + centerRow.name);
 
                   if (center[j].name == centerRow.name) {
                       window.alert("④追加前：" + center[j].name);
@@ -621,6 +621,11 @@ $(function() {
 
       }
     });
+
+
+
+
+
 
     csvToArray("data/description.csv", function(data) {
       data.shift();
