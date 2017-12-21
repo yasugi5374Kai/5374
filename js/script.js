@@ -542,7 +542,7 @@ $(function() {
                   window.alert("⑥ふつうに追加後：" + centerRow.name);
               }
           }
-          window.alert("⑦追加おわり");
+          window.alert("⑦追加おわり：" + center.length);
 
          // center_data.push(center);
         }
