@@ -495,38 +495,48 @@ $(function() {
 
         var center_tmp = new CenterModel();
         var center = new Array();
+        var nameFlg = 0;
 
         tmp.shift();
         for (var i in tmp) {
           var row = tmp[i];
           var centerRow = new CenterRowModel(row);
 
-          window.alert("②：" + i);
-
           if (i == 0) {
 
               center_tmp.name = centerRow.name;
-
-              window.alert("③：" + i + "：" + center_tmp.name);
-
               center_tmp.period.push(centerRow.startDate + ":" + centerRow.startDate);
-              window.alert("④：" + centerRow.startDate + ":" + centerRow.startDate);
-
               center.push(center_tmp);
 
-              window.alert("⑤プッシュ成功");
+              window.alert("②プッシュ成功");
 
-          }
+          } else {
 
-          for (var j in center) {
+              nameFlg = 0;
 
-              if (center[j].name == centerRow.name) {
+              for (var j in center) {
 
-                  
+                  if (center[j].name == centerRow.name) {
+                      window.alert("③追加前：" + center[j].name);
+
+                      center[j].period.push(centerRow.startDate + ":" + centerRow.startDate);
+
+                      window.alert("④追加後：" + centerRow.name);
+                      nameFlg = 1;
+                  }
+              }
+
+              if (nameFlg == 0) {
+
+                  center_tmp.name = centerRow.name;
+                  center_tmp.period.push(centerRow.startDate + ":" + centerRow.startDate);
+                  center.push(center_tmp);
+
+                  window.alert("⑤ふつうに追加後：" + centerRow.name);
 
               }
           }
-
+          window.alert("⑥追加おわり");
 
           center_data.push(center);
         }
