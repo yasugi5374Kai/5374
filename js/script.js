@@ -6,8 +6,7 @@
 var AreaModel = function() {
   this.label;
   this.centerName;
-  //◇◇◇this.center;
-  this.center = new Array();
+  this.center;
   this.trash = new Array();
 
   /**
@@ -22,21 +21,15 @@ var AreaModel = function() {
     休止期間（主に年末年始）かどうかを判定します。
   */
   this.isBlankDay = function(currentDate) {
-
-    if (!this.startDate) {
+    if (!this.center) {
         return false;
     }
+    var period = [this.center.startDate, this.center.endDate];
 
-    for (var i in this.center) {
-
-        var period = [this.center[i].startDate, this.center.endDate[i]];
-
-        if (period[0].getTime() <= currentDate.getTime() &&
-          currentDate.getTime() <= period[1].getTime()) {
-          return true;
-        }
+    if (period[0].getTime() <= currentDate.getTime() &&
+      currentDate.getTime() <= period[1].getTime()) {
+      return true;
     }
-
     return false;
   }
   /**
@@ -44,19 +37,9 @@ var AreaModel = function() {
     名前が一致するかどうかで判定を行っております。
   */
   this.setCenter = function(center_data) {
-
     for (var i in center_data) {
       if (this.centerName == center_data[i].name) {
-
-        for (var j in center_data[i].startDate) {
-
-
-            this.center.push(center_data[i].startDate[j] + "-" + center_data[i].endDate[j]);
-
-
-        }
-
-       // this.center = center_data[i];
+        this.center = center_data[i];
       }
     }
   }
@@ -223,7 +206,6 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
             );
             //年末年始のずらしの対応
             //休止期間なら、今後の日程を１週間ずらす
-
             if (areaObj.isBlankDay(d)) {
               if (WeekShift) {
                 isShift = true;
@@ -231,7 +213,6 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
                 continue;
               }
             }
-
             if (isShift) {
               d.setTime(d.getTime() + 7 * 24 * 60 * 60 * 1000);
             }
@@ -274,9 +255,9 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
     //直近の日付を更新
     var now = new Date();
 
+
     // ◇ 
     this.bikohyoji = "";
-
 
 
     for (var i in day_list) {
@@ -286,13 +267,16 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
         for (var k in this.transferdata) {
 
             //振替日の対応
-            if (this.label == this.transferdata[k].label && 
-                day_list[i].getTime() == this.transferdata[k].calculationdate.getTime() && 
-                now.getTime() >= this.transferdata[k].startdate.getTime() &&
-                now.getTime() <= this.transferdata[k].transferdate.getTime()) {
+            if (this.label == this.transferdata[k].label) {
 
-                  this.mostRecent = transferdata[k].transferdate;
-                  this.bikohyoji = this.transferdata[k].biko;
+              if (day_list[i].getTime() == this.transferdata[k].calculationdate.getTime()) {
+
+                  if (now.getTime() >= this.transferdata[k].startdate.getTime() && now.getTime() <= this.transferdata[k].transferdate.getTime()) {
+
+                      this.mostRecent = transferdata[k].transferdate;
+                      this.bikohyoji = this.transferdata[k].biko;
+                  }
+              }
             }
         }
         break;
@@ -317,7 +301,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 /**
 センターのデータを管理します。
 */
-var CenterRowModel = function(row) {
+var CenterModel = function(row) {
   function getDay(center, index) {
     var tmp = center[index].split("/");
     return new Date(tmp[0], tmp[1] - 1, tmp[2]);
@@ -327,13 +311,6 @@ var CenterRowModel = function(row) {
   this.startDate = getDay(row, 1);
   this.endDate = getDay(row, 2);
 }
-
-var CenterModel = function() {
-  this.name;
-  this.center = new Array();
-}
-
-
 /**
 * ゴミのカテゴリを管理するクラスです。
 * description.csvのモデルです。
@@ -436,7 +413,6 @@ $(function() {
   }
 
   function updateAreaList() {
-
     csvToArray("data/area_days.csv", function(tmp) {
       var area_days_label = tmp.shift();
       for (var i in tmp) {
@@ -467,74 +443,23 @@ $(function() {
         }
       }
 
-      window.alert("①");
-
-
       csvToArray("data/center.csv", function(tmp) {
         //ゴミ処理センターのデータを解析します。
         //表示上は現れませんが、
         //金沢などの各処理センターの休止期間分は一週間ずらすという法則性のため
         //例えば第一金曜日のときは、一周ずらしその月だけ第二金曜日にする
-
-        var center_tmp = new CenterModel();
-        var center_flg = 0;
-
         tmp.shift();
-
-        //
         for (var i in tmp) {
-
           var row = tmp[i];
-          var centerRow = new CenterRowModel(row);
 
-          for (var j in center_tmp) {
-
-              if (center_tmp[j].name == centerRow.name) {
-
-
-
-                  var center = (centerRow.startDate,centerRow.endDate);
-
-                  center_tmp[j].center.push
-                  center_flg = 1;
-
-                  break;
-              }
-          }
-
-          window.alert("②：" j);
-
-
-          if (center_flg == 0) {
-              var center_tmp = new CenterModel();
-
-              window.alert("③◇：" + centerRow.name);
-
-
-              center_tmp.name = centerRow.name;
-              center_tmp.startDate.push(centerRow.startDate);
-              center_tmp.endDate.push(centerRow.endDate);
-
-              window.alert("④きゅうし：" + centerRow.startDate);
-              window.alert("⑤きゅうし：" + centerRow.startDate.getDate());
-
-              center_data.push(center_tmp);
-          }
+          var center = new CenterModel(row);
+          center_data.push(center);
         }
-
-        window.alert("⑥");
-
-
-        //  center_data.push(center);
-
         //ゴミ処理センターを対応する各地域に割り当てます。
         for (var i in areaModels) {
           var area = areaModels[i];
           area.setCenter(center_data);
         };
-
-        window.alert("⑦");
-
         createSelectBox();
 
         //デバッグ用
@@ -660,6 +585,9 @@ $(function() {
     }
     var styleHTML = "";
     // ◇ var accordionHTML = "";
+
+   // window.alert("◇");
+
     var accordionHTML = '   <div class="aname"> <div class="areaname"><p>' + area_name + "</p></div> </div>";
     //アコーディオンの分類から対応の計算を行います。
     for (var i in areaModel.trash) {
@@ -750,20 +678,27 @@ $(function() {
     var accordion_elm = $("#accordion");
     accordion_elm.html(accordionHTML);
 
-    $('html,body').animate({scrollTop: 0}, 'fast');
+    //window.alert("①");
+
+    //$('html,body').animate({scrollTop: 0}, 'fast');
+
+   // window.alert("②");
+
 
     //アコーディオンのラベル部分をクリックしたら
     $(".accordion-body").on("shown.bs.collapse", function() {
       var body = $('body');
       var accordion_offset = $($(this).parent().get(0)).offset().top;
-      body.animate({
-        scrollTop: accordion_offset
-      }, 50);
+
+       body.animate({
+         scrollTop: accordion_offset
+       }, 50);
+
     });
     //アコーディオンの非表示部分をクリックしたら
     $(".accordion-body").on("hidden.bs.collapse", function() {
       if ($(".in").length == 0) {
-        $("html, body").scrollTop(0);
+         $("html, body").scrollTop(0);
       }
     });
   }
