@@ -485,7 +485,7 @@ $(function() {
         }
       }
 
-      window.alert("①休止期間");
+      window.alert("①◇休止期間");
 
       csvToArray("data/center.csv", function(tmp) {
         //ゴミ処理センターのデータを解析します。
@@ -516,12 +516,14 @@ $(function() {
 
               for (var j in center) {
 
+                  window.alert("③センター数：" + j);
+
                   if (center[j].name == centerRow.name) {
-                      window.alert("③追加前：" + center[j].name);
+                      window.alert("④追加前：" + center[j].name);
 
                       center[j].period.push(centerRow.startDate + ":" + centerRow.startDate);
 
-                      window.alert("④追加後：" + centerRow.name);
+                      window.alert("⑤追加後：" + centerRow.name);
                       nameFlg = 1;
                   }
               }
@@ -532,11 +534,10 @@ $(function() {
                   center_tmp.period.push(centerRow.startDate + ":" + centerRow.startDate);
                   center.push(center_tmp);
 
-                  window.alert("⑤ふつうに追加後：" + centerRow.name);
-
+                  window.alert("⑥ふつうに追加後：" + centerRow.name);
               }
           }
-          window.alert("⑥追加おわり");
+          window.alert("⑦追加おわり");
 
           center_data.push(center);
         }
