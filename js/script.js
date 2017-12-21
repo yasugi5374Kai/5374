@@ -494,7 +494,7 @@ $(function() {
         //例えば第一金曜日のときは、一周ずらしその月だけ第二金曜日にする
 
         var center_tmp = new CenterModel();
-        var center = new CenterModel();
+        var center = new Array();
 
         tmp.shift();
         for (var i in tmp) {
