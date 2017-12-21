@@ -511,8 +511,8 @@ $(function() {
               window.alert("③：" + i + "：" + center_tmp.name);
 
 
-              center_tmp.period.push([centerRow.startDate,centerRow.startDate]);
-              window.alert("③休止期間");
+              center_tmp.period.push(centerRow.startDate + ":" + centerRow.startDate);
+              window.alert("④休止期間");
 
 
               center.push(center_tmp);
