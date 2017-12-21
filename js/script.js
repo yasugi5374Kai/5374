@@ -519,7 +519,6 @@ $(function() {
               //for (var j in center) {
               for (var j = 0; j < center.length; j++) {
 
-
                   window.alert("③センター数：" + j + "：" + center[j].name +  "：" + centerRow.name);
 
                   if (center[j].name == centerRow.name) {
