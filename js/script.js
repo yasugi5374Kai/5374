@@ -516,6 +516,8 @@ $(function() {
 
               nameFlg = 0;
 
+              window.alert("◇センター数：" + center.length);
+
               //for (var j in center) {
               for (var j = 0; j < center.length; j++) {
 
