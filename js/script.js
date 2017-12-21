@@ -493,7 +493,6 @@ $(function() {
         //金沢などの各処理センターの休止期間分は一週間ずらすという法則性のため
         //例えば第一金曜日のときは、一周ずらしその月だけ第二金曜日にする
 
-        var center = new Array();
         var nameFlg = 0;
 
         tmp.shift();
@@ -502,11 +501,11 @@ $(function() {
           var centerRow = new CenterRowModel(row);
 
           if (i == 0) {
-              var center_tmp = new CenterModel();
+              var center = new CenterModel();
 
-              center_tmp.name = centerRow.name;
-              center_tmp.period.push(centerRow.startDate + ":" + centerRow.startDate);
-              center.push(center_tmp);
+              center.name = centerRow.name;
+              center.period.push(centerRow.startDate + ":" + centerRow.startDate);
+              center_data.push(center);
 
               window.alert("②プッシュ成功：" + centerRow.name);
 
@@ -514,9 +513,9 @@ $(function() {
 
               nameFlg = 0;
 
-              window.alert("◇センター数：" + center.length);
+              window.alert("◇センター数：" + center_data.length);
 
-              for (var j in center) {
+              for (var j in center_data) {
               //for (var j = 0; j < center.length; j++) {
 
                   if (center[j].name == centerRow.name) {
@@ -528,17 +527,17 @@ $(function() {
               }
 
               if (nameFlg == 0) {
-                  var center_tmp = new CenterModel();
+                  var center = new CenterModel();
 
-                  center_tmp.name = centerRow.name;
-                  center_tmp.period.push(centerRow.startDate + ":" + centerRow.startDate);
-                  center.push(center_tmp);
+                  center.name = centerRow.name;
+                  center.period.push(centerRow.startDate + ":" + centerRow.startDate);
+                  center_data.push(center);
               }
           }
 
         }
 
-        window.alert("⑦追加おわり：" + center.length + "：" + center[0].name + "◇" + center[1].name);
+        window.alert("⑦追加おわり：" + center_data.length + "：" + center_data[0].name + "◇" + center_data[1].name);
         
         //ゴミ処理センターを対応する各地域に割り当てます。
         for (var i in areaModels) {
