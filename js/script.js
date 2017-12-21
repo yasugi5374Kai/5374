@@ -703,10 +703,9 @@ $(function() {
             "</div>" +
             "</div>";
       }
-
-      window.alert("②おわり");
-
     }
+
+    window.alert("②おわり");
 
     $("#accordion-style").html('<!-- ' + styleHTML + ' -->');
 
