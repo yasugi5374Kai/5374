@@ -467,6 +467,9 @@ $(function() {
         }
       }
 
+      window.alert("①");
+
+
       csvToArray("data/center.csv", function(tmp) {
         //ゴミ処理センターのデータを解析します。
         //表示上は現れませんが、
@@ -488,6 +491,8 @@ $(function() {
 
               if (center_tmp[j].name == centerRow.name) {
 
+
+
                   var center = (centerRow.startDate,centerRow.endDate);
 
                   center_tmp[j].center.push
@@ -497,22 +502,27 @@ $(function() {
               }
           }
 
+          window.alert("②：" j);
+
+
           if (center_flg == 0) {
               var center_tmp = new CenterModel();
 
-             // window.alert("きゅうし◇：" + centerRow.name);
+              window.alert("③◇：" + centerRow.name);
 
 
               center_tmp.name = centerRow.name;
               center_tmp.startDate.push(centerRow.startDate);
               center_tmp.endDate.push(centerRow.endDate);
 
-            //  window.alert("きゅうし①：" + centerRow.startDate);
-            //  window.alert("きゅうし②：" + centerRow.startDate.getDate());
+              window.alert("④きゅうし：" + centerRow.startDate);
+              window.alert("⑤きゅうし：" + centerRow.startDate.getDate());
 
               center_data.push(center_tmp);
           }
         }
+
+        window.alert("⑥");
 
 
         //  center_data.push(center);
@@ -522,6 +532,9 @@ $(function() {
           var area = areaModels[i];
           area.setCenter(center_data);
         };
+
+        window.alert("⑦");
+
         createSelectBox();
 
         //デバッグ用
