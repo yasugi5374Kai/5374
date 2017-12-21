@@ -1,34 +1,15 @@
 "use strict";
 
 /**
-  ◇振り替え対応  ☆☆☆ の処理も修正する
-*/
-
-// 振り替え対応区分名
-var FrBPKbn = 'ビン類、ペットボトル';
-
-//振替日
-var FrBPDay = '20180105';
-
-// 算出した収集日がこの日だったら振替日まで振替日を表示する
-var FrBPNext = '20180206';
-
-// 振替日での収集日表示の開始日
-var FrBPStart = '20171206';
-
-// 振替日を表示しているときの備考
-var FrBPBiko = "１月２日の収集は５日に振り替えます。";
-var FrBPBHyoji = "";
-
-
-/**
   エリア(ごみ処理の地域）を管理するクラスです。
 */
 var AreaModel = function() {
   this.label;
   this.centerName;
-  this.center;
+  //◇◇◇this.center;
+  this.center = new Array();
   this.trash = new Array();
+
   /**
   各ゴミのカテゴリに対して、最も直近の日付を計算します。
 */
@@ -40,36 +21,44 @@ var AreaModel = function() {
   /**
     休止期間（主に年末年始）かどうかを判定します。
   */
-  this.isBlankDay = function(currentDate,startDate) {
-    //◇ if (!this.center) {
-    //◇     return false;
-    //◇ }
+  this.isBlankDay = function(currentDate) {
 
-    //◇ 休止終了日は開始日の次の年
-    var endYear = startDate.getFullYear() + 1;
-    var endDate = new Date(endYear, 0, 3);
-
-    if (startDate.getTime() <= currentDate.getTime() &&
-      currentDate.getTime() <= endDate.getTime()) {
-      return true;
+    if (!this.startDate) {
+        return false;
     }
+
+    for (var i in this.center) {
+
+        var period = [this.center[i].startDate, this.center.endDate[i]];
+
+        if (period[0].getTime() <= currentDate.getTime() &&
+          currentDate.getTime() <= period[1].getTime()) {
+          return true;
+        }
+    }
+
     return false;
   }
   /**
     ゴミ処理センターを登録します。
     名前が一致するかどうかで判定を行っております。
-    ◇center.csvは読まない！
   */
-  //◇ 引数撤廃 this.setCenter = function(center_data) {
-  this.setCenter = function() {
-    //◇ for (var i in center_data) {
-    //◇  if (this.centerName == center_data[i].name) {
-    //◇    this.center = center_data[i];
-    //◇  }
-    //◇}
+  this.setCenter = function(center_data) {
 
-   this.center = '安来市';
+    for (var i in center_data) {
+      if (this.centerName == center_data[i].name) {
 
+        for (var j in center_data[i].startDate) {
+
+
+            this.center.push(center_data[i].startDate[j] + "-" + center_data[i].endDate[j]);
+
+
+        }
+
+       // this.center = center_data[i];
+      }
+    }
   }
   /**
   ゴミのカテゴリのソートを行います。
@@ -90,8 +79,11 @@ var AreaModel = function() {
 /**
   各ゴミのカテゴリを管理するクラスです。
 */
-var TrashModel = function(_lable, _cell, remarks) {
+var TrashModel = function(_lable, _cell, remarks, transferdata) {
   this.remarks = remarks;
+
+  this.transferdata = transferdata;
+
   this.dayLabel;
   this.mostRecent;
   this.dayList;
@@ -153,14 +145,12 @@ var TrashModel = function(_lable, _cell, remarks) {
     if (this.mostRecent === undefined) {
 	return this.getRemark() + "不明";
     }
+
     var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
 
-    //◇ 振替日表示期間の備考設定
-    var textRecent = '' + this.mostRecent.getFullYear() +  (('0' + (this.mostRecent.getMonth() + 1)).slice(-2))  + (('0' + this.mostRecent.getDate()).slice(-2));
+    if (this.bikohyoji != "") {
 
-    if (this.label == FrBPKbn && FrBPBHyoji != "" && textRecent == FrBPDay) {
-
-        return this.getRemark() + FrBPBHyoji + "<br/>" + this.dayLabel + " " + result_text;
+        return this.getRemark() + this.bikohyoji + "<br/>" + this.dayLabel + " " + result_text;
     } else {
 
         return this.getRemark() + this.dayLabel + " " + result_text;
@@ -199,10 +189,8 @@ var TrashModel = function(_lable, _cell, remarks) {
     var day_mix = this.dayCell;
     var result_text = "";
     var day_list = new Array();
-    //◇
-    var kubun = this.label;
 
-    // 定期回収の場合　label
+    // 定期回収の場合
     if (this.regularFlg == 1) {
 
       var today = new Date();
@@ -235,19 +223,8 @@ var TrashModel = function(_lable, _cell, remarks) {
             );
             //年末年始のずらしの対応
             //休止期間なら、今後の日程を１週間ずらす
-            // ◇１２月３０日～１月３日まで休み！固定！
-            // １月１日～３日 は休止開始年を昨年にする
-            if (date.getMonth() == 0 && date.getDate() < 4)  {
 
-                var ky = (date.getFullYear()) - 1;
-            } else {
-
-                var ky = date.getFullYear();
-            }
-
-            var s = new Date(ky + '/12/30');
- 
-            if (areaObj.isBlankDay(d,s)) {
+            if (areaObj.isBlankDay(d)) {
               if (WeekShift) {
                 isShift = true;
               } else {
@@ -297,34 +274,26 @@ var TrashModel = function(_lable, _cell, remarks) {
     //直近の日付を更新
     var now = new Date();
 
-    // ◇ now を８桁変換
-    var Nday = '' + now.getFullYear() + (('0' + (now.getMonth() + 1)).slice(-2)) + (('0' + now.getDate()).slice(-2));
+    // ◇ 
+    this.bikohyoji = "";
+
+
 
     for (var i in day_list) {
       if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
-
         this.mostRecent = day_list[i];
 
-        //振り替え対応  this.mostRecentを上書する
-        if (kubun == FrBPKbn) {
+        for (var k in this.transferdata) {
 
-          // ◇ day_list[i] を８桁変換
-          var K_day = '' + day_list[i].getFullYear() + (('0' + (day_list[i].getMonth() + 1)).slice(-2)) + 
-               (('0' + day_list[i].getDate()).slice(-2));
+            //振替日の対応
+            if (this.label == this.transferdata[k].label && 
+                day_list[i].getTime() == this.transferdata[k].calculationdate.getTime() && 
+                now.getTime() >= this.transferdata[k].startdate.getTime() &&
+                now.getTime() <= this.transferdata[k].transferdate.getTime()) {
 
-          // もとめた収集日がFrBPNext
-          if (K_day == FrBPNext) {
-
-              // 振替日を表示する間
-              if (Nday >= FrBPStart && Nday <= FrBPDay) {
-
-                  var arr = (FrBPDay.substr(0, 4) + '/' + FrBPDay.substr(4, 2) + '/' + FrBPDay.substr(6, 2)).split('/');
-                  var DDay = new Date(arr[0], arr[1] - 1, arr[2]);
-                  this.mostRecent = DDay;
-
-                  FrBPBHyoji = FrBPBiko;
-              }
-          }
+                  this.mostRecent = transferdata[k].transferdate;
+                  this.bikohyoji = this.transferdata[k].biko;
+            }
         }
         break;
       }
@@ -339,7 +308,7 @@ var TrashModel = function(_lable, _cell, remarks) {
     var day_text = "<ul>";
     for (var i in this.dayList) {
       var d = this.dayList[i];
-      day_text += "<li>" + d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + "◇" + "</li>";
+      day_text += "<li>" + d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + "</li>";
     };
     day_text += "</ul>";
     return day_text;
@@ -348,31 +317,22 @@ var TrashModel = function(_lable, _cell, remarks) {
 /**
 センターのデータを管理します。
 */
-//◇ updateData で休止期間固定にする
-//◇ var CenterModel = function(row) {
-//◇   function getDay(center, index) {
-//◇     var tmp = center[index].split("/");
-//◇     return new Date(tmp[0], tmp[1] - 1, tmp[2]);
-//◇   }
-
-//◇   this.name = row[0];
-//◇   this.startDate = getDay(row, 1);
-//◇   this.endDate = getDay(row, 2);
-//◇ }
-
-/**
-休止開始終了日を管理します。
-*/
-//◇ 追加
-var CtDayModel = function(row) {
+var CenterRowModel = function(row) {
   function getDay(center, index) {
     var tmp = center[index].split("/");
     return new Date(tmp[0], tmp[1] - 1, tmp[2]);
   }
 
+  this.name = row[0];
   this.startDate = getDay(row, 1);
   this.endDate = getDay(row, 2);
 }
+
+var CenterModel = function() {
+  this.name;
+  this.center = new Array();
+}
+
 
 /**
 * ゴミのカテゴリを管理するクラスです。
@@ -408,6 +368,19 @@ var RemarkModel = function(data) {
   this.text = data[1];
 }
 
+/**
+* 振替日を管理するクラスです。
+* transferdata.csvのモデルです。
+*/
+var TransferdateModel = function(data) {
+  this.label = data[0];
+  this.transferdate = new Date(data[1]);
+  this.calculationdate = new Date(data[2]);
+  this.startdate = new Date(data[3]);
+  this.biko = data[4];
+
+}
+
 /* var windowHeight; */
 
 $(function() {
@@ -419,6 +392,8 @@ $(function() {
   var areaGroup = new Object();
   var groupOrder = new Array();
   var remarks = new Array();
+  var transferdata = new Array();
+
 /*   var descriptions = new Array(); */
 
 
@@ -461,6 +436,7 @@ $(function() {
   }
 
   function updateAreaList() {
+
     csvToArray("data/area_days.csv", function(tmp) {
       var area_days_label = tmp.shift();
       for (var i in tmp) {
@@ -485,42 +461,74 @@ $(function() {
         //２列目以降の処理
         for (var r = 2; r < 2 + MaxDescription; r++) {
           if (area_days_label[r]) {
-            var trash = new TrashModel(area_days_label[r], row[r], remarks);
+            var trash = new TrashModel(area_days_label[r], row[r], remarks, transferdata);
             area.trash.push(trash);
           }
         }
       }
 
-      // ◇center.csv は読まない！
-      //csvToArray("data/center.csv", function(tmp) {
+      csvToArray("data/center.csv", function(tmp) {
         //ゴミ処理センターのデータを解析します。
         //表示上は現れませんが、
         //金沢などの各処理センターの休止期間分は一週間ずらすという法則性のため
         //例えば第一金曜日のときは、一周ずらしその月だけ第二金曜日にする
-      //  tmp.shift();
-      //  for (var i in tmp) {
-      //    var row = tmp[i];
 
-      //    var center = new CenterModel(row);
-      //    center_data.push(center);
-      //  }
+        var center_tmp = new CenterModel();
+        var center_flg = 0;
+
+        tmp.shift();
+
+        //
+        for (var i in tmp) {
+
+          var row = tmp[i];
+          var centerRow = new CenterRowModel(row);
+
+          for (var j in center_tmp) {
+
+              if (center_tmp[j].name == centerRow.name) {
+
+                  var center = (centerRow.startDate,centerRow.endDate);
+
+                  center_tmp[j].center.push
+                  center_flg = 1;
+
+                  break;
+              }
+          }
+
+          if (center_flg == 0) {
+              var center_tmp = new CenterModel();
+
+             // window.alert("きゅうし◇：" + centerRow.name);
+
+
+              center_tmp.name = centerRow.name;
+              center_tmp.startDate.push(centerRow.startDate);
+              center_tmp.endDate.push(centerRow.endDate);
+
+            //  window.alert("きゅうし①：" + centerRow.startDate);
+            //  window.alert("きゅうし②：" + centerRow.startDate.getDate());
+
+              center_data.push(center_tmp);
+          }
+        }
+
+
+        //  center_data.push(center);
+
         //ゴミ処理センターを対応する各地域に割り当てます。
-      //  for (var i in areaModels) {
-      //    var area = areaModels[i];
-      //    area.setCenter(center_data);
-      //  };
-      //  createSelectBox();
+        for (var i in areaModels) {
+          var area = areaModels[i];
+          area.setCenter(center_data);
+        };
+        createSelectBox();
 
         //デバッグ用
-      //  if (typeof dump == "function") {
-      //    dump(areaModels);
-      //  }
-      //});
-
-      // ◇ センターは未使用
-      area.setCenter();
-      createSelectBox();
-
+        if (typeof dump == "function") {
+          dump(areaModels);
+        }
+      });
     });
   }
 
@@ -529,7 +537,7 @@ $(function() {
     var $select_group = $('#select_group');
     var selected_group = $select_group.val();
     $select_area.hide();
-    var options_html = '<option value="-1" selected="selected">地区名を選択してください</option>';
+    var options_html = '<option value="-1" selected="selected">橋北・橋南を選択してください</option>';
     for (var i in groupOrder) {
       var group = groupOrder[i];
       options_html += '<option value="' + group + '">' + group + '</option>';
@@ -561,7 +569,7 @@ $(function() {
     var $select_group = $('#select_group');
     var select_html = "";
     var selected_name = getSelectedAreaName();
-    select_html += '<option value="-1">自治会名を選択してください</option>';
+    select_html += '<option value="-1">地域を選択してください</option>';
     var group = areaGroup[$select_group.val()];
     for (var area_name in group) {
       var selected = (selected_name == area_name) ? 'selected="selected"': '';
@@ -580,6 +588,16 @@ $(function() {
         remarks.push(new RemarkModel(data[i]));
       }
     });
+
+    // 振替日データを読み込む
+    csvToArray("data/transferdata.csv", function(data) {
+      data.shift();
+      for (var i in data) {
+        transferdata.push(new TransferdateModel(data[i]));
+
+      }
+    });
+
     csvToArray("data/description.csv", function(data) {
       data.shift();
       for (var i in data) {
@@ -603,7 +621,9 @@ $(function() {
         $("#accordion2").show();
 
       });
+
     });
+
   }
 
   function updateData(group_name, area_name) {
@@ -615,18 +635,15 @@ $(function() {
     var group = areaGroup[group_name];
     var areaModel = group[area_name];
     var today = new Date();
-
     //直近の一番近い日付を計算します。
     areaModel.calcMostRect();
     //トラッシュの近い順にソートします。
     areaModel.sortTrash();
     var accordion_height = $(window).height() / descriptions.length;
     if(descriptions.length>4){
-      // ◇ accordion_height = accordion_height / 4.1;
-      accordion_height = accordion_height / 5.6;
+      accordion_height = accordion_height / 4.1;
       if (accordion_height>140) {accordion_height = accordion_height / descriptions.length;};
-      if (accordion_height<141) {accordion_height=100;};
-      // ◇ if (accordion_height<130) {accordion_height=130;};
+      if (accordion_height<130) {accordion_height=130;};
     }
     var styleHTML = "";
     // ◇ var accordionHTML = "";
@@ -676,7 +693,7 @@ $(function() {
 	  if (trash.mostRecent === undefined) {
 	    leftDayText == "不明";
 	  } else {
-            var leftDay = Math.ceil((trash.mostRecent.getTime() - today .getTime()) / (1000 * 60 * 60 * 24))
+            var leftDay = Math.ceil((trash.mostRecent.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
 
             if (leftDay == 0) {
               leftDayText = "今日";
@@ -724,28 +741,14 @@ $(function() {
 
     //アコーディオンのラベル部分をクリックしたら
     $(".accordion-body").on("shown.bs.collapse", function() {
-
-
       var body = $('body');
       var accordion_offset = $($(this).parent().get(0)).offset().top;
       body.animate({
         scrollTop: accordion_offset
       }, 50);
-
-
-
-    //  var iframe = $('iframe');
-    //  iframe.animate({
-    //    scrollTop: 300
-    //  }, 50);
-
-   //   window.scrollBy(0,-500);
-
     });
     //アコーディオンの非表示部分をクリックしたら
     $(".accordion-body").on("hidden.bs.collapse", function() {
-
-
       if ($(".in").length == 0) {
         $("html, body").scrollTop(0);
       }
