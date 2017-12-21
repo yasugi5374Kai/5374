@@ -503,17 +503,14 @@ $(function() {
 
           window.alert("②：" + i);
 
-
           if (i == 0) {
 
               center_tmp.name = centerRow.name;
 
               window.alert("③：" + i + "：" + center_tmp.name);
 
-
               center_tmp.period.push(centerRow.startDate + ":" + centerRow.startDate);
               window.alert("④休止期間");
-
 
               center.push(center_tmp);
 
