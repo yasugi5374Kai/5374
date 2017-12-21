@@ -591,7 +591,6 @@ $(function() {
         $("#accordion2").show();
 
       });
-
     });
 
   }
@@ -704,8 +703,6 @@ $(function() {
             "</div>";
       }
     }
-
-    window.alert("②おわり");
 
     $("#accordion-style").html('<!-- ' + styleHTML + ' -->');
 
