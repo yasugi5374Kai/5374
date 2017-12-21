@@ -499,9 +499,6 @@ $(function() {
         var center = new Array();
         var nameFlg = 0;
 
-        window.alert("◇まわらない");
-
-
         tmp.shift();
         for (var i in tmp) {
           var row = tmp[i];
@@ -519,7 +516,9 @@ $(function() {
 
               nameFlg = 0;
 
-              for (var j in center) {
+              //for (var j in center) {
+              for (var j = 0; j < center.length; j++) {
+
 
                   window.alert("③センター数：" + j + "：" + center[j].name +  "：" + centerRow.name);
 
