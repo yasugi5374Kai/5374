@@ -510,7 +510,7 @@ $(function() {
               window.alert("③：" + i + "：" + center_tmp.name);
 
               center_tmp.period.push(centerRow.startDate + ":" + centerRow.startDate);
-              window.alert("④休止期間");
+              window.alert("④：" + centerRow.startDate + ":" + centerRow.startDate);
 
               center.push(center_tmp);
 
