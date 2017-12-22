@@ -511,10 +511,10 @@ $(function() {
           var row = tmp[i];
           var centerRow = new CenterRowModel(row);
 
-          window.alert("◇件数：" + i);
-
-
           if (i == 0) {
+
+              window.alert("①０件目：" + i);
+
               var center = new CenterModel();
 
               center.name = centerRow.name;
@@ -523,16 +523,18 @@ $(function() {
 
           } else {
 
+              window.alert("②件目：" + i);
+
               var nameFlg = 0;
 
-              //for (var j in center_data) {
-              for (var j = 0; j < center.length; j++) {
+              for (var j in center_data) {
+              //for (var j = 0; j < center_data.length; j++) {
 
-                  window.alert("①前：" + center[j].name + "：" + centerRow.name);
+                  window.alert("①前：" + center_data[j].name + "：" + centerRow.name);
 
-                  if (center[j].name == centerRow.name) {
+                  if (center_data[j].name == centerRow.name) {
 
-                      window.alert("②中：" + center[j].name + "：" + centerRow.name);
+                      window.alert("②中：" + center_data[j].name + "：" + centerRow.name);
 
                       center[j].period.push(centerRow.startDate + ":" + centerRow.startDate);
 
