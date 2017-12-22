@@ -56,12 +56,17 @@ var AreaModel = function() {
 
     // 固定期間チェック　休止終了日は開始日の次の年
     var endYear = startDate.getFullYear() + 1;
-    var endDate = new Date(endYear, (cblankEndMM - 1), cblankEndDD);
+    var endKDate = new Date(endYear, (cblankEndMM - 1), cblankEndDD);
+
+    window.alert("③こてい：" + "◆" + startDate + "◇" + endKDate);
+
 
     if (startDate.getTime() <= currentDate.getTime() &&
-      currentDate.getTime() <= endDate.getTime()) {
+      currentDate.getTime() <= endKDate.getTime()) {
       return true;
     }
+
+    window.alert("④おわり");
 
     return false;
   }
