@@ -38,17 +38,19 @@ var AreaModel = function() {
 
             var period = this.center[i].split("@");
 
-            window.alert("②比較：" + period[0].getTime() + "◇" + currentDate.getTime() + "◇" + period[1].getTime());
+            window.alert("②ピリオド：" + period[0].getTime() + "◇" + period[1].getTime());
+
+            window.alert("③比較：" + period[0].getTime() + "◇" + currentDate.getTime() + "◇" + period[1].getTime());
 
             if (period[0].getTime() <= currentDate.getTime() &&
               currentDate.getTime() <= period[1].getTime()) {
 
-              window.alert("③リターンＹ");
+              window.alert("④リターンＹ");
 
               return true;
             }
 
-            window.alert("④そとおわり");
+            window.alert("⑤そとおわり");
 
         }
     }
@@ -57,7 +59,7 @@ var AreaModel = function() {
     var endYear = startBDate.getFullYear() + 1;
     var endKDate = new Date(endYear, (cblankEndMM - 1), cblankEndDD);
 
-    window.alert("⑤こてい：" + "◆" + startDate + "◇" + endKDate);
+    window.alert("⑥こてい：" + "◆" + startDate + "◇" + endKDate);
 
 
     if (startBDate.getTime() <= currentDate.getTime() &&
@@ -65,7 +67,7 @@ var AreaModel = function() {
       return true;
     }
 
-    window.alert("⑥リターンＮ");
+    window.alert("⑦リターンＮ");
 
     return false;
   }
