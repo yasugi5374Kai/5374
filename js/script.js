@@ -33,11 +33,13 @@ var AreaModel = function() {
 
     // center.csv の期間のチェック
 
-    window.alert("①期間数：" + this.center.length );
+    window.alert("①期間数：" + this.center.length);
 
     if (this.center.length > 0) {
 
         for (var i in this.center) {
+
+            window.alert("①期間数：" + this.center.length);
 
             var period = this.center[i].split(":");
 
@@ -70,7 +72,8 @@ var AreaModel = function() {
 
       if (this.centerName == center_data[i].name) {
         //this.center = center_data[i];
-          this.center.push(center_data[i].period);
+
+        this.center = center_data[i].period;
       }
 
     }
@@ -407,9 +410,6 @@ var TransferdateModel = function(data) {
 
 }
 
-
-
-
 /* var windowHeight; */
 
 $(function() {
@@ -509,8 +509,6 @@ $(function() {
 
           if (i == 0) {
 
-              window.alert("①０件目：" + i);
-
               var center = new CenterModel();
 
               center.name = centerRow.name;
@@ -544,13 +542,15 @@ $(function() {
 
         }
 
-        window.alert("④追加２：" + center_data.length + "：" + center_data[0].name + "◇" + center_data[1].name);
         
         //ゴミ処理センターを対応する各地域に割り当てます。
         for (var i in areaModels) {
           var area = areaModels[i];
           area.setCenter(center_data);
         };
+
+        window.alert("①セット完了");
+
         createSelectBox();
 
         //デバッグ用
