@@ -519,8 +519,6 @@ $(function() {
 
           } else {
 
-              window.alert("②件目：" + i);
-
               var nameFlg = 0;
 
               for (var j in center_data) {
@@ -550,8 +548,6 @@ $(function() {
           var area = areaModels[i];
           area.setCenter(center_data);
         };
-
-        window.alert("①セット完了");
 
         createSelectBox();
 
