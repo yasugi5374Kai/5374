@@ -38,7 +38,7 @@ var AreaModel = function() {
 
             var period = this.center[i].split("@");
 
-            window.alert("②ピリオド：" + period[0].getTime() + "◇" + period[1].getTime());
+            window.alert("②ピリオド：" + period[0] + "◇" + period[1]);
 
             window.alert("③比較：" + period[0].getTime() + "◇" + currentDate.getTime() + "◇" + period[1].getTime());
 
