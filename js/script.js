@@ -39,7 +39,7 @@ var AreaModel = function() {
 
         for (var i in this.center) {
 
-            var period = this.center[i].split(":");
+            var period = this.center[i].split("@");
 
            // window.alert("②期間：" + i + "◇" + this.center[i]);
 
@@ -516,7 +516,7 @@ $(function() {
               var center = new CenterModel();
 
               center.name = centerRow.name;
-              center.period.push(centerRow.startDate + ":" + centerRow.startDate);
+              center.period.push(centerRow.startDate + "@" + centerRow.startDate);
               center_data.push(center);
 
           } else {
@@ -526,7 +526,7 @@ $(function() {
               for (var j in center_data) {
                   if (center_data[j].name == centerRow.name) {
 
-                      center_data[j].period.push(centerRow.startDate + ":" + centerRow.startDate);
+                      center_data[j].period.push(centerRow.startDate + "@" + centerRow.startDate);
 
                       nameFlg = 1;
                       break;
