@@ -519,6 +519,7 @@ $(function() {
               center_data.push(center);
 
           } else {
+
               var nameFlg = 0;
 
               //for (var j in center_data) {
@@ -542,7 +543,7 @@ $(function() {
 
         }
 
-        window.alert("①追加おわり：" + center_data.length + "：" + center_data[0].name + "◇" + center_data[1].name);
+        window.alert("①追加２：" + center_data.length + "：" + center_data[0].name + "◇" + center_data[1].name);
         
         //ゴミ処理センターを対応する各地域に割り当てます。
         for (var i in areaModels) {
