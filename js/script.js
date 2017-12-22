@@ -30,20 +30,26 @@ var AreaModel = function() {
     休止期間（主に年末年始）かどうかを判定します。
   */
   this.isBlankDay = function(currentDate,startDate) {
-    //◇◇◇if (!this.center) {
+
+    // center.csv の期間のチェック
+
+    window.alert("①期間数：" + this.center.length );
+
     if (this.center.length > 0) {
 
         for (var i in this.center) {
 
-            if (this.center[i].startDate.getTime() <= currentDate.getTime() &&
-              currentDate.getTime() <=this.center[i].endDate.getTime()) {
+            var period = this.center[i].split(":");
+
+            if (period[0].getTime() <= currentDate.getTime() &&
+              currentDate.getTime() <= period[1].getTime()) {
 
               return true;
             }
         }
     }
 
-    //◇ 固定　休止終了日は開始日の次の年
+    // 固定期間チェック　休止終了日は開始日の次の年
     var endYear = startDate.getFullYear() + 1;
     var endDate = new Date(endYear, (cblankEndMM - 1), cblankEndDD);
 
@@ -62,20 +68,12 @@ var AreaModel = function() {
 
     for (var i in center_data) {
 
-      window.alert("②セット前：" + this.centerName + "：" + center_data[i].name);
-
       if (this.centerName == center_data[i].name) {
         //this.center = center_data[i];
-
           this.center.push(center_data[i].period);
-          window.alert("③セット成功：" + this.centerName + "：" + center_data[i].name);
-
       }
 
     }
-
-    window.alert("③セットおわり");
-
   }
   /**
   ゴミのカテゴリのソートを行います。
