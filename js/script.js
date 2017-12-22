@@ -33,7 +33,7 @@ var AreaModel = function() {
 
     // center.csv の期間のチェック
 
-    window.alert("①期間数：" + this.center.length);
+    //window.alert("①期間数：" + this.center.length);
 
     if (this.center.length > 0) {
 
@@ -41,9 +41,9 @@ var AreaModel = function() {
 
             var period = this.center[i].split(":");
 
-            window.alert("②期間：" + i + "◇" + this.center[i]);
+           // window.alert("②期間：" + i + "◇" + this.center[i]);
 
-            //window.alert("②期間：" + i + period[0] + "◇" + period[1]);
+            window.alert("②期間：" + i + "◆" + this.center[i] + period[0] + "◆" + period[1]);
 
 
             if (period[0].getTime() <= currentDate.getTime() &&
