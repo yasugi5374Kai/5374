@@ -321,7 +321,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
 
               if (day_list[i].getTime() == this.transferdata[k].calculationdate.getTime()) {
 
-                  if (now.getTime() >= this.transferdata[k].startdate.getTime() && now.getTime() <= this.transferdata[k].transferdate.getTime()) {
+                  if (now.getTime() >= this.transferdata[k].nextdate.getTime() && now.getTime() <= this.transferdata[k].transferdate.getTime()) {
 
                       this.mostRecent = transferdata[k].transferdate;
                       this.bikohyoji = this.transferdata[k].biko;
@@ -409,7 +409,7 @@ var TransferdateModel = function(data) {
   this.label = data[0];
   this.transferdate = new Date(data[1]);
   this.calculationdate = new Date(data[2]);
-  this.startdate = new Date(data[3]);
+  this.nextdate = new Date(data[3]);
   this.biko = data[4];
 
 }
@@ -516,7 +516,7 @@ $(function() {
               var center = new CenterModel();
 
               center.name = centerRow.name;
-              center.period.push(centerRow.startDate + "@" + centerRow.startDate);
+              center.period.push(centerRow.startDate + "@" + centerRow.endDate);
               center_data.push(center);
 
           } else {
@@ -526,7 +526,10 @@ $(function() {
               for (var j in center_data) {
                   if (center_data[j].name == centerRow.name) {
 
-                      center_data[j].period.push(centerRow.startDate + "@" + centerRow.startDate);
+                      center_data[j].period.push(centerRow.startDate + "@" + centerRow.endDate);
+
+                      window.alert("①" + centerRow.startDate + "◇" + centerRow.endDate);
+
 
                       nameFlg = 1;
                       break;
@@ -537,7 +540,7 @@ $(function() {
                   var center = new CenterModel();
 
                   center.name = centerRow.name;
-                  center.period.push(centerRow.startDate + ":" + centerRow.startDate);
+                  center.period.push(centerRow.startDate + "@" + centerRow.endDate);
                   center_data.push(center);
               }
           }
