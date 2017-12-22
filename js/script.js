@@ -505,7 +505,6 @@ $(function() {
         //金沢などの各処理センターの休止期間分は一週間ずらすという法則性のため
         //例えば第一金曜日のときは、一周ずらしその月だけ第二金曜日にする
 
-        var nameFlg = 0;
 
         tmp.shift();
         for (var i in tmp) {
@@ -520,8 +519,7 @@ $(function() {
               center_data.push(center);
 
           } else {
-
-              nameFlg = 0;
+              var nameFlg = 0;
 
               //for (var j in center_data) {
               for (var j = 0; j < center.length; j++) {
