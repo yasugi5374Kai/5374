@@ -75,13 +75,10 @@ var AreaModel = function() {
       if (this.centerName == center_data[i].name) {
         //this.center = center_data[i];
 
-        window.alert("ピリオド" + i + "◇" + center_data[i].period);
+        //window.alert("ピリオド" + i + "◇" + center_data[i].period);
 
         this.center = center_data[i].period;
-
-
       }
-
     }
   }
   /**
