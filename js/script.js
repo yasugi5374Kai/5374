@@ -539,9 +539,11 @@ $(function() {
                       center_data[j].period.push(centerRow.startDate + ":" + centerRow.startDate);
 
                       window.alert("③プッシュ成功" + j);
-                      break;
 
                       nameFlg = 1;
+
+                      break;
+
                   }
               }
 
