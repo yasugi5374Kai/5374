@@ -536,7 +536,7 @@ $(function() {
 
                       window.alert("②中：" + center_data[j].name + "：" + centerRow.name);
 
-                      center[j].period.push(centerRow.startDate + ":" + centerRow.startDate);
+                      center_data[j].period.push(centerRow.startDate + ":" + centerRow.startDate);
 
                       window.alert("③プッシュ成功" + j);
                       break;
