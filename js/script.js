@@ -43,7 +43,7 @@ var AreaModel = function() {
 
            // window.alert("②期間：" + i + "◇" + this.center[i]);
 
-            window.alert("②期間：" + i + "◆" + this.center[i] + period[0] + "◆" + period[1]);
+            window.alert("②期間：" + i + "◆" + this.center[i] + "◇" + period[0] + "◆" + period[1]);
 
 
             if (period[0].getTime() <= currentDate.getTime() &&
