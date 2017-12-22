@@ -42,7 +42,7 @@ var AreaModel = function() {
 
             var period = this.center[i].split(":");
 
-            window.alert("①期間：" + i + period[0] + "◇" + period[1]);
+            window.alert("②期間：" + i + period[0] + "◇" + period[1]);
 
 
             if (period[0].getTime() <= currentDate.getTime() &&
