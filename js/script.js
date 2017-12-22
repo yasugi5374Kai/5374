@@ -59,15 +59,25 @@ var AreaModel = function() {
     名前が一致するかどうかで判定を行っております。
   */
   this.setCenter = function(center_data) {
+
     for (var i in center_data) {
+
+      window.alert("②セット：" + this.centerName + "：" + center_data[i].name);
+
       if (this.centerName == center_data[i].name) {
         //this.center = center_data[i];
 
         for (j in center_data[i].period) {
             this.center.push(center_data[i].period[j]);
+
         }
       }
+
+
     }
+
+    window.alert("③セットおわり");
+
   }
   /**
   ゴミのカテゴリのソートを行います。
@@ -489,8 +499,6 @@ $(function() {
         }
       }
 
-      window.alert("①新");
-
       csvToArray("data/center.csv", function(tmp) {
         //ゴミ処理センターのデータを解析します。
         //表示上は現れませんが、
@@ -511,24 +519,16 @@ $(function() {
               center.period.push(centerRow.startDate + ":" + centerRow.startDate);
               center_data.push(center);
 
-              window.alert("②プッシュ成功：" + centerRow.name);
-
           } else {
 
               nameFlg = 0;
 
-              window.alert("◇センター数：" + center_data.length);
-
               //for (var j in center_data) {
               for (var j = 0; j < center.length; j++) {
-
-                  window.alert("⑤追加後：" + centerRow.name);
-
 
                   if (center[j].name == centerRow.name) {
                       center[j].period.push(centerRow.startDate + ":" + centerRow.startDate);
 
-                      window.alert("⑤追加後：" + centerRow.name);
                       nameFlg = 1;
                   }
               }
@@ -544,7 +544,7 @@ $(function() {
 
         }
 
-        window.alert("⑦追加おわり：" + center_data.length + "：" + center_data[0].name + "◇" + center_data[1].name);
+        window.alert("①追加おわり：" + center_data.length + "：" + center_data[0].name + "◇" + center_data[1].name);
         
         //ゴミ処理センターを対応する各地域に割り当てます。
         for (var i in areaModels) {
