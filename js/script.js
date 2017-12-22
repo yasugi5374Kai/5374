@@ -29,12 +29,9 @@ var AreaModel = function() {
   /**
     休止期間（主に年末年始）かどうかを判定します。
   */
-  this.isBlankDay = function(currentDate,startDate) {
+  this.isBlankDay = function(currentDate,startBDate) {
 
     // center.csv の期間のチェック
-
-    //window.alert("①期間数：" + this.center.length);
-
     if (this.center.length > 0) {
 
         for (var i in this.center) {
@@ -42,7 +39,6 @@ var AreaModel = function() {
             var period = this.center[i].split("@");
 
             window.alert("②比較：" + period[0].getTime() + "◇" + currentDate.getTime() + "◇" + period[1].getTime());
-
 
             if (period[0].getTime() <= currentDate.getTime() &&
               currentDate.getTime() <= period[1].getTime()) {
@@ -58,13 +54,13 @@ var AreaModel = function() {
     }
 
     // 固定期間チェック　休止終了日は開始日の次の年
-    var endYear = startDate.getFullYear() + 1;
+    var endYear = startBDate.getFullYear() + 1;
     var endKDate = new Date(endYear, (cblankEndMM - 1), cblankEndDD);
 
     window.alert("⑤こてい：" + "◆" + startDate + "◇" + endKDate);
 
 
-    if (startDate.getTime() <= currentDate.getTime() &&
+    if (startBDate.getTime() <= currentDate.getTime() &&
       currentDate.getTime() <= endKDate.getTime()) {
       return true;
     }
