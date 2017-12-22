@@ -37,16 +37,11 @@ var AreaModel = function() {
 
         for (var i in this.startDate) {
 
-            //window.alert("③比較：" + period[0].getTime() + "◇" + currentDate.getTime() + "◇" + period[1].getTime());
-
             if (this.startDate[i].getTime() <= currentDate.getTime() &&
               currentDate.getTime() <= this.endDate[i].getTime()) {
 
-              //window.alert("④リターンＹ");
-
               return true;
             }
-            //window.alert("⑤そとおわり");
         }
     }
 
@@ -54,14 +49,10 @@ var AreaModel = function() {
     var endYear = startKDate.getFullYear() + 1;
     var endKDate = new Date(endYear, (cblankEndMM - 1), cblankEndDD);
 
-    //window.alert("⑥こてい：" + "◆" + startKDate + "◇" + endKDate);
-
     if (startKDate.getTime() <= currentDate.getTime() &&
       currentDate.getTime() <= endKDate.getTime()) {
       return true;
     }
-
-    //window.alert("⑦リターンＮ");
 
     return false;
   }
@@ -544,7 +535,6 @@ $(function() {
                   center_data.push(center);
               }
           }
-
         }
 
         
@@ -688,7 +678,6 @@ $(function() {
        if (description.label != trash.label) {
           continue;
         }
-
           var target_tag = "";
           var furigana = "";
           var target_tag = "";
@@ -780,12 +769,15 @@ $(function() {
        }, 50);
 
     });
+    //◇ やめてみる↓
     //アコーディオンの非表示部分をクリックしたら
-    $(".accordion-body").on("hidden.bs.collapse", function() {
-      if ($(".in").length == 0) {
-         $("html, body").scrollTop(0);
-      }
-    });
+    //◇ $(".accordion-body").on("hidden.bs.collapse", function() {
+    //◇  if ($(".in").length == 0) {
+    //◇     $("html, body").scrollTop(0);
+    //◇  }
+    //◇});
+    //◇やめてみる↑
+
   }
 
   function onChangeSelect(group_name, area_name) {
