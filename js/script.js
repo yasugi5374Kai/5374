@@ -15,8 +15,8 @@ var AreaModel = function() {
   this.label;
   this.centerName;
   //◇◇◇this.center;
-  this.startCDate = new Array();
-  this.endCDate = new Array();
+  this.startDate = new Array();
+  this.endDate = new Array();
   this.trash = new Array();
 
   /**
@@ -33,14 +33,14 @@ var AreaModel = function() {
   this.isBlankDay = function(currentDate,startKDate) {
 
     // center.csv の期間のチェック
-    if (this.startCDate.length > 0) {
+    if (this.startDate.length > 0) {
 
-        for (var i in this.startCDate) {
+        for (var i in this.startDate) {
 
             //window.alert("③比較：" + period[0].getTime() + "◇" + currentDate.getTime() + "◇" + period[1].getTime());
 
-            if (this.startCDate[i].getTime() <= currentDate.getTime() &&
-              currentDate.getTime() <= this.endCDate[i].getTime()) {
+            if (this.startDate[i].getTime() <= currentDate.getTime() &&
+              currentDate.getTime() <= this.endDate[i].getTime()) {
 
               window.alert("④リターンＹ");
 
@@ -76,12 +76,14 @@ var AreaModel = function() {
 
     for (var i in center_data) {
 
-      if (this.centerName == center_data[i].name) {
+      if (this.centerName == center_data[i].cname) {
         //this.center = center_data[i];
 
         //window.alert("ピリオド" + i + "◇" + center_data[i].period);
 
-        this.center = center_data[i].period;
+        this.startDate = center_data[i].startCDate;
+
+        this.endDate = center_data[i].endCDate;
 
 
       }
@@ -368,10 +370,9 @@ var CenterRowModel = function(row) {
 }
 
 var CenterModel = function() {
-  this.name;
-  this.startDate = new Array();
-  this.endDate = new Array();
-
+  this.cname;
+  this.startCDate = new Array();
+  this.endCDate = new Array();
 }
 
 /**
@@ -522,10 +523,9 @@ $(function() {
 
               var center = new CenterModel();
 
-              center.name = centerRow.rowname;
-              center.startDate.push(centerRow.rowstartDate);
-              center.endDate.push(centerRow.rowendDate);
-
+              center.cname = centerRow.rowname;
+              center.startCDate.push(centerRow.rowstartDate);
+              center.endCDate.push(centerRow.rowendDate);
               center_data.push(center);
 
           } else {
@@ -533,10 +533,10 @@ $(function() {
               var nameFlg = 0;
 
               for (var j in center_data) {
-                  if (center_data[j].name == centerRow.name) {
+                  if (center_data[j].cname == centerRow.rowname) {
 
-                      center_data[j].startDate.push(centerRow.rowstartDate);
-                      center_data[j].endDate.push(centerRow.rowendDate);
+                      center_data[j].startCDate.push(centerRow.rowstartDate);
+                      center_data[j].endCDate.push(centerRow.rowendDate);
 
                       nameFlg = 1;
                       break;
@@ -546,9 +546,9 @@ $(function() {
               if (nameFlg == 0) {
                   var center = new CenterModel();
 
-                  center.name = centerRow.rowname;
-                  center.startDate.push(centerRow.rowstartDate);
-                  center.endDate.push(centerRow.rowendDate);
+                  center.cname = centerRow.rowname;
+                  center.startCDate.push(centerRow.rowstartDate);
+                  center.endCDate.push(centerRow.rowendDate);
 
                   center_data.push(center);
               }
