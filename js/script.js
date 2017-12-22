@@ -62,17 +62,15 @@ var AreaModel = function() {
 
     for (var i in center_data) {
 
-      window.alert("②セット：" + this.centerName + "：" + center_data[i].name);
+      window.alert("②セット前：" + this.centerName + "：" + center_data[i].name);
 
       if (this.centerName == center_data[i].name) {
         //this.center = center_data[i];
 
-        for (j in center_data[i].period) {
-            this.center.push(center_data[i].period[j]);
+          this.center.push(center_data[i].period);
+          window.alert("③セット成功：" + this.centerName + "：" + center_data[i].name);
 
-        }
       }
-
 
     }
 
@@ -528,22 +526,12 @@ $(function() {
               var nameFlg = 0;
 
               for (var j in center_data) {
-              //for (var j = 0; j < center_data.length; j++) {
-
-                  window.alert("①前：" + center_data[j].name + "：" + centerRow.name);
-
                   if (center_data[j].name == centerRow.name) {
-
-                      window.alert("②中：" + center_data[j].name + "：" + centerRow.name);
 
                       center_data[j].period.push(centerRow.startDate + ":" + centerRow.startDate);
 
-                      window.alert("③プッシュ成功" + j);
-
                       nameFlg = 1;
-
                       break;
-
                   }
               }
 
