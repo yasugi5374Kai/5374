@@ -519,8 +519,11 @@ $(function() {
 
               window.alert("◇センター数：" + center_data.length);
 
-              for (var j in center_data) {
-              //for (var j = 0; j < center.length; j++) {
+              //for (var j in center_data) {
+              for (var j = 0; j < center.length; j++) {
+
+                  window.alert("⑤追加後：" + centerRow.name);
+
 
                   if (center[j].name == centerRow.name) {
                       center[j].period.push(centerRow.startDate + ":" + centerRow.startDate);
