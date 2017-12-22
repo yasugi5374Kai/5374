@@ -49,8 +49,13 @@ var AreaModel = function() {
             if (period[0].getTime() <= currentDate.getTime() &&
               currentDate.getTime() <= period[1].getTime()) {
 
+              window.alert("③リターンＹ");
+
               return true;
             }
+
+            window.alert("④そとおわり");
+
         }
     }
 
@@ -58,7 +63,7 @@ var AreaModel = function() {
     var endYear = startDate.getFullYear() + 1;
     var endKDate = new Date(endYear, (cblankEndMM - 1), cblankEndDD);
 
-    window.alert("③こてい：" + "◆" + startDate + "◇" + endKDate);
+    window.alert("⑤こてい：" + "◆" + startDate + "◇" + endKDate);
 
 
     if (startDate.getTime() <= currentDate.getTime() &&
@@ -66,7 +71,7 @@ var AreaModel = function() {
       return true;
     }
 
-    window.alert("④おわり");
+    window.alert("⑥リターンＮ");
 
     return false;
   }
