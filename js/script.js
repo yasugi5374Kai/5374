@@ -511,6 +511,9 @@ $(function() {
           var row = tmp[i];
           var centerRow = new CenterRowModel(row);
 
+          window.alert("◇件数：" + i);
+
+
           if (i == 0) {
               var center = new CenterModel();
 
