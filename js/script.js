@@ -525,8 +525,16 @@ $(function() {
               //for (var j in center_data) {
               for (var j = 0; j < center.length; j++) {
 
+                  window.alert("①前：" + center[j].name + "：" + centerRow.name);
+
                   if (center[j].name == centerRow.name) {
+
+                      window.alert("②中：" + center[j].name + "：" + centerRow.name);
+
                       center[j].period.push(centerRow.startDate + ":" + centerRow.startDate);
+
+                      window.alert("③プッシュ成功" + j);
+                      break;
 
                       nameFlg = 1;
                   }
@@ -543,7 +551,7 @@ $(function() {
 
         }
 
-        window.alert("①追加２：" + center_data.length + "：" + center_data[0].name + "◇" + center_data[1].name);
+        window.alert("④追加２：" + center_data.length + "：" + center_data[0].name + "◇" + center_data[1].name);
         
         //ゴミ処理センターを対応する各地域に割り当てます。
         for (var i in areaModels) {
