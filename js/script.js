@@ -245,7 +245,7 @@ var TrashModel = function(_lable, _cell, remarks, transferdata) {
                 var ky = date.getFullYear();
             }
 
-            var s = new Date(ky + '/' + cblankStartMM + '/' + cblankStartDD);
+            var s = new Date(ky, (cblankStartMM -1), cblankStartDD);
 
             if (areaObj.isBlankDay(d,s)) {
               if (WeekShift) {
@@ -763,7 +763,6 @@ $(function() {
     $(".accordion-body").on("shown.bs.collapse", function() {
       var body = $('body');
       var accordion_offset = $($(this).parent().get(0)).offset().top;
-
        body.animate({
          scrollTop: accordion_offset
        }, 50);
@@ -771,11 +770,11 @@ $(function() {
     });
     //◇ やめてみる↓
     //アコーディオンの非表示部分をクリックしたら
-    //◇ $(".accordion-body").on("hidden.bs.collapse", function() {
-    //◇  if ($(".in").length == 0) {
-    //◇     $("html, body").scrollTop(0);
-    //◇  }
-    //◇});
+    $(".accordion-body").on("hidden.bs.collapse", function() {
+     if ($(".in").length == 0) {
+        $("html, body").scrollTop(0);
+     }
+    });
     //◇やめてみる↑
 
   }
