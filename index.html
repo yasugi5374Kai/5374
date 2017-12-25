@@ -1,868 +1,266 @@
-"use strict";
-
-// 固定の休止期間 開始日12月30日
-var cblankStartMM = 12;
-var cblankStartDD = 30;
-
-// 固定の休止期間 終了日1月3日
-var cblankEndMM = 1;
-var cblankEndDD = 3;
-
-/**
-  エリア(ごみ処理の地域）を管理するクラスです。
-*/
-var AreaModel = function() {
-  this.label;
-  this.centerName;
-  //◇◇◇this.center;
-  this.startDate = new Array();
-  this.endDate = new Array();
-  this.trash = new Array();
-
-  /**
-  各ゴミのカテゴリに対して、最も直近の日付を計算します。
-*/
-  this.calcMostRect = function() {
-    for (var i = 0; i < this.trash.length; i++) {
-      this.trash[i].calcMostRect(this);
-    }
-  }
-  /**
-    休止期間（主に年末年始）かどうかを判定します。
-  */
-  this.isBlankDay = function(currentDate,startKDate) {
-
-    // center.csv の期間のチェック
-    if (this.startDate.length > 0) {
-
-        for (var i in this.startDate) {
-
-            if (this.startDate[i].getTime() <= currentDate.getTime() &&
-              currentDate.getTime() <= this.endDate[i].getTime()) {
-
-              return true;
-            }
-        }
-    }
-
-    // 固定期間チェック　休止終了日は開始日の次の年
-    var endYear = startKDate.getFullYear() + 1;
-    var endKDate = new Date(endYear, (cblankEndMM - 1), cblankEndDD);
-
-    if (startKDate.getTime() <= currentDate.getTime() &&
-      currentDate.getTime() <= endKDate.getTime()) {
-      return true;
-    }
-
-    return false;
-  }
-  /**
-    ゴミ処理センターを登録します。☆
-    名前が一致するかどうかで判定を行っております。
-  */
-  this.setCenter = function(center_data) {
-
-    for (var i in center_data) {
-
-      if (this.centerName == center_data[i].cname) {
-
-        this.startDate = center_data[i].startCDate;
-        this.endDate = center_data[i].endCDate;
-      }
-    }
-  }
-  /**
-  ゴミのカテゴリのソートを行います。
-*/
-  this.sortTrash = function() {
-    this.trash.sort(function(a, b) {
-      if (a.mostRecent === undefined) return 1;
-      if (b.mostRecent === undefined) return -1;
-      var at = a.mostRecent.getTime();
-      var bt = b.mostRecent.getTime();
-      if (at < bt) return -1;
-      if (at > bt) return 1;
-      return 0;
-    });
-  }
-}
-
-/**
-  各ゴミのカテゴリを管理するクラスです。
-*/
-var TrashModel = function(_lable, _cell, remarks, transferdata) {
-  this.remarks = remarks;
-
-  this.transferdata = transferdata;
-
-  this.dayLabel;
-  this.mostRecent;
-  this.dayList;
-  this.mflag = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-  var monthSplitFlag=_cell.search(/:/)>=0
-  if (monthSplitFlag) {
-    var flag = _cell.split(":");
-    this.dayCell = flag[0].split(" ");
-    var mm = flag[1].split(" ");
-  } else if (_cell.length == 2 && _cell.substr(0,1) == "*") {
-    this.dayCell = _cell.split(" ");
-    var mm = new Array();
-  } else {
-    this.dayCell = _cell.split(" ");
-    var mm = new Array("4", "5", "6", "7", "8", "9", "10", "11", "12", "1", "2", "3");
-  }
-  for (var m in mm) {
-    this.mflag[mm[m] - 1] = 1;
-  }
-  this.label = _lable;
-  this.description;
-  this.regularFlg = 1;      // 定期回収フラグ（デフォルトはオン:1）
-
-  var result_text = "";
-  var today = new Date();
-
-  for (var j in this.dayCell) {
-    if (this.dayCell[j].length == 1) {
-      result_text += "毎週" + this.dayCell[j] + "曜日 ";
-    } else if (this.dayCell[j].length == 2 && this.dayCell[j].substr(0,1) != "*") {
-      result_text += "第" + this.dayCell[j].charAt(1) + this.dayCell[j].charAt(0) + "曜日 ";
-    } else if (this.dayCell[j].length == 2 && this.dayCell[j].substr(0,1) == "*") {
-    } else {
-      // 不定期回収の場合（YYYYMMDD指定）
-      this.regularFlg = 0;  // 定期回収フラグオフ
-    }
-  }
-  if (monthSplitFlag){
-    var monthList="";
-    for (var m in this.mflag) {
-      if (this.mflag[m]){
-        if (monthList.length>0){
-          monthList+=","
-        }
-        //mを整数化
-        monthList+=((m-0)+1)
-      }
-    };
-    monthList+="月 "
-    result_text=monthList+result_text
-  }
-  if (result_text == "") { result_text  = ""; }
-
-  this.dayLabel = result_text;
-
-  var day_enum = ["日", "月", "火", "水", "木", "金", "土"];
-
-  this.getDateLabel = function() {
-    if (this.mostRecent === undefined) {
-	return this.getRemark() + "不明";
-    }
-
-    var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate() + ' (' + day_enum[this.mostRecent.getDay()] + ')';
-
-    if (this.bikohyoji != "") {
-
-        return this.getRemark() + this.bikohyoji + "<br/>" + this.dayLabel + " " + result_text;
-    } else {
-
-        return this.getRemark() + this.dayLabel + " " + result_text;
-    }
-  }
-
-  function getDayIndex(str) {
-    for (var i = 0; i < day_enum.length; i++) {
-      if (day_enum[i] == str) {
-        return i;
-      }
-    };
-    return -1;
-  }
-  /**
-   * このごみ収集日が特殊な条件を持っている場合備考を返します。収集日データに"*n" が入っている場合に利用されます
-   */
-  this.getRemark = function getRemark() {
-    var ret = "";
-    this.dayCell.forEach(function(day){
-      if (day.substr(0,1) == "*") {
-        remarks.forEach(function(remark){
-          if (remark.id == day.substr(1,1)){
-            ret += remark.text + "<br/>";
-          }
-        });
-      };
-    });
-    return ret;
-  }
-  /**
-  このゴミの年間のゴミの日を計算します。
-  センターが休止期間がある場合は、その期間１週間ずらすという実装を行っております。
-*/
-  this.calcMostRect = function(areaObj) {
-    var day_mix = this.dayCell;
-    var result_text = "";
-    var day_list = new Array();
-
-    // 定期回収の場合
-    if (this.regularFlg == 1) {
-
-      var today = new Date();
-
-      // 12月 +3月　を表現
-      for (var i = 0; i < MaxMonth; i++) {
-
-        var curMonth = today.getMonth() + i;
-        var curYear = today.getFullYear() + Math.floor(curMonth / 12);
-        var month = (curMonth % 12) + 1;
-
-        // 収集が無い月はスキップ
-        if (this.mflag[month - 1] == 0) {
-            continue;
-        }
-        for (var j in day_mix) {
-          //休止期間だったら、今後一週間ずらす。
-          var isShift = false;
-
-          //week=0が第1週目です。
-          for (var week = 0; week < 5; week++) {
-            //4月1日を起点として第n曜日などを計算する。
-            var date = new Date(curYear, month - 1, 1);
-            var d = new Date(date);
-            //コンストラクタでやろうとするとうまく行かなかった。。
-            //
-            //4月1日を基準にして曜日の差分で時間を戻し、最大５週までの増加させて毎週を表現
-            d.setTime(date.getTime() + 1000 * 60 * 60 * 24 *
-              ((7 + getDayIndex(day_mix[j].charAt(0)) - date.getDay()) % 7) + week * 7 * 24 * 60 * 60 * 1000
-            );
-            //年末年始のずらしの対応
-            //休止期間なら、今後の日程を１週間ずらす
-
-            // 固定の休止期間
-            // １月１日～終了日 は休止開始年を昨年にする
-            if (date.getMonth() == (cblankEndMM - 1) && date.getDate() <= cblankEndDD)  {
-
-                var ky = (date.getFullYear()) - 1;
-            } else {
-
-                var ky = date.getFullYear();
-            }
-
-            var s = new Date(ky, (cblankStartMM -1), cblankStartDD);
-
-            if (areaObj.isBlankDay(d,s)) {
-              if (WeekShift) {
-                isShift = true;
-              } else {
-                continue;
-              }
-            }
-            if (isShift) {
-              d.setTime(d.getTime() + 7 * 24 * 60 * 60 * 1000);
-            }
-            //同じ月の時のみ処理したい
-            if (d.getMonth() != (month - 1) % 12) {
-              continue;
-            }
-            //特定の週のみ処理する
-            if (day_mix[j].length > 1) {
-              if ((week != day_mix[j].charAt(1) - 1) || ("*" == day_mix[j].charAt(0))) {
-                continue;
-              }
-            }
-
-            day_list.push(d);
-          }
-        }
-      }
-    } else {
-      // 不定期回収の場合は、そのまま指定された日付をセットする
-      for (var j in day_mix) {
-        var year = parseInt(day_mix[j].substr(0, 4));
-        var month = parseInt(day_mix[j].substr(4, 2)) - 1;
-        var day = parseInt(day_mix[j].substr(6, 2));
-        var d = new Date(year, month, day);
-        if (d.toString() !== "Invalid Date") {
-            day_list.push(d);
-        }
-      }
-    }
-    //曜日によっては日付順ではないので最終的にソートする。
-    //ソートしなくてもなんとなりそうな気もしますが、とりあえずソート
-    day_list.sort(function(a, b) {
-      var at = a.getTime();
-      var bt = b.getTime();
-      if (at < bt) return -1;
-      if (at > bt) return 1;
-      return 0;
-    })
-    //直近の日付を更新
-    var now = new Date();
-
-    // ◇ 
-    this.bikohyoji = "";
-
-    for (var i in day_list) {
-      if (this.mostRecent == null && now.getTime() < day_list[i].getTime() + 24 * 60 * 60 * 1000) {
-        this.mostRecent = day_list[i];
-
-        for (var k in this.transferdata) {
-
-            //振替日の対応
-            if (this.label == this.transferdata[k].label) {
-
-              if (day_list[i].getTime() == this.transferdata[k].calculationdate.getTime()) {
-
-                  if (now.getTime() >= this.transferdata[k].nextdate.getTime() && now.getTime() <= this.transferdata[k].transferdate.getTime()) {
-
-                      this.mostRecent = transferdata[k].transferdate;
-                      this.bikohyoji = this.transferdata[k].biko;
-                  }
-              }
-            }
-        }
-        break;
-      }
-    };
-
-    this.dayList = day_list;
-  }
-  /**
-   計算したゴミの日一覧をリスト形式として取得します。
-  */
-  this.getDayList = function() {
-    var day_text = "<ul>";
-    for (var i in this.dayList) {
-      var d = this.dayList[i];
-      day_text += "<li>" + d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + "</li>";
-    };
-    day_text += "</ul>";
-    return day_text;
-  }
-}
-/**
-センターのデータを管理します。
-*/
-var CenterRowModel = function(row) {
-  function getDay(center, index) {
-    var tmp = center[index].split("/");
-    return new Date(tmp[0], tmp[1] - 1, tmp[2]);
-  }
-
-  this.rowname = row[0];
-  this.rowstartDate = getDay(row, 1);
-  this.rowendDate = getDay(row, 2);
-}
-
-var CenterModel = function() {
-  this.cname;
-  this.startCDate = new Array();
-  this.endCDate = new Array();
-}
-
-/**
-* ゴミのカテゴリを管理するクラスです。
-* description.csvのモデルです。
-*/
-var DescriptionModel = function(data) {
-  this.targets = new Array();
-
-  this.label = data[0];
-  this.sublabel = data[1];//not used
-  this.description = data[2];//not used
-  this.styles = data[3];
-  this.background = data[4];
-
-}
-/**
- * ゴミのカテゴリの中のゴミの具体的なリストを管理するクラスです。
- * target.csvのモデルです。
- */
-var TargetRowModel = function(data) {
-  this.label = data[0];
-  this.name = data[1];
-  this.notice = data[2];
-  this.furigana = data[3];
-}
-
-/**
- * ゴミ収集日に関する備考を管理するクラスです。
- * remarks.csvのモデルです。
- */
-var RemarkModel = function(data) {
-  this.id = data[0];
-  this.text = data[1];
-}
-
-/**
-* 振替日を管理するクラスです。
-* transferdata.csvのモデルです。
-*/
-var TransferdateModel = function(data) {
-  this.label = data[0];
-  this.transferdate = new Date(data[1]);
-  this.calculationdate = new Date(data[2]);
-  this.nextdate = new Date(data[3]);
-  this.biko = data[4];
-
-}
-
-/* var windowHeight; */
-
-$(function() {
-/*   windowHeight = $(window).height(); */
-
-  var center_data = new Array();
-  var descriptions = new Array();
-  var areaModels = new Array();
-  var areaGroup = new Object();
-  var groupOrder = new Array();
-  var remarks = new Array();
-  var transferdata = new Array();
-
-/*   var descriptions = new Array(); */
-
-
-  function getSelectedAreaName() {
-    var val = localStorage.getItem("selected_area_name");
-    return val ? val : -1;
-  }
-
-  function setSelectedAreaName(name) {
-    localStorage.setItem("selected_area_name", name);
-  }
-
-  function getSelectedGroupName() {
-    var val = localStorage.getItem("selected_group_name");
-    return val ? val : -1;
-  }
-
-  function setSelectedGroupName(name) {
-    localStorage.setItem("selected_group_name", name);
-  }
-
-  function csvToArray(filename, cb) {
-    $.get(filename, function(csvdata) {
-      //CSVのパース作業
-      //CRの解析ミスがあった箇所を修正しました。
-      //以前のコードだとCRが残ったままになります。
-      // var csvdata = csvdata.replace("\r/gm", ""),
-       csvdata = csvdata.replace(/\r/gm, "");
-      var line = csvdata.split("\n"),
-          ret = [];
-      for (var i in line) {
-        //空行はスルーする。
-        if (line[i].length == 0) continue;
-
-        var row = line[i].split(",");
-        ret.push(row);
-      }
-      cb(ret);
-    });
-  }
-
-  function updateAreaList() {
-    csvToArray("data/area_days.csv", function(tmp) {
-      var area_days_label = tmp.shift();
-      for (var i in tmp) {
-        var row = tmp[i];
-        var area = new AreaModel();
-        var areas = row[0].split(" ");
-        var group_name = areas.shift();
-        if (!areaGroup.hasOwnProperty(group_name)) {
-            areaGroup[group_name] = new Object();
-            groupOrder.push(group_name);
-        }
-        var group = areaGroup[group_name];
-        for (var j in areas) {
-            var area_name = areas[j];
-            if (area_name == "" || area_name == " ") continue;
-            group[area_name] = area;
-        }
-        area.label = row[0];
-        area.centerName = row[1];
-
-        areaModels.push(area);
-        //２列目以降の処理
-        for (var r = 2; r < 2 + MaxDescription; r++) {
-          if (area_days_label[r]) {
-            var trash = new TrashModel(area_days_label[r], row[r], remarks, transferdata);
-            area.trash.push(trash);
-          }
-        }
-      }
-
-      csvToArray("data/center.csv", function(tmp) {
-        //ゴミ処理センターのデータを解析します。
-        //表示上は現れませんが、
-        //金沢などの各処理センターの休止期間分は一週間ずらすという法則性のため
-        //例えば第一金曜日のときは、一周ずらしその月だけ第二金曜日にする
-
-
-        tmp.shift();
-        for (var i in tmp) {
-          var row = tmp[i];
-          var centerRow = new CenterRowModel(row);
-
-          if (i == 0) {
-
-              var center = new CenterModel();
-
-              center.cname = centerRow.rowname;
-              center.startCDate.push(centerRow.rowstartDate);
-              center.endCDate.push(centerRow.rowendDate);
-              center_data.push(center);
-
-          } else {
-
-              var nameFlg = 0;
-
-              for (var j in center_data) {
-                  if (center_data[j].cname == centerRow.rowname) {
-
-                      center_data[j].startCDate.push(centerRow.rowstartDate);
-                      center_data[j].endCDate.push(centerRow.rowendDate);
-
-                      nameFlg = 1;
-                      break;
-                  }
-              }
-
-              if (nameFlg == 0) {
-                  var center = new CenterModel();
-
-                  center.cname = centerRow.rowname;
-                  center.startCDate.push(centerRow.rowstartDate);
-                  center.endCDate.push(centerRow.rowendDate);
-
-                  center_data.push(center);
-              }
-          }
-        }
-
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>5374(ｺﾞﾐﾅｼ).jp 安来市版</title> 
+    <meta property="og:type" content="product" />
+    <!-- 仮の姿↓ -->
+    <meta property="og:url" content="https://yasugi5374.github.io/5374/" />
+    <meta property="og:image" content="https://yasugi5374.github.io/5374/img/ogp.png" />
+    <!-- 仮の姿↑ -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <meta name="Keywords" content="安来市,ごみ,ゴミ,収集,回収" />
+    <meta name="description" content="5374.jpは貴方の地域で、いつ、どのゴミが回収されるのか、簡単に知る事ができます。ゴミの分別区分をタップすると捨てることが可能なゴミの一覧を表示します。" />    
+    <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png" />
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link href="css/custom.css" rel="stylesheet" media="screen" />
+  </head>
+  <body>
+   <!--  <div >
+      <img src="./img/top_thumb_30.png" align="left" >
+  </div>  -->
+  <style id="accordion-style" type="text/css"></style>
+  <div id="accordion"></div>
+  <select class="form-control" id="select_group"></select>
+  <select class="form-control" id="select_area"></select>
+  <div class="accordion" id="accordion3">
+    <div class="accordion-group-top">
+    
+  <!--説明-->
+  
+  <div class="accordion" id="accordion3">
+    <div class="accordion-group-top">
+      <div class="accordion-heading">
+        <a class="accordion-toggle-top" data-toggle="collapse" data-parent="#accordion3" href="#collapse3_1" style=" color: #000000;text-decoration: underline;">休日の収集・振替収集について</a>
+      </div>
+      <div id="collapse3_1" class="accordion-body collapse">
+        <div class="accordion-inner">
+          <div id="help">
+            <article id="content" class="markdown-body">
+              <p><b>
+                ◎ 12月30日から1月3日までは収集を行いません。<br><br>
+                ◎ Ａ地区　その他の紙類　(5月3日は収集せず5月31日に振替えます、1月3日は収集せず1月31日に振替えます)<br><br>
+                ◎ Ａ地区　ペットボトル・ビン類（飲食用）（1月2日は収集せず1月5日に振替えます）<br>
+              </b></p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accordion" id="accordion3">
+    <div class="accordion-group-top">
+      <div class="accordion-heading">
+        <a class="accordion-toggle-top" data-toggle="collapse" data-parent="#accordion3" href="#collapse3_2" style=" color: #000000;text-decoration: underline;">リサイクルステーション</a>
+      </div>
+      <div id="collapse3_2" class="accordion-body collapse">
+        <div class="accordion-inner">
+          <div id="help">
+            <article id="content" class="markdown-body">
+              <p>
+                <b>下記の物はお住いの地区のリサイクルステーションに出してください。</b><br>
+                <b>◎ </b>衣類：収集指定袋（大）程度までの大きさで中の見える袋に入れて出してください。<br>
+                &emsp;マフラーなど長いものは３０センチ以下に切って燃やすごみ、<br>
+                布団など袋に入らないものは粗大ごみで出してください。<br><br>
+                <b>◎ </b>蛍光管・体温計：ステーション内の専用コンテナに出してください。<br>
+                &emsp;蛍光管や電球は保護紙をつけずに中身だけ出してください。<br>
+                &emsp;体温計は液体が銀色(水銀)のもののみです。<br>
+                &emsp;電子体温計は金属の日に、アルコール（液体が赤色）体温計は埋立ごみの日に出してください。<br><br>
+                <b>◎ </b>板ガラス：適度な紙箱に入れ、ひもで結んで出してください。<br>
+                &emsp;割れたものは埋立ごみになるため、定期収集で埋立ごみの日に出してください。<br><br>
+                <b>リサイクルステーション設置場所</b><br>
+                荒島交流センター、赤江交流センター、社日交流センター、十神学習等供用施設、島田交流センター、宇賀荘交流センター、
+                飯梨交流センター、能義交流センター、大塚交流センター、吉田交流センター、安田交流センター、伯太中央交流センター、
+                母里交流センター、井尻交流センター、赤屋交流センター、広瀬社会福祉センター隣、下山佐交流センター、
+                菅原交流センター、山佐交流センター、宇波交流センター、認定こども園布部隣、旧奥田原交流センター駐車場、
+                西谷交流センター、東比田交流センター、比田交流センター<br><br>
+                <b>詳しい地図はこちら</b><br>
+              </p>
+          </div>
+        </div>
+            </article>
+      </div>
+    </div>
+                <iframe width="400" height="400" src="http://yasugi.od-db.jp/dataset/risaikuru/resource/fa50007b-afe2-4fec-adf8-38fc461ac143/view/fb04940c-a88e-4a4f-9fac-73d9212cb497" frameBorder="0"></iframe>
         
-        //ゴミ処理センターを対応する各地域に割り当てます。
-        for (var i in areaModels) {
-          var area = areaModels[i];
-          area.setCenter(center_data);
-        };
-
-        createSelectBox();
-
-        //デバッグ用
-        if (typeof dump == "function") {
-          dump(areaModels);
-        }
-      });
-    });
-  }
-
-  function createSelectBox () {
-    var $select_area = $('#select_area');
-    var $select_group = $('#select_group');
-    var selected_group = $select_group.val();
-    $select_area.hide();
-    var options_html = '<option value="-1" selected="selected">橋北・橋南を選択してください</option>';
-    for (var i in groupOrder) {
-      var group = groupOrder[i];
-      options_html += '<option value="' + group + '">' + group + '</option>';
-    }
-    $select_group.change(function (elem) {
-      if ($select_group.val() == -1) {
-        $select_area.val(-1);
-        $select_area.hide();
-        return;
-      }
-      createAreaSelect();
-      $("#accordion").html("");
-      $select_area.show();
-      $select_area.val(-1);
-      $select_area.change();
-    });
-    $select_group.html(options_html);
-    var value = getSelectedGroupName();
-    $select_group.val(value);
-    createAreaSelect();
-    console.log(value);
-    if (value != -1) { $select_area.show(); }
-    $select_area.val(getSelectedAreaName());
-    onChangeSelect(getSelectedGroupName(), getSelectedAreaName());
-  }
-
-  function createAreaSelect() {
-    var $select_area = $('#select_area');
-    var $select_group = $('#select_group');
-    var select_html = "";
-    var selected_name = getSelectedAreaName();
-    select_html += '<option value="-1">地域を選択してください</option>';
-    var group = areaGroup[$select_group.val()];
-    for (var area_name in group) {
-      var selected = (selected_name == area_name) ? 'selected="selected"': '';
-      select_html += '<option value="' + area_name + '" ' + selected + '>' + area_name + '</option>';	    
-    }
-    $select_area.html(select_html);
-    $select_area.insertAfter($select_group);
-    $select_area.val(selected_name);
-  }
-
-  function createMenuList(after_action) {
-    // 備考データを読み込む
-    csvToArray("data/remarks.csv", function(data) {
-      data.shift();
-      for (var i in data) {
-        remarks.push(new RemarkModel(data[i]));
-      }
-    });
-
-    // 振替日データを読み込む
-    csvToArray("data/transferdata.csv", function(data) {
-      data.shift();
-      for (var i in data) {
-        transferdata.push(new TransferdateModel(data[i]));
-
-      }
-    });
-
-    csvToArray("data/description.csv", function(data) {
-      data.shift();
-      for (var i in data) {
-        descriptions.push(new DescriptionModel(data[i]));
-      }
-
-      csvToArray("data/target.csv", function(data) {
-
-        data.shift();
-        for (var i in data) {
-          var row = new TargetRowModel(data[i]);
-          for (var j = 0; j < descriptions.length; j++) {
-            //一致してるものに追加する。
-            if (descriptions[j].label == row.label) {
-              descriptions[j].targets.push(row);
-              break;
-            }
-          };
-        }
-        after_action();
-        $("#accordion2").show();
-
-      });
-    });
-
-  }
-
-  function updateData(group_name, area_name) {
-    //SVG が使えるかどうかの判定を行う。
-    //TODO Android 2.3以下では見れない（代替の表示も含め）不具合が改善されてない。。
-    //参考 http://satussy.blogspot.jp/2011/12/javascript-svg.html
-    var ableSVG = (window.SVGAngle !== void 0);
-    //var ableSVG = false;  // SVG未使用の場合、descriptionの1項目目を使用
-    var group = areaGroup[group_name];
-    var areaModel = group[area_name];
-    var today = new Date();
-    //直近の一番近い日付を計算します。
-    areaModel.calcMostRect();
-    //トラッシュの近い順にソートします。
-    areaModel.sortTrash();
-    var accordion_height = $(window).height() / descriptions.length;
-    if(descriptions.length>4){
-      accordion_height = accordion_height / 4.1;
-      if (accordion_height>140) {accordion_height = accordion_height / descriptions.length;};
-      if (accordion_height<130) {accordion_height=130;};
-    }
-    var styleHTML = "";
-    // ◇ var accordionHTML = "";
-    var accordionHTML = '   <div class="aname"> <div class="areaname"><p>' + area_name + "</p></div> </div>";
-    //アコーディオンの分類から対応の計算を行います。
-    for (var i in areaModel.trash) {
-      var trash = areaModel.trash[i];
-
-      for (var d_no in descriptions) {
-        var description = descriptions[d_no];
-       if (description.label != trash.label) {
-          continue;
-        }
-          var target_tag = "";
-          var furigana = "";
-          var target_tag = "";
-          var targets = description.targets;
-          for (var j in targets) {
-            var target = targets[j];
-            if (furigana != target.furigana) {
-              if (furigana != "") {
-                target_tag += "</ul>";
-              }
-
-              furigana = target.furigana;
-
-              target_tag += '<h4 class="initials">' + furigana + "</h4>";
-              target_tag += "<ul>";
-            }
-
-            target_tag += '<li style="list-style:none;">' + target.name + "</li>";
-
-            // ◇スペース付加
-            if (target.notice.length > 0) {
-               target_tag += '<p class="note">&ensp;' +  target.notice + "</p>";
-            } else {
-               target_tag += '<p class="note">' + target.notice + "</p>";
-            }
-          }
-
-          target_tag += "</ul>";
-
-          var dateLabel = trash.getDateLabel();
-          //あと何日かを計算する処理です。
-          var leftDayText = "";
-	  if (trash.mostRecent === undefined) {
-	    leftDayText == "不明";
-	  } else {
-            var leftDay = Math.ceil((trash.mostRecent.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
-
-            if (leftDay == 0) {
-              leftDayText = "今日";
-            } else if (leftDay == 1) {
-              leftDayText = "明日";
-            } else if (leftDay == 2) {
-              leftDayText = "明後日"
-            } else {
-              leftDayText = leftDay + "日後";
-            }
-	  }
-
-          styleHTML += '#accordion-group' + d_no + '{background-color:  ' + description.background + ';} ';
-
-          accordionHTML +=
-            '<div class="accordion-group" id="accordion-group' + d_no + '">' +
-            '<div class="accordion-heading">' +
-            '<a class="accordion-toggle" style="height:' + accordion_height + 'px" data-toggle="collapse" data-parent="#accordion" href="#collapse' + i + '">' +
-            '<div class="left-day">' + leftDayText + '</div>' +
-            '<div class="accordion-table" >';
-          if (ableSVG && SVGLabel) {
-            accordionHTML += '<img src="' + description.styles + '" alt="' + description.label + '"  />';
-          } else {
-            accordionHTML += '<p class="text-center">' + description.label + "</p>";
-          }
-          accordionHTML += "</div>" +
-            '<h6><p class="text-left date">' + dateLabel + "</p></h6>" +
-            "</a>" +
-            "</div>" +
-            '<div id="collapse' + i + '" class="accordion-body collapse">' +
-            '<div class="accordion-inner">' +
-            description.description + "<br />" + target_tag +
-            '<div class="targetDays"></div></div>' +
-            "</div>" +
-            "</div>";
-      }
-    }
-
-    $("#accordion-style").html('<!-- ' + styleHTML + ' -->');
-
-    var accordion_elm = $("#accordion");
-    accordion_elm.html(accordionHTML);
-
-    $('html,body').animate({scrollTop: 0}, 'fast');
-
-    //アコーディオンのラベル部分をクリックしたら
-    $(".accordion-body").on("shown.bs.collapse", function() {
-      var body = $('body');
-      var accordion_offset = $($(this).parent().get(0)).offset().top;
-       body.animate({
-         scrollTop: accordion_offset
-       }, 50);
-
-    });
-    //アコーディオンの非表示部分をクリックしたら
-    $(".accordion-body").on("hidden.bs.collapse", function() {
-     if ($(".in").length == 0) {
-        $("html, body").scrollTop(0);
-     }
-    });
-
-  }
-
-  function onChangeSelect(group_name, area_name) {
-    if (group_name == -1) {
-      setSelectedGroupName(-1);
-      $("#accordion").html("");
-      return;
-    }
-    if (area_name == -1) {
-      setSelectedAreaName(-1);
-      $("#accordion").html("");
-      return;
-    }
-    setSelectedGroupName(group_name);
-    setSelectedAreaName(area_name);
-
-    if ($("#accordion").children().length === 0 && descriptions.length === 0) {
-
-      createMenuList(function() {
-        updateData(group_name, area_name);
-      });
-    } else {
-      updateData(group_name, area_name);
-    }
-  }
+  </div>
+  <div class="accordion" id="accordion3">
+    <div class="accordion-group-top">
+      <div class="accordion-heading">
+        <a class="accordion-toggle-top" data-toggle="collapse" data-parent="#accordion3" href="#collapse3_3" style=" color: #000000;text-decoration: underline;">粗大ごみの戸別収集の申込方法</a>
+      </div>
+      <div id="collapse3_3" class="accordion-body collapse">
+        <div class="accordion-inner">
+          <div id="help">
+            <article id="content" class="markdown-body">
+              <p><b>
+                <address>１　環境政策課窓口、電話（</b><a href="tel:0854233100" style=" color: #0000ff;text-decoration: underline;">0854-23-3100</a><b>）またはHPで申込む</b></address>
+                ２　粗大ごみ収集券を下記窓口にて購入</b><br>
+                &emsp;&emsp;環境政策課（安来庁舎）、広瀬地域センター（広瀬庁舎）、伯太地域センター（伯太庁舎）<br>
+                &emsp;&emsp;各地区交流センター（※十神交流センターは販売していません）<br><br>
+                <b>３　申込みから2週間以内に収集業者から収集日の連絡があります。指定された日の
+                朝8時までに自宅前などに粗大ごみを出し、品物の１つにシールを貼っておいてください。<br>
+                ※自宅前などに出せない場合は、連絡があった時に収集場所を相談してください。</b><br>
+                <b>◎ </b>収集は１世帯で年度間（4月～翌年3月）に２回までです。<br><br>
+                <b>◎ </b>収集券１枚（510円税込）で３個まで出すことができます。<br>
+                &emsp;収集券を２枚購入し、一度の申込で６個出すことができます。<br>
+                &emsp;ただし、２回分の申込みをしたこととして取扱いますので、その年度内に追加の申込みをすることはできません。<br><br>
+                <b>◎ </b>独立している物は１個扱いとなりますのでご注意ください。<br>
+                &emsp;（例）掛け布団と敷布団：２個扱い<br>
+                &emsp;&emsp;&emsp;&emsp;ステレオ本体と左右のスピーカー：３個扱い<br><br>
+                <b>◎ </b>８月、１２月、１月、３月は申込みができません。<br><br>
+                <b>◎ </b>粗大ごみに該当する物であっても、次に該当の物は収集を行いませんので市の施設へ自己搬入してください。<br>
+                &emsp;・成人男性が１人で持ち上げることができないもの（学習机、ベッドなど）<br>
+                &emsp;・長さが２ｍを超える物（物干し竿、すだれなど）<br>
+                &emsp;・ガラスなど割れ物が使われている物（ガラステーブル、テレビ台など）<br>
+                &emsp;・衛生用品（ポータブルトイレ、便器など）<br><br>
+                <b>※安来市における粗大ごみの定義は以下のとおりです。</b><br>
+                &emsp;・収集指定袋に入らない大きさのもの<br>
+                &emsp;・収集指定袋に入るが10㎏を超えるもの<br>
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accordion" id="accordion3">
+    <div class="accordion-group-top">
+      <div class="accordion-heading">
+        <a class="accordion-toggle-top" data-toggle="collapse" data-parent="#accordion3" href="#collapse3_4" style=" color: #000000;text-decoration: underline;">市の施設への搬入方法</a>
+      </div>
+      <div id="collapse3_4" class="accordion-body collapse">
+        <div class="accordion-inner">
+          <div id="help">
+            <article id="content" class="markdown-body">
+              <p>
+                <br>&emsp;市の施設に自己搬入する場合については安来市の公式サイトを参照ください。<br><br>
+                &emsp;<a href="http://www.city.yasugi.shimane.jp/busyo/shiminseikatsu/kankyou/gomi/hannyu.html" target="_blank" style=" color: #FF0000;text-decoration: underline;word-break: break-all;">http://www.city.yasugi.shimane.jp
+                busyo/shiminseikatsu/kankyou/gomi/hannyu.html</a>
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="accordion" id="accordion3">
+    <div class="accordion-group-top">
+      <div class="accordion-heading">
+        <a class="accordion-toggle-top" data-toggle="collapse" data-parent="#accordion3" href="#collapse3_5" style=" color: #000000;text-decoration: underline;">市で収集・処理しないもの</a>
+      </div>
+      <div id="collapse3_5" class="accordion-body collapse">
+        <div class="accordion-inner">
+          <div id="help">
+            <article id="content" class="markdown-body">
+              <p>
+                <b>◎ 家電リサイクル法対象品</b><br>
+                （エアコン、テレビ（ブラウン管、薄型）、冷蔵庫、冷凍庫、洗濯機、衣類乾燥機）<br>
+                <address>&emsp;→詳しくは、家電リサイクル券センター（TEL:<a href="tel:0120319640" style=" color: #0000ff;text-decoration: underline;">0120-319-640</a>）へお問い合わせください</address><br>
+                <b>◎ デスクトップパソコン、ノートパソコン</b><br>
+                <address>&emsp;→詳しくはパソコン３R推進協会（TEL:<a href="tel:0352827685" style=" color: #0000ff;text-decoration: underline;">03-5282-7685</a>）へお問い合わせください</address><br>
+                <b>◎ バイク、タイヤ、バッテリー、消化器、ガスボンベ、薬品、オイル類など</b><br>
+                &emsp;→専門の業者、購入店にご相談ください<br><br>
+                <b>◎ 産業廃棄物</b><br>
+                <address>&emsp;→松江保健所（TEL:<a href="tel:0852231313" style=" color: #0000ff;text-decoration: underline;">0852-23-1313</a>）へお問い合わせください</address><br>
+                <b>◎ 石、土砂などは廃棄物ではありませんので市では引き取れません。</b><br>
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="accordion" id="accordion3">
+    <div class="accordion-group-top">
+      <div class="accordion-heading">
+        <a class="accordion-toggle-top" data-toggle="collapse" data-parent="#accordion3" href="#collapse3_6" style=" color: #000000;text-decoration: underline;">お問い合わせ</a>
+      </div>
+      <div id="collapse3_6" class="accordion-body collapse">
+        <div class="accordion-inner">
+          <div id="help">
+            <article id="content" class="markdown-body">
+              <p>
+                  &emsp;本アプリ及びデータの不備については<br>
+                  &emsp;<a href="mailto:matsue.odb@tpj.co.jp?subject=【安来市版ごみなしに関する問合せ】" style=" color: #0000FF;text-decoration: underline;">
+                  (株)テクノプロジェクト</a>
+                  にご連絡ください。<br><br>
 
 
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
 
-  function getAreaIndex(area_name) {
-    for (var i in areaModels) {
-      if (areaModels[i].label == area_name) {
-        return i;
-      }
-    }
-    return -1;
-  }
-  //リストが選択されたら
-  $("#select_area").change(function(data) {
-    var area_name = $(data.target).val();
-    var group_name = $("#select_group").val();
-    onChangeSelect(group_name, area_name);
-  });
-
-  //-----------------------------------
-  //位置情報をもとに地域を自動的に設定する処理です。
-  //これから下は現在、利用されておりません。
-  //将来的に使うかもしれないので残してあります。
-  $("#gps_area").click(function() {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      $.getJSON("area_candidate.php", {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      }, function(data) {
-        if (data.result == true) {
-          var area_name = data.candidate;
-          var index = getAreaIndex(area_name);
-          $("#select_area").val(index).change();
-          alert(area_name + "が設定されました");
-        } else {
-          alert(data.reason);
-        }
-      })
-
-    }, function(error) {
-      alert(getGpsErrorMessage(error));
-    });
-  });
-
-  if (getSelectedAreaName() == null) {
-    $("#accordion2").show();
-    $("#collapseZero").addClass("in");
-  }
-  if (!navigator.geolocation) {
-    $("#gps_area").css("display", "none");
-  }
-
-  function getGpsErrorMessage(error) {
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
-        return "User denied the request for Geolocation."
-      case error.POSITION_UNAVAILABLE:
-        return "Location information is unavailable."
-      case error.TIMEOUT:
-        return "The request to get user location timed out."
-      case error.UNKNOWN_ERROR:
-      default:
-        return "An unknown error occurred."
-    }
-  }
-  updateAreaList();
-});
+      <div class="accordion-heading">
+        <a class="accordion-toggle-top" data-toggle="collapse" data-parent="#accordion3" href="#collapse3_0">5374.jpについて</a>
+      </div>
+      <div id="collapse3_0" class="accordion-body collapse">
+        <div class="accordion-inner">
+          <div id="help">
+ゴミの問題は、どの地域でも深刻になりつつあります。
+Code for Kanazawaでは、先ずは正しいゴミの捨て方に注目しました。
+目的と使い方は、とてもシンプルです。
+            <h2>目的</h2>
+「いつ、どのゴミが収集されているのか？」
+例えばお引っ越しをされた場合や、新しく安来市に住むことになった時、このアプリを使えば、すぐに分かるようにデザインされています。
+            <h2>使い方</h2>
+            <h3>色でゴミのジャンルを表示</h3>
+            <p>一番近いゴミの日とジャンルを上から順に表示しています。</p>
+            <h3>捨てる事が可能なゴミ</h3>
+            <p>ゴミのジャンルをタップすると、捨てることが可能なゴミの一覧を見ることができます</p>
+            <h3>設定</h3>
+            <p>お住まいの地域を選択することで、ゴミ収集日が自動的に更新されます。</p>
+            <div id="caption">
+              <h4>提供されるゴミ情報について</h4>
+              <p>安来市が公開しているデータを独自に解析し、アプリに実装しました。</p>
+              <h4>ライセンスについて</h4>
+              <p>本アプリの著作権はCode for Kanazawaに帰属します。</p>
+            </div>
+            <div id="cfk">
+              <h3>Code for Kanazawaについて</h3>
+              <p>コードで、世界をHappyに。<br />
+各地域には様々な課題があり、解決するためのコミュニティ（団体）も数多くあります。<br />
+課題の中には、ITやデザインの力で解決できるものも多くありますが、全てのコミュニティにそのスキル（技術）が備わっているわけではありません。<br /><br />
+Code for Kanazawa（CfK）は、市民の課題を集め、その課題を整理・分析した上で、メンバーが実際に課題解決となるソフトウェアやハードウェア（仕組みや方法）を開発します。<br />
+私たちは、デザインをして、ソフトウェアコードを書き、課題を解決するサービスを完成させるのです。さらに、そのサービスを提供し続ける力も持ちます。<br /><br />
+CfKは市民のための組織です。行政や民間企業の影響を受けずに中立・公益の立場から物事を判断するよう心がけています。<br /><br />
+公式サイト<br />
+<a href="http://www.codeforkanazawa.org/">http://www.codeforkanazawa.org/</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+  
+  <!-- JavaScript plugins (requires jQuery) -->
+  <script src="js/jquery-1.10.2.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/bootstrap.min.js"></script>
+  <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) 
+  <script src="js/respond.js"></script>
+  -->  
+  <!-- ブックマークお勧めポップアップ追加-->
+  <script src="js/bookmark-bubble/bookmark_bubble.min.js"></script>
+  <script src="js/bookmark-bubble/example/example.min.js"></script>
+  <script src="js/setting.js"></script>
+  <script src="js/script.js"></script>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-78614516-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  </body>
+</html>
