@@ -757,7 +757,7 @@ $(function() {
     var accordion_elm = $("#accordion");
     accordion_elm.html(accordionHTML);
 
-    //$('html,body').animate({scrollTop: 0}, 'fast');
+    $('html,body').animate({scrollTop: 0}, 'fast');
 
     //アコーディオンのラベル部分をクリックしたら
     $(".accordion-body").on("shown.bs.collapse", function() {
@@ -768,14 +768,12 @@ $(function() {
        }, 50);
 
     });
-    //◇ やめてみる↓
     //アコーディオンの非表示部分をクリックしたら
     $(".accordion-body").on("hidden.bs.collapse", function() {
      if ($(".in").length == 0) {
         $("html, body").scrollTop(0);
      }
     });
-    //◇やめてみる↑
 
   }
 
